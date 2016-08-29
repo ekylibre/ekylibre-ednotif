@@ -1,0 +1,42 @@
+<?xml version="1.0"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:ccts="urn:un:unece:uncefact:documentation:standard:CoreComponentsTechnicalSpecification:2" xmlns:clmICARErrorSeverityCode="urn:it:icar:ade:codelist:ErrorSeverityCode:1.0" targetNamespace="urn:it:icar:ade:codelist:ErrorSeverityCode:1.0" elementFormDefault="qualified" attributeFormDefault="unqualified" version="1.0">
+	<!-- ====================================================================== -->
+	<!-- =====  Element Declarations				      ===== -->
+	<!-- ====================================================================== -->
+	<!-- =====  Root Element Declaration				      ===== -->
+	<!-- ====================================================================== -->
+	<xsd:element name="ErrorSeverityCode" type="clmICARErrorSeverityCode:ErrorSeverityCodeType"/>
+	<!-- ====================================================================== -->
+	<!-- =====  Type Definitions					      ===== -->
+	<!-- ====================================================================== -->
+	<!-- =====  Type Definition: Error Severity Type		      ===== -->
+	<!-- ====================================================================== -->
+	<xsd:simpleType name="ErrorSeverityCodeType">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="0">
+				<xsd:annotation>
+					<xsd:documentation>
+						<ccts:Name>0</ccts:Name>
+						<ccts:Definition>Warning</ccts:Definition>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="1">
+				<xsd:annotation>
+					<xsd:documentation>
+						<ccts:Name>1</ccts:Name>
+						<ccts:Definition>Data error</ccts:Definition>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="2">
+				<xsd:annotation>
+					<xsd:documentation>
+						<ccts:Name>2</ccts:Name>
+						<ccts:Definition>Fatal error</ccts:Definition>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+		</xsd:restriction>
+	</xsd:simpleType>
+</xsd:schema>

@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- version 1.02 modifiée du 11/02/2015 -->
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://www.idele.fr/XML/Schema/" xmlns:tnsfiea="http://www.fiea.org/types/" xmlns:tnsdemat="urn:fr:agri:elevage:codelist:demat_types:1" targetNamespace="http://www.idele.fr/XML/Schema/" elementFormDefault="qualified">
+	<xsd:import namespace="urn:fr:agri:elevage:codelist:demat_types:1" schemaLocation="demat_types.xsd"/>
+	<xsd:import namespace="http://www.fiea.org/types/" schemaLocation="fiea_types.xsd"/>
+	<!--
+######  Récupération liste d'animaux  ############  Récupération liste d'animaux  ############  Récupération liste d'animaux  ############  Récupération liste d'animaux  ############  Récupération liste d'animaux  ############  Récupération liste d'animaux  ############  Récupération liste d'animaux  ######-->
+	<!--
+######  Opération DmBListeGetListeBovins  ######-->
+	<xsd:element name="DmBListeGetListeBovinsRequest">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element name="JetonAuthentification" type="tnsfiea:typeJeton"/>
+				<xsd:element name="Utilisateur" type="tnsdemat:typeDemandeur"/>
+				<xsd:choice>
+					<xsd:element ref="tns:MessageDemandeListeBovins"/>
+					<xsd:element name="MessageZip" type="xsd:base64Binary">
+						<xsd:annotation>
+							<xsd:documentation>Envoi d'un un fichier XML zippé de type MessageDemandeListeBovins</xsd:documentation>
+						</xsd:annotation>
+					</xsd:element>
+				</xsd:choice>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="DmBListeGetListeBovinsResponse">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element name="ReponseStandard" type="tnsfiea:typeReponse"/>
+				<xsd:element name="ReponseSpecifique" minOccurs="0">
+					<xsd:complexType>
+						<xsd:choice>
+							<xsd:element ref="tns:MessageRetourListeBovins"/>
+							<xsd:element name="MessageZip" type="xsd:base64Binary">
+								<xsd:annotation>
+									<xsd:documentation>Envoi d'un un fichier XML zippé de type MessageRetourListeBovins</xsd:documentation>
+								</xsd:annotation>
+							</xsd:element>
+						</xsd:choice>
+					</xsd:complexType>
+				</xsd:element>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	<!--
+######  Envoi liste d'animaux  ##############  Envoi liste d'animaux  #############  Envoi liste d'animaux  #############  Envoi liste d'animaux  #############  Envoi liste d'animaux  #############  Envoi liste d'animaux  #############  Envoi liste d'animaux  #############  Envoi liste d'animaux  #############  Envoi liste d'animaux  #############  Envoi liste d'animaux  #############  Envoi liste d'animaux  #############  Envoi liste d'animaux  #######-->
+	<!--
+######  Opération DmBListeCreateListeBovins  ######-->
+	<xsd:element name="DmBListeCreateListeBovinsRequest">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element name="JetonAuthentification" type="tnsfiea:typeJeton"/>
+				<xsd:element name="Utilisateur" type="tnsdemat:typeDemandeur"/>
+				<xsd:choice>
+					<xsd:element ref="tns:MessageCreationListeBovins"/>
+					<xsd:element name="MessageZip" type="xsd:base64Binary">
+						<xsd:annotation>
+							<xsd:documentation>Envoi d'un un fichier XML zippé de type MessageCreationListeBovins</xsd:documentation>
+						</xsd:annotation>
+					</xsd:element>
+				</xsd:choice>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="DmBListeCreateListeBovinsResponse">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element name="ReponseStandard" type="tnsfiea:typeReponse"/>
+				<xsd:element name="ReponseSpecifique" minOccurs="0">
+					<xsd:complexType>
+						<xsd:choice>
+							<xsd:element ref="tns:MessageReponseCreationListesBovins"/>
+							<xsd:element name="MessageZip" type="xsd:base64Binary">
+								<xsd:annotation>
+									<xsd:documentation>Envoi d'un un fichier XML zippé de type MessageReponseCreationListesBovins</xsd:documentation>
+								</xsd:annotation>
+							</xsd:element>
+						</xsd:choice>
+					</xsd:complexType>
+				</xsd:element>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	<!--
+######  Messages pour opération DmBListeGetListeBovins ######-->
+	<xsd:element name="MessageDemandeListeBovins" type="tnsdemat:typeDemandeListeBovins">
+		<xsd:annotation>
+			<xsd:documentation>Message XML utilisé pour la demande de l'opération  DmBListeGetListeBovins</xsd:documentation>
+		</xsd:annotation>
+	</xsd:element>
+	<xsd:element name="MessageRetourListeBovins" type="tnsdemat:typeListeRetour">
+		<xsd:annotation>
+			<xsd:documentation>Message XML utilisé pour la réponse de l'opération  DmBListeGetListeBovins</xsd:documentation>
+		</xsd:annotation>
+	</xsd:element>
+	<!--
+######  Messages pour opération DmBListeCreateListeBovins ######-->
+	<xsd:element name="MessageCreationListeBovins" type="tnsdemat:typeCreationListeBovins">
+		<xsd:annotation>
+			<xsd:documentation>Message XML utilisé pour la demande de l'opération DmBListeCreateListeBovins</xsd:documentation>
+		</xsd:annotation>
+	</xsd:element>
+	<xsd:element name="MessageReponseCreationListesBovins" type="tnsdemat:typeCreationReponseBovins">
+		<xsd:annotation>
+			<xsd:documentation>Message XML utilisé pour la réponse de l'opération DmBListeCreateListeBovins</xsd:documentation>
+		</xsd:annotation>
+	</xsd:element>
+</xsd:schema>

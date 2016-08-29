@@ -1,0 +1,408 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:icar="ICARAggregateBusinessInformationEntity:1" xmlns:udt="urn:un:unece:uncefact:data:standard:UnqualifiedDataType:13" xmlns:ccts="urn:un:unece:uncefact:documentation:standard:CoreComponentsTechnicalSpecification:2" xmlns:iso316612a="urn:un:unece:uncefact:identifierlist:standard:5:ISO316612A:SecondEdition2006VI-13" xmlns:gc="urn:it:icar:ade:codelist:GenderCode:1.0" xmlns:llic="urn:it:icar:ade:codelist:LivestockLocationIdentifierCode:1.0" xmlns:lltc="urn:it:icar:ade:codelist:LivestockLocationTypeCode:1.0" xmlns:mtc="urn:it:icar:ade:codelist:MilkingTypeCode:1.0" xmlns:lc="urn:it:icar:ade:codelist:LabelCode:1.0" xmlns:vsfic="urn:it:icar:ade:codelist:ValidSampleFillingIndicatorCode:1.0" xmlns:bic="urn:it:icar:ade:codelist:BottleIdentifierCode:1.0" xmlns:rpsc="urn:it:icar:ade:codelist:RequestProcessingStatusCode:1.0" xmlns:esc="urn:it:icar:ade:codelist:ErrorSeverityCode:1.0" xmlns:sc="urn:it:icar:ade:codelist:SpecieCode:1.0" xmlns:mcc="urn:it:icar:ade:codelist:MilkCharacteristicCode:1.0" xmlns:qc="urn:it:icar:ade:codelist:QuarterCode:1.0" xmlns:mc="urn:it:icar:ade:codelist:ManufacturerCode:1.0" xmlns:edc="urn:it:icar:ade:codelist:ExchangedDocumentCode:1.0" targetNamespace="ICARAggregateBusinessInformationEntity:1" elementFormDefault="qualified" attributeFormDefault="unqualified" version="1.0">
+	<!-- ======================================================================= -->
+	<!-- ===== Imports                                                     ===== -->
+	<!-- ======================================================================= -->
+	<!-- ======================================================================= -->
+	<!-- ===== ICAR of Unqualified DataType Schema Module                ===== -->
+	<!-- ======================================================================= -->
+	<xsd:import namespace="urn:un:unece:uncefact:data:standard:UnqualifiedDataType:13" schemaLocation="UnqualifiedDataType_13p0.xsd"/>
+	<!-- ======================================================================= -->
+	<!-- ===== Import of Qualified DataType Schema Module                  ===== -->
+	<!-- ======================================================================= -->
+	<xsd:import namespace="urn:un:unece:uncefact:identifierlist:standard:5:ISO316612A:SecondEdition2006VI-13" schemaLocation="ISO_ISOTwoletterCountryCode_SecondEdition2006VI-13.xsd"/>
+	<!-- ===== Import of Reusable Aggregate Business Information Entity Schema Module ===== -->
+	<xsd:import namespace="urn:it:icar:ade:codelist:GenderCode:1.0" schemaLocation="ICAR_GenderCode_1p0.xsd"/>
+	<xsd:import namespace="urn:it:icar:ade:codelist:LivestockLocationIdentifierCode:1.0" schemaLocation="ICAR_LivestockLocationIdentifierCode_1p0.xsd"/>
+	<xsd:import namespace="urn:it:icar:ade:codelist:LivestockLocationTypeCode:1.0" schemaLocation="ICAR_LivestockLocationTypeCode_1p0.xsd"/>
+	<xsd:import namespace="urn:it:icar:ade:codelist:MilkingTypeCode:1.0" schemaLocation="ICAR_MilkingTypeCode_1p0.xsd"/>
+	<xsd:import namespace="urn:it:icar:ade:codelist:LabelCode:1.0" schemaLocation="ICAR_LabelCode_1p0.xsd"/>
+	<xsd:import namespace="urn:it:icar:ade:codelist:ValidSampleFillingIndicatorCode:1.0" schemaLocation="ICAR_ValidSampleFillingIndicatorCode_1p0.xsd"/>
+	<xsd:import namespace="urn:it:icar:ade:codelist:BottleIdentifierCode:1.0" schemaLocation="ICAR_BottleIdentifierCode_1p0.xsd"/>
+	<xsd:import namespace="urn:it:icar:ade:codelist:RequestProcessingStatusCode:1.0" schemaLocation="ICAR_RequestProcessingStatusCode_1p0.xsd"/>
+	<xsd:import namespace="urn:it:icar:ade:codelist:ErrorSeverityCode:1.0" schemaLocation="ICAR_ErrorSeverityCode_1p0.xsd"/>
+	<xsd:import namespace="urn:it:icar:ade:codelist:SpecieCode:1.0" schemaLocation="ICAR_SpecieCode_1p0.xsd"/>
+	<xsd:import namespace="urn:it:icar:ade:codelist:MilkCharacteristicCode:1.0" schemaLocation="ICAR_MilkCharacteristicCode_1p0.xsd"/>
+	<xsd:import namespace="urn:it:icar:ade:codelist:QuarterCode:1.0" schemaLocation="ICAR_QuarterCode_1p0.xsd"/>
+	<xsd:import namespace="urn:it:icar:ade:codelist:ManufacturerCode:1.0" schemaLocation="ICAR_ManufacturerCode_1p0.xsd"/>
+	<xsd:import namespace="urn:it:icar:ade:codelist:ExchangedDocumentCode:1.0" schemaLocation="ICAR_ExchangedDocumentCode_1p0.xsd"/>
+	<!-- ======================================================================= -->
+	<!-- ======================================================================= -->
+	<!-- ===== Element Declarations                                        ===== -->
+	<!-- ======================================================================= -->
+	<!-- ======Create 5 March 2014       FVD================================ -->
+	<!-- ======Update 8 April 2014          JPA================================ -->
+	<!-- ======Update 10 April 2014          JPA================================ -->
+	<!-- ======Update 23 Mai 2014          JPA================================ -->
+	<!-- ======Update 27 Mai 2014          JPA================================ -->
+	<!-- ======Update 28 Mai 2014          JPA================================ -->
+	<!-- ======================================================================= -->
+	<!-- ======XML Messages=========================================== -->
+	<!-- ======================================================================= -->
+	<xsd:element name="AnimalListMessage" type="icar:AnimalListMessageType"/>
+	<xsd:element name="DeviceListMessage" type="icar:DeviceListMessageType"/>
+	<xsd:element name="HerdListMessage" type="icar:HerdListMessageType"/>
+	<xsd:element name="LivestockLocationListMessage" type="icar:LivestockLocationListMessageType"/>
+	<xsd:element name="MilkingResultMessage" type="icar:MilkingResultType"/>
+	<!--========================================================================-->
+	<!-- ===== Element TypeDeclarations                                        ===== -->
+	<!-- ======================================================================= -->
+	<xsd:complexType name="GetHerdListRequestType">
+		<xsd:sequence>
+			<xsd:element name="MessageHeader" type="icar:ADEExchangedDocumentType"/>
+			<xsd:element name="StandardRequest" type="icar:StandardRequestType"/>
+			<xsd:element name="SpecificRequestGetHerdList" type="icar:SpecificRequestGetHerdListType"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="GetHerdListResponseType">
+		<xsd:sequence>
+			<xsd:element name="MessageHeader" type="icar:ADEExchangedDocumentType"/>
+			<xsd:element name="StandardResponse" type="icar:StandardResponseType"/>
+			<xsd:element name="SpecificResponseGetHerdList" type="icar:SpecificResponseGetHerdListType" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="UpdateAnimalRequestType">
+		<xsd:sequence>
+			<xsd:element name="MessageHeader" type="icar:ADEExchangedDocumentType"/>
+			<xsd:element name="StandardRequest" type="icar:StandardRequestType"/>
+			<xsd:element name="SpecificRequestAnimal" type="icar:SpecificRequestAnimalType"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="UpdateAnimalResponseType">
+		<xsd:sequence>
+			<xsd:element name="MessageHeader" type="icar:ADEExchangedDocumentType"/>
+			<xsd:element name="StandardResponse" type="icar:StandardResponseType"/>
+			<xsd:element name="SpecificResponse" type="icar:SpecificResponseType" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="UpdateDeviceRequestType">
+		<xsd:sequence>
+			<xsd:element name="MessageHeader" type="icar:ADEExchangedDocumentType"/>
+			<xsd:element name="StandardRequest" type="icar:StandardRequestType"/>
+			<xsd:element name="SpecificRequestDevice" type="icar:SpecificRequestDeviceType"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="UpdateDeviceResponseType">
+		<xsd:sequence>
+			<xsd:element name="MessageHeader" type="icar:ADEExchangedDocumentType"/>
+			<xsd:element name="StandardResponse" type="icar:StandardResponseType"/>
+			<xsd:element name="SpecificResponse" type="icar:SpecificResponseType" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="UpdateLivestockLocationRequestType">
+		<xsd:sequence>
+			<xsd:element name="MessageHeader" type="icar:ADEExchangedDocumentType"/>
+			<xsd:element name="StandardRequest" type="icar:StandardRequestType"/>
+			<xsd:element name="SpecificRequestLivestockLocation" type="icar:SpecificRequestLivestockLocationType"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="UpdateLivestockLocationResponseType">
+		<xsd:sequence>
+			<xsd:element name="MessageHeader" type="icar:ADEExchangedDocumentType"/>
+			<xsd:element name="StandardResponse" type="icar:StandardResponseType"/>
+			<xsd:element name="SpecificResponse" type="icar:SpecificResponseType" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="UpdateMilkingResultRequestType">
+		<xsd:sequence>
+			<xsd:element name="MessageHeader" type="icar:ADEExchangedDocumentType"/>
+			<xsd:element name="StandardRequest" type="icar:StandardRequestType"/>
+			<xsd:element name="SpecificRequestMilkingResult" type="icar:SpecificRequestMilkingResultType"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="UpdateMilkingResultResponseType">
+		<xsd:sequence>
+			<xsd:element name="MessageHeader" type="icar:ADEExchangedDocumentType"/>
+			<xsd:element name="StandardResponse" type="icar:StandardResponseType"/>
+			<xsd:element name="SpecificResponse" type="icar:SpecificResponseType" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<!--===========Message header ===============-->
+	<xsd:complexType name="ADEExchangedDocumentType">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en">
+				<ccts:Definition>A collection of data for a piece of written, printed or electronic matter that is exchanged between two or more parties in a AnimalCoreData (ACD) document exchange.</ccts:Definition>
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="Identifier" type="udt:IDType">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="en">
+						<ccts:Definition>The identifier of this ADE exchanged document.</ccts:Definition>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="Issueing" type="udt:DateTimeType">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="en">
+						<ccts:Definition>The date, time, date time or other date time value for the issuance of this exchanged document.</ccts:Definition>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="Version" type="udt:NumericType"/>
+			<xsd:element name="Type" type="edc:ExchangedDocumentCodeType">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="en">
+						<ccts:Definition>The code specifying the type of ACD exchanged document.</ccts:Definition>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="Language" type="udt:CodeType" minOccurs="0"/>
+			<xsd:element name="SenderParty" type="icar:ADEPartyType"/>
+			<xsd:element name="RecipientParty" type="icar:ADEPartyType">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="en">
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="ADEPartyType">
+		<xsd:sequence>
+			<xsd:element name="Name" type="udt:NameType" minOccurs="0"/>
+			<xsd:element name="ID" type="udt:IDType"/>
+			<xsd:element name="Country" type="iso316612a:ISOTwoletterCountryCodeIdentifierContentType" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<!-- =============Specific Request/Response====================================== -->
+	<xsd:complexType name="SpecificRequestGetHerdListType">
+		<xsd:sequence>
+			<xsd:element name="DataToBeCompressed" type="udt:IndicatorType"/>
+			<xsd:element name="SpecificRequestDetail">
+				<xsd:complexType>
+					<xsd:choice>
+						<xsd:element name="TicketRequest" type="icar:TicketRequestType"/>
+						<xsd:element name="HerdListRequest" type="icar:HerdListRequestType"/>
+					</xsd:choice>
+				</xsd:complexType>
+			</xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="SpecificResponseGetHerdListType">
+		<xsd:choice>
+			<xsd:element name="TicketResponse" type="icar:TicketResponseType"/>
+			<xsd:element name="HerdListMessage" type="icar:HerdListMessageType"/>
+			<xsd:element name="GetHerdListResponseZipMessage" type="icar:ZipMessageType"/>
+		</xsd:choice>
+	</xsd:complexType>
+	<xsd:complexType name="SpecificRequestAnimalType">
+		<xsd:choice>
+			<xsd:element name="TicketRequest" type="icar:TicketRequestType"/>
+			<xsd:element name="AnimalListMessage" type="icar:AnimalListMessageType"/>
+			<xsd:element name="UpdateAnimalRequestZipMessage" type="icar:ZipMessageType"/>
+		</xsd:choice>
+	</xsd:complexType>
+	<xsd:complexType name="SpecificRequestDeviceType">
+		<xsd:choice>
+			<xsd:element name="TicketRequest" type="icar:TicketRequestType"/>
+			<xsd:element name="DeviceListMessage" type="icar:DeviceListMessageType"/>
+			<xsd:element name="UpdateDeviceRequestZipMessage" type="icar:ZipMessageType"/>
+		</xsd:choice>
+	</xsd:complexType>
+	<xsd:complexType name="SpecificRequestLivestockLocationType">
+		<xsd:choice>
+			<xsd:element name="TicketRequest" type="icar:TicketRequestType"/>
+			<xsd:element name="LivestockLocationListMessage" type="icar:LivestockLocationListMessageType"/>
+			<xsd:element name="UpdateLivestockLocationrequestZipMessage" type="icar:ZipMessageType"/>
+		</xsd:choice>
+	</xsd:complexType>
+	<xsd:complexType name="SpecificRequestMilkingResultType">
+		<xsd:choice>
+			<xsd:element name="TicketRequest" type="icar:TicketRequestType"/>
+			<xsd:element name="MilkingResult" type="icar:MilkingResultType"/>
+			<xsd:element name="UpdateMilkingResultRequestZipMessage" type="icar:ZipMessageType"/>
+		</xsd:choice>
+	</xsd:complexType>
+	<!-- =============Ticket Types============================================ -->
+	<xsd:complexType name="TicketResponseType">
+		<xsd:sequence>
+			<xsd:element name="TicketID" type="udt:IDType"/>
+			<xsd:element name="NotBefore" type="udt:DateTimeType" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="TicketRequestType">
+		<xsd:sequence>
+			<xsd:element name="TicketID" type="udt:IDType"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<!-- =================HerdListRequestType====================================== -->
+	<xsd:complexType name="HerdListRequestType">
+		<xsd:sequence>
+			<xsd:element name="Gender" type="gc:GenderCodeType" minOccurs="0"/>
+			<xsd:element name="Periode" type="udt:MeasureType" minOccurs="0"/>
+			<xsd:element name="Location" type="udt:IDType" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<!-- =============AnimalListMessageType======================================== -->
+	<xsd:complexType name="AnimalListMessageType">
+		<xsd:sequence>
+			<xsd:element name="AnimalDetail" maxOccurs="unbounded">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="AnimalCoreDataSet" type="icar:AnimalCoreDataSetType"/>
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+	<!-- =============DeviceListMessageType======================================== -->
+	<xsd:complexType name="DeviceListMessageType">
+		<xsd:sequence>
+			<xsd:element name="Device" type="icar:DeviceType" maxOccurs="unbounded"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<!-- =============LivestockLocationListMessageType======================================== -->
+	<xsd:complexType name="LivestockLocationListMessageType">
+		<xsd:sequence>
+			<xsd:element name="LivestockLocation" type="icar:LivestockLocationType" maxOccurs="unbounded"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<!-- =============Others Types======================================== -->
+	<xsd:complexType name="AnimalCoreDataSetType">
+		<xsd:sequence>
+			<xsd:element name="Identifier" type="udt:IDType"/>
+			<xsd:element name="AlternativeIdentity" type="icar:AnimalIdentityType" minOccurs="0" maxOccurs="unbounded"/>
+			<xsd:element name="Specie" type="sc:SpecieCodeType" minOccurs="0"/>
+			<xsd:element name="Gender" type="gc:GenderCodeType" minOccurs="0"/>
+			<xsd:element name="Birth" type="udt:DateType" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="AnimalExtendedDataSetType">
+		<xsd:sequence>
+			<xsd:element name="LastLocalization" type="udt:DateType" minOccurs="0"/>
+			<xsd:element name="LastParturition" type="udt:DateType" minOccurs="0"/>
+			<xsd:element name="LastInsemination" type="udt:DateType" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="AnimalIdentityType">
+		<xsd:sequence>
+			<xsd:element name="Identifier" type="udt:IDType"/>
+			<xsd:element name="Label" type="lc:LabelCodeType"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="AnimalMilkingResultType">
+		<xsd:sequence>
+			<xsd:element name="AnimalIdentity" type="icar:AnimalIdentityType"/>
+			<xsd:element name="Location" type="udt:IDType"/>
+			<xsd:element name="MilkingStartingTime" type="udt:DateTimeType"/>
+			<xsd:element name="MilkingDuration" type="udt:MeasureType" minOccurs="0"/>
+			<xsd:element name="MilkingVisitDuration" type="udt:MeasureType" minOccurs="0"/>
+			<xsd:element name="MilkingType" type="mtc:MilkingTypeCodeType" minOccurs="0"/>
+			<xsd:element name="MilkingMilkWeight" type="udt:MeasureType" minOccurs="0"/>
+			<xsd:element name="MilkingSucces" type="udt:IndicatorType"/>
+			<xsd:element name="MilkingParlourUnit" type="udt:TextType" minOccurs="0"/>
+			<xsd:element name="MilkingBoxNumber" type="udt:TextType" minOccurs="0"/>
+			<xsd:element name="Characteristics" type="icar:MilkCharacteristicsType" minOccurs="0" maxOccurs="unbounded"/>
+			<xsd:element name="QuarterMilking" type="icar:QuarterMilkingType" minOccurs="0" maxOccurs="4"/>
+			<xsd:element name="AnimalMilkingSample" type="icar:AnimalMilkingSampleType" minOccurs="0"/>
+			<xsd:element name="MilkingDeviceID" type="udt:IDType" minOccurs="0"/>
+			<xsd:element name="MeasureDeviceID" type="udt:IDType" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="AnimalMilkingSampleType">
+		<xsd:sequence>
+			<xsd:element name="BottleIdentifierType" type="bic:BottleIdentifierCodeType" minOccurs="0"/>
+			<xsd:element name="RackNumber" type="udt:IDType"/>
+			<xsd:element name="BottlePosition" type="udt:IDType" minOccurs="0"/>
+			<xsd:element name="BottleIdentifier" type="udt:IDType" minOccurs="0"/>
+			<xsd:element name="ValidSampleFillingIndicator" type="vsfic:ValidSampleFillingIndicatorCodeType" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="DeviceType">
+		<xsd:sequence>
+			<xsd:element name="Identifier" type="udt:IDType"/>
+			<xsd:element name="Manufacturer" type="mc:ManufacturerCodeType" minOccurs="0"/>
+			<xsd:element name="SoftwareVersion" type="udt:TextType" minOccurs="0"/>
+			<xsd:element name="HardwareVersion" type="udt:TextType" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="ErrorType">
+		<xsd:sequence>
+			<xsd:element name="ErrorID" type="udt:TextType"/>
+			<xsd:element name="ErrorSeverity" type="esc:ErrorSeverityCodeType" minOccurs="0"/>
+			<xsd:element name="ErrorDescription" type="udt:TextType"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="HerdListLineType">
+		<xsd:sequence>
+			<xsd:element name="AnimalCoreDataSet" type="icar:AnimalCoreDataSetType"/>
+			<xsd:element name="AnimalExtendedDataSet" type="icar:AnimalExtendedDataSetType" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="HerdListMessageType">
+		<xsd:sequence>
+			<xsd:element name="Location" type="icar:LivestockLocationType"/>
+			<xsd:element name="HerdListAnimalDescription" type="icar:HerdListLineType" minOccurs="0" maxOccurs="unbounded"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="LivestockLocationType">
+		<xsd:sequence>
+			<xsd:element name="Identifier" type="udt:IDType"/>
+			<xsd:element name="IdentifierType" type="llic:LivestockLocationIdentifierCodeType"/>
+			<xsd:element name="Name" type="udt:NameType"/>
+			<xsd:element name="Country" type="iso316612a:ISOTwoletterCountryCodeIdentifierContentType"/>
+			<xsd:element name="Type" type="lltc:LivestockLocationTypeCodeType"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:simpleType name="MilkCharacteristicCodeType">
+		<xsd:restriction base="xsd:token"/>
+	</xsd:simpleType>
+	<xsd:complexType name="MilkCharacteristicsType">
+		<xsd:sequence>
+			<xsd:element name="MilkCharacteristicCode" type="mcc:MilkCharacteristicCodeType"/>
+			<xsd:element name="MilkCharacteristicValue" type="udt:MeasureType"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="MilkingLocationType">
+		<xsd:sequence>
+			<xsd:element name="Identification" type="udt:IDType"/>
+			<xsd:element name="Name" type="udt:NameType"/>
+			<xsd:element name="Country" type="iso316612a:ISOTwoletterCountryCodeIdentifierContentType"/>
+			<xsd:element name="Type" type="udt:CodeType"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="MilkingResultType">
+		<xsd:sequence>
+			<xsd:element name="AnimalMilkingResult" type="icar:AnimalMilkingResultType" maxOccurs="unbounded"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="QuarterMilkingType">
+		<xsd:sequence>
+			<xsd:element name="QuarterID" type="qc:QuarterCodeType"/>
+			<xsd:element name="QuarterMilkingDuration" type="udt:MeasureType" minOccurs="0"/>
+			<xsd:element name="QuarterMilkingWeight" type="udt:MeasureType" minOccurs="0"/>
+			<xsd:element name="QuarterCharacteristics" type="icar:MilkCharacteristicsType" minOccurs="0" maxOccurs="unbounded"/>
+			<xsd:element name="QuarterSampling" type="icar:AnimalMilkingSampleType" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="SpecificResponseType">
+		<xsd:sequence>
+			<xsd:element name="RequestProcessingTicket" type="icar:TicketResponseType"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="StandardRequestType">
+		<xsd:choice>
+			<xsd:element name="AuthenticationToken" type="udt:TextType"/>
+			<xsd:element name="AuthentificationLogin">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="UserName" type="udt:TextType"/>
+						<xsd:element name="Password" type="udt:TextType"/>
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+		</xsd:choice>
+	</xsd:complexType>
+	<xsd:complexType name="StandardResponseType">
+		<xsd:sequence>
+			<xsd:element name="RequestProcessingStatus" type="rpsc:RequestProcessingStatusCodeType"/>
+			<xsd:element name="RequestID" type="udt:IDType"/>
+			<xsd:element name="RequestProcessingError" type="icar:ErrorType" minOccurs="0" maxOccurs="unbounded"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="ZipMessageType">
+		<xsd:sequence>
+			<xsd:element name="ZIPMessage" type="udt:BinaryObjectType"/>
+		</xsd:sequence>
+	</xsd:complexType>
+</xsd:schema>

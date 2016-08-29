@@ -1,0 +1,66 @@
+<?xml version="1.0"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:ccts="urn:un:unece:uncefact:documentation:standard:CoreComponentsTechnicalSpecification:2" xmlns:clmICARManufacturerCode="urn:it:icar:ade:codelist:ManufacturerCode:1.0" targetNamespace="urn:it:icar:ade:codelist:ManufacturerCode:1.0" elementFormDefault="qualified" attributeFormDefault="unqualified" version="1.0">
+	<!-- ====================================================================== -->
+	<!-- =====  Element Declarations				      ===== -->
+	<!-- ====================================================================== -->
+	<!-- =====  Root Element Declaration				      ===== -->
+	<!-- ====================================================================== -->
+	<xsd:element name="ManufacturerCode" type="clmICARManufacturerCode:ManufacturerCodeType"/>
+	<!-- ====================================================================== -->
+	<!-- =====  Type Definitions					      ===== -->
+	<!-- ====================================================================== -->
+	<!-- =====  Type Definition: Manufacturer Type		      ===== -->
+	<!-- ====================================================================== -->
+	<xsd:simpleType name="ManufacturerCodeType">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="LL">
+				<xsd:annotation>
+					<xsd:documentation>
+						<ccts:Name>LL</ccts:Name>
+						<ccts:Definition>Lely</ccts:Definition>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="DL">
+				<xsd:annotation>
+					<xsd:documentation>
+						<ccts:Name>DL</ccts:Name>
+						<ccts:Definition>Delaval</ccts:Definition>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="FW">
+				<xsd:annotation>
+					<xsd:documentation>
+						<ccts:Name>FW</ccts:Name>
+						<ccts:Definition>Fullwood</ccts:Definition>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="GE">
+				<xsd:annotation>
+					<xsd:documentation>
+						<ccts:Name>GE</ccts:Name>
+						<ccts:Definition>GEA</ccts:Definition>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="BM">
+				<xsd:annotation>
+					<xsd:documentation>
+						<ccts:Name>BM</ccts:Name>
+						<ccts:Definition>Boumatic</ccts:Definition>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="AF">
+				<xsd:annotation>
+					<xsd:documentation>
+						<ccts:Name>AF</ccts:Name>
+						<ccts:Definition>Afikim</ccts:Definition>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+		</xsd:restriction>
+	</xsd:simpleType>
+</xsd:schema>

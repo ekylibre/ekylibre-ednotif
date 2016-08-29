@@ -1,0 +1,56 @@
+<?xml version="1.0"?>
+<!-- version 1.02 modifiée du 11/02/2015 -->
+<xsd:schema xmlns="urn:fr:agri:elevage:codelist:CauseEntreeHistorique:1" xmlns:xsd="http://www.w3.org/2001/XMLSchema" targetNamespace="urn:fr:agri:elevage:codelist:CauseEntreeHistorique:1">
+	<xsd:annotation>
+		<xsd:documentation><![CDATA[Cause entree  historique des animaux chez le detenteur]]></xsd:documentation>
+	</xsd:annotation>
+	<xsd:simpleType name="CauseEntreeHistoriqueType">
+		<xsd:restriction base="xsd:token">
+			<xsd:enumeration value="O">
+				<xsd:annotation>
+					<xsd:documentation>mouvement présumé calculé</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="A">
+				<xsd:annotation>
+					<xsd:documentation>Achat</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="F">
+				<xsd:annotation>
+					<xsd:documentation>Centre de rassemblement</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="G">
+				<xsd:annotation>
+					<xsd:documentation>Exploitation de négoce</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="J">
+				<xsd:annotation>
+					<xsd:documentation>Estives</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="L">
+				<xsd:annotation>
+					<xsd:documentation>Location</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="N">
+				<xsd:annotation>
+					<xsd:documentation>Naissance</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="P">
+				<xsd:annotation>
+					<xsd:documentation>Prêt ou Pension</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="X">
+				<xsd:annotation>
+					<xsd:documentation>Autre cause d'entrée</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+		</xsd:restriction>
+	</xsd:simpleType>
+</xsd:schema>

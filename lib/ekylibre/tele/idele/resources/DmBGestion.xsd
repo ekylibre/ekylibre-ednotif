@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- version 1.02 modifiée du 11/02/2015 -->
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://www.idele.fr/XML/Schema/" xmlns:tnsfiea="http://www.fiea.org/types/" xmlns:tnsdemat="urn:fr:agri:elevage:codelist:demat_types:1" targetNamespace="http://www.idele.fr/XML/Schema/" elementFormDefault="qualified">
+	<xsd:import namespace="urn:fr:agri:elevage:codelist:demat_types:1" schemaLocation="demat_types.xsd"/>
+	<xsd:import namespace="http://www.fiea.org/types/" schemaLocation="fiea_types.xsd"/>
+	<!--
+######  Déclaration ICA  ###### ######  Déclaration ICA  ############  Déclaration ICA  ############  Déclaration ICA  ############  Déclaration ICA  ############  Déclaration ICA  ############  Déclaration ICA  ############  Déclaration ICA  ############  Déclaration ICA  ######-->
+	<!--
+######  Opération DmBGestionCreateListeICA ######-->
+	<xsd:element name="DmBGestionCreateListeICARequest">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element name="JetonAuthentification" type="tnsfiea:typeJeton"/>
+				<xsd:element name="Utilisateur" type="tnsdemat:typeDemandeur"/>
+				<xsd:choice>
+					<xsd:element ref="tns:MessageDeclarationsICA"/>
+					<xsd:element name="MessageZip" type="xsd:base64Binary">
+						<xsd:annotation>
+							<xsd:documentation>Envoi d'un un fichier XML zippé de type MessageDeclarationsICA</xsd:documentation>
+						</xsd:annotation>
+					</xsd:element>
+				</xsd:choice>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="DmBGestionCreateListeICAResponse">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element name="ReponseStandard" type="tnsfiea:typeReponse"/>
+				<xsd:element name="ReponseSpecifique" minOccurs="0">
+					<xsd:complexType>
+						<xsd:choice>
+							<xsd:element ref="tns:MessageReponseListeICA"/>
+							<xsd:element name="MessageZip" type="xsd:base64Binary">
+								<xsd:annotation>
+									<xsd:documentation>Envoi d'un un fichier XML zippé de type MessageReponseListeICA</xsd:documentation>
+								</xsd:annotation>
+							</xsd:element>
+						</xsd:choice>
+					</xsd:complexType>
+				</xsd:element>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	<!--
+######  Gestion droit d'accès à l'animal  ############  Gestion droit d'accès à l'animal  ############  Gestion droit d'accès à l'animal  ############  Gestion droit d'accès à l'animal  ############  Gestion droit d'accès à l'animal  ############  Gestion droit d'accès à l'animal  ############  Gestion droit d'accès à l'animal  ######-->
+	<!--
+######  Opération DmBGestionCreateDroitAccesListeAnimalActeur  ######-->
+	<xsd:element name="DmBGestionCreateDroitAccesListeAnimalActeurRequest">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element name="JetonAuthentification" type="tnsfiea:typeJeton"/>
+				<xsd:element name="Utilisateur" type="tnsdemat:typeDemandeur"/>
+				<xsd:choice>
+					<xsd:element ref="tns:MessageDeclarationDroitAcces"/>
+					<xsd:element name="MessageZip" type="xsd:base64Binary">
+						<xsd:annotation>
+							<xsd:documentation>Envoi d'un un fichier XML zippé de type MessageDeclarationDroitAcces</xsd:documentation>
+						</xsd:annotation>
+					</xsd:element>
+				</xsd:choice>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="DmBGestionCreateDroitAccesListeAnimalActeurResponse">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element name="ReponseStandard" type="tnsfiea:typeReponse"/>
+				<xsd:element name="ReponseSpecifique" minOccurs="0">
+					<xsd:complexType>
+						<xsd:choice>
+							<xsd:element ref="tns:MessageReponseDroitAcces"/>
+							<xsd:element name="MessageZip" type="xsd:base64Binary">
+								<xsd:annotation>
+									<xsd:documentation>Envoi d'un un fichier XML zippé de type MessageReponseDroitAcces</xsd:documentation>
+								</xsd:annotation>
+							</xsd:element>
+						</xsd:choice>
+					</xsd:complexType>
+				</xsd:element>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	<!--
+######  Messages pour opération DmBGestionCreateListeICA ######-->
+	<xsd:element name="MessageDeclarationsICA" type="tnsdemat:typeDeclarationsICA">
+		<xsd:annotation>
+			<xsd:documentation>Message XML utilisé pour la demande de l'opération DmBGestionCreateListeICA</xsd:documentation>
+		</xsd:annotation>
+	</xsd:element>
+	<xsd:element name="MessageReponseListeICA" type="tnsdemat:typeReponseListeICA">
+		<xsd:annotation>
+			<xsd:documentation>Message XML utilisé pour la réponse de l'opération DmBGestionCreateListeICA</xsd:documentation>
+		</xsd:annotation>
+	</xsd:element>
+	<!--
+######  Messages pour opération DmBGestionCreateDroitAccesListeAnimalActeur ######-->
+	<xsd:element name="MessageDeclarationDroitAcces" type="tnsdemat:typeListeAnimauxAutorises">
+		<xsd:annotation>
+			<xsd:documentation>Message XML utilisé pour la demande de l'opération DmBGestionCreateDroitAccesListeAnimalActeur</xsd:documentation>
+		</xsd:annotation>
+	</xsd:element>
+	<xsd:element name="MessageReponseDroitAcces" type="tnsdemat:typeReponseDroitAcces">
+		<xsd:annotation>
+			<xsd:documentation>Message XML utilisé pour la réponse de l'opération DmBGestionCreateDroitAccesListeAnimalActeur</xsd:documentation>
+		</xsd:annotation>
+	</xsd:element>
+</xsd:schema>

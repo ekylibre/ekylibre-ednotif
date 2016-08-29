@@ -1,0 +1,42 @@
+<?xml version="1.0"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:ccts="urn:un:unece:uncefact:documentation:standard:CoreComponentsTechnicalSpecification:2" xmlns:clmICARMilkingTypeCode="urn:it:icar:ade:codelist:MilkingTypeCode:1.0" targetNamespace="urn:it:icar:ade:codelist:MilkingTypeCode:1.0" elementFormDefault="qualified" attributeFormDefault="unqualified" version="1.0">
+	<!-- ====================================================================== -->
+	<!-- =====  Element Declarations				      ===== -->
+	<!-- ====================================================================== -->
+	<!-- =====  Root Element Declaration				      ===== -->
+	<!-- ====================================================================== -->
+	<xsd:element name="MilkingTypeCode" type="clmICARMilkingTypeCode:MilkingTypeCodeType"/>
+	<!-- ====================================================================== -->
+	<!-- =====  Type Definitions					      ===== -->
+	<!-- ====================================================================== -->
+	<!-- =====  Type Definition: MilkingType 	      ===== -->
+	<!-- ====================================================================== -->
+	<xsd:simpleType name="MilkingTypeCodeType">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="1">
+				<xsd:annotation>
+					<xsd:documentation>
+						<ccts:Name>1</ccts:Name>
+						<ccts:Definition>Official milk result supplied by milk recording organisation</ccts:Definition>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="2">
+				<xsd:annotation>
+					<xsd:documentation>
+						<ccts:Name>2</ccts:Name>
+						<ccts:Definition>Measure by ICAR approved equipment</ccts:Definition>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="3">
+				<xsd:annotation>
+					<xsd:documentation>
+						<ccts:Name>3</ccts:Name>
+						<ccts:Definition>Measure of not approved equipment</ccts:Definition>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+		</xsd:restriction>
+	</xsd:simpleType>
+</xsd:schema>

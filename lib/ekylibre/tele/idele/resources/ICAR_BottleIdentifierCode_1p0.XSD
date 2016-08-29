@@ -1,0 +1,34 @@
+<?xml version="1.0"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:ccts="urn:un:unece:uncefact:documentation:standard:CoreComponentsTechnicalSpecification:2" xmlns:clmICARBottleIdentifierCode="urn:it:icar:ade:codelist:BottleIdentifierCode:1.0" targetNamespace="urn:it:icar:ade:codelist:BottleIdentifierCode:1.0" elementFormDefault="qualified" attributeFormDefault="unqualified" version="1.0">
+	<!-- ====================================================================== -->
+	<!-- =====  Element Declarations				      ===== -->
+	<!-- ====================================================================== -->
+	<!-- =====  Root Element Declaration				      ===== -->
+	<!-- ====================================================================== -->
+	<xsd:element name="BottleIdentifierCode" type="clmICARBottleIdentifierCode:BottleIdentifierCodeType"/>
+	<!-- ====================================================================== -->
+	<!-- =====  Type Definitions					      ===== -->
+	<!-- ====================================================================== -->
+	<!-- =====  Type Definition: Bottle Identifier Type		      ===== -->
+	<!-- ====================================================================== -->
+	<xsd:simpleType name="BottleIdentifierCodeType">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="BRC">
+				<xsd:annotation>
+					<xsd:documentation>
+						<ccts:Name>BRC</ccts:Name>
+						<ccts:Definition>Barcode</ccts:Definition>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="RFD">
+				<xsd:annotation>
+					<xsd:documentation>
+						<ccts:Name>RFD</ccts:Name>
+						<ccts:Definition>RFID</ccts:Definition>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+		</xsd:restriction>
+	</xsd:simpleType>
+</xsd:schema>

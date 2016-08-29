@@ -1,0 +1,42 @@
+<?xml version="1.0"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:ccts="urn:un:unece:uncefact:documentation:standard:CoreComponentsTechnicalSpecification:2" xmlns:clmICARValidSampleFillingIndicatorCode="urn:it:icar:ade:codelist:ValidSampleFillingIndicatorCode:1.0" targetNamespace="urn:it:icar:ade:codelist:ValidSampleFillingIndicatorCode:1.0" elementFormDefault="qualified" attributeFormDefault="unqualified" version="1.0">
+	<!-- ====================================================================== -->
+	<!-- =====  Element Declarations				      ===== -->
+	<!-- ====================================================================== -->
+	<!-- =====  Root Element Declaration				      ===== -->
+	<!-- ====================================================================== -->
+	<xsd:element name="ValidSampleFillingIndicatorCode" type="clmICARValidSampleFillingIndicatorCode:ValidSampleFillingIndicatorCodeType"/>
+	<!-- ====================================================================== -->
+	<!-- =====  Type Definitions					      ===== -->
+	<!-- ====================================================================== -->
+	<!-- =====  Type Definition: Valid Sample Filling Indicator Type		      ===== -->
+	<!-- ====================================================================== -->
+	<xsd:simpleType name="ValidSampleFillingIndicatorCodeType">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="0">
+				<xsd:annotation>
+					<xsd:documentation>
+						<ccts:Name>0</ccts:Name>
+						<ccts:Definition>Successful milking (over 80% of expected milk)</ccts:Definition>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="1">
+				<xsd:annotation>
+					<xsd:documentation>
+						<ccts:Name>1</ccts:Name>
+						<ccts:Definition>Incomplete (less 20 % of expected milk) or interrupt milking</ccts:Definition>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+				<xsd:enumeration value="2">
+				<xsd:annotation>
+					<xsd:documentation>
+						<ccts:Name>2</ccts:Name>
+						<ccts:Definition>Milking complete, measurement  not complete (between 20 and 80 %)</ccts:Definition>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+		</xsd:restriction>
+	</xsd:simpleType>
+</xsd:schema>

@@ -1,0 +1,50 @@
+<?xml version="1.0"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:ccts="urn:un:unece:uncefact:documentation:standard:CoreComponentsTechnicalSpecification:2" xmlns:clmICARQuarterCode="urn:it:icar:ade:codelist:QuarterCode:1.0" targetNamespace="urn:it:icar:ade:codelist:QuarterCode:1.0" elementFormDefault="qualified" attributeFormDefault="unqualified" version="1.0">
+	<!-- ====================================================================== -->
+	<!-- =====  Element Declarations				      ===== -->
+	<!-- ====================================================================== -->
+	<!-- =====  Root Element Declaration				      ===== -->
+	<!-- ====================================================================== -->
+	<xsd:element name="QuarterCode" type="clmICARQuarterCode:QuarterCodeType"/>
+	<!-- ====================================================================== -->
+	<!-- =====  Type Definitions					      ===== -->
+	<!-- ====================================================================== -->
+	<!-- =====  Type Definition: Quarter Identifier Type		      ===== -->
+	<!-- ====================================================================== -->
+	<xsd:simpleType name="QuarterCodeType">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="LF">
+				<xsd:annotation>
+					<xsd:documentation>
+						<ccts:Name>LF</ccts:Name>
+						<ccts:Definition>Left front</ccts:Definition>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="RF">
+				<xsd:annotation>
+					<xsd:documentation>
+						<ccts:Name>RF</ccts:Name>
+						<ccts:Definition>Right front</ccts:Definition>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="LR">
+				<xsd:annotation>
+					<xsd:documentation>
+						<ccts:Name>LR</ccts:Name>
+						<ccts:Definition>Left rear</ccts:Definition>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="RR">
+				<xsd:annotation>
+					<xsd:documentation>
+						<ccts:Name>RR</ccts:Name>
+						<ccts:Definition>Right rear</ccts:Definition>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+		</xsd:restriction>
+	</xsd:simpleType>
+</xsd:schema>

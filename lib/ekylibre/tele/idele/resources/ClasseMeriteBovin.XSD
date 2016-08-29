@@ -1,0 +1,28 @@
+<?xml version='1.0'?>
+<xsd:schema targetNamespace="urn:fr:agri:elevage:codelist:ClasseMerite:1" xmlns="urn:fr:agri:elevage:codelist:ClasseMerite:1" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <xsd:simpleType name="TypeClasseMerite">
+    <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="CPB"/>   
+      <xsd:enumeration value="EPREU0"/>
+      <xsd:enumeration value="EPREU1"/>
+      <xsd:enumeration value="EPREU2"/>
+      <xsd:enumeration value="EPREUV"/>
+      <xsd:enumeration value="HISTOR"/>
+      <xsd:enumeration value="INIREG"/>
+      <xsd:enumeration value="ORIAUT"/>
+      <xsd:enumeration value="ORIPER"/>
+      <xsd:enumeration value="SAET1F"/>
+      <xsd:enumeration value="SAET1M"/>
+      <xsd:enumeration value="SAET2F"/>
+      <xsd:enumeration value="SAET2M"/>
+      <xsd:enumeration value="SAET3F"/>
+      <xsd:enumeration value="SAET3M"/>
+      <xsd:enumeration value="SPET1F"/>
+      <xsd:enumeration value="SPET1M"/>
+      <xsd:enumeration value="SPET2F"/>
+      <xsd:enumeration value="SPET2M"/>
+      <xsd:enumeration value="SPET3F"/>
+      <xsd:enumeration value="SPET3M"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+</xsd:schema>

@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- version 1.02 modifiée du 11/02/2015 -->
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://www.idele.fr/XML/Schema/" xmlns:tnsfiea="http://www.fiea.org/types/" xmlns:tnsdemat="urn:fr:agri:elevage:codelist:demat_types:1" targetNamespace="http://www.idele.fr/XML/Schema/" elementFormDefault="qualified">
+	<xsd:import namespace="urn:fr:agri:elevage:codelist:demat_types:1" schemaLocation="demat_types.xsd"/>
+	<xsd:import namespace="http://www.fiea.org/types/" schemaLocation="fiea_types.xsd"/>
+	<!--
+######  Gestion des transports ###### ######  Gestion des transports ############  Gestion des transports ############  Gestion des transports ############  Gestion des transports ############  Gestion des transports ############  Gestion des transports ############  Gestion des transports ######-->
+	<!--
+######  Opération DmBTransportCreateChargement  ######-->
+	<xsd:element name="DmBTransportCreateChargementRequest">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element name="JetonAuthentification" type="tnsfiea:typeJeton"/>
+				<xsd:element name="Utilisateur" type="tnsdemat:typeDemandeur"/>
+				<xsd:choice>
+					<xsd:element ref="tns:MessageCreationChargement"/>
+					<xsd:element name="MessageZip" type="xsd:base64Binary">
+						<xsd:annotation>
+							<xsd:documentation>Envoi d'un un fichier XML zippé de type MessageCreationChargement</xsd:documentation>
+						</xsd:annotation>
+					</xsd:element>
+				</xsd:choice>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="DmBTransportCreateChargementResponse">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element name="ReponseStandard" type="tnsfiea:typeReponse"/>
+				<xsd:element name="ReponseSpecifique" minOccurs="0">
+					<xsd:complexType>
+						<xsd:choice>
+							<xsd:element ref="tns:MessageReponseChargement"/>
+							<xsd:element name="MessageZip" type="xsd:base64Binary">
+								<xsd:annotation>
+									<xsd:documentation>Envoi d'un un fichier XML zippé de type MessageReponseChargement</xsd:documentation>
+								</xsd:annotation>
+							</xsd:element>
+						</xsd:choice>
+					</xsd:complexType>
+				</xsd:element>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	<!--
+######   Opération DmBTransportCreateDechargement  ######-->
+	<xsd:element name="DmBTransportCreateDechargementRequest">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element name="JetonAuthentification" type="tnsfiea:typeJeton"/>
+				<xsd:element name="Utilisateur" type="tnsdemat:typeDemandeur"/>
+				<xsd:choice>
+					<xsd:element ref="tns:MessageCreationDechargement"/>
+					<xsd:element name="MessageZip" type="xsd:base64Binary">
+						<xsd:annotation>
+							<xsd:documentation>Envoi d'un un fichier XML zippé de type MessageCreationDechargement</xsd:documentation>
+						</xsd:annotation>
+					</xsd:element>
+				</xsd:choice>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="DmBTransportCreateDechargementResponse">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element name="ReponseStandard" type="tnsfiea:typeReponse"/>
+				<xsd:element name="ReponseSpecifique" minOccurs="0">
+					<xsd:complexType>
+						<xsd:choice>
+							<xsd:element ref="tns:MessageReponseDechargement"/>
+							<xsd:element name="MessageZip" type="xsd:base64Binary">
+								<xsd:annotation>
+									<xsd:documentation>Envoi d'un un fichier XML zippé de type MessageReponseDechargement</xsd:documentation>
+								</xsd:annotation>
+							</xsd:element>
+						</xsd:choice>
+					</xsd:complexType>
+				</xsd:element>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	<!--
+######  Messages pour opération DmBTransportCreateChargement ######-->
+	<xsd:element name="MessageCreationChargement" type="tnsdemat:typeCreationChargement">
+		<xsd:annotation>
+			<xsd:documentation>Message XML utilisé pour la demande de l'opération DmBTransportCreateChargement</xsd:documentation>
+		</xsd:annotation>
+	</xsd:element>
+	<xsd:element name="MessageReponseChargement" type="tnsdemat:typeReponseChargement">
+		<xsd:annotation>
+			<xsd:documentation>Message XML utilisé pour la réponse de l'opération DmBTransportCreateChargement</xsd:documentation>
+		</xsd:annotation>
+	</xsd:element>
+	<!--
+######  Messages pour opération DmBTransportCreateDechargement ######-->
+	<xsd:element name="MessageCreationDechargement" type="tnsdemat:typeCreationDechargement">
+		<xsd:annotation>
+			<xsd:documentation>Message XML utilisé pour la demande de l'opération DmBTransportCreateDechargement</xsd:documentation>
+		</xsd:annotation>
+	</xsd:element>
+	<xsd:element name="MessageReponseDechargement" type="tnsdemat:typeReponseDechargement">
+		<xsd:annotation>
+			<xsd:documentation>Message XML utilisé pour la réponse de l'opération DmBTransportCreateDechargement</xsd:documentation>
+		</xsd:annotation>
+	</xsd:element>
+</xsd:schema>

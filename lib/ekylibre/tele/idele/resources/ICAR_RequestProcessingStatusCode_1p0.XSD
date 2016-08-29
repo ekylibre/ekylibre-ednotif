@@ -1,0 +1,50 @@
+<?xml version="1.0"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:ccts="urn:un:unece:uncefact:documentation:standard:CoreComponentsTechnicalSpecification:2" xmlns:clmICARRequestProcessingStatusCode="urn:it:icar:ade:codelist:RequestProcessingStatusCode:1.0" targetNamespace="urn:it:icar:ade:codelist:RequestProcessingStatusCode:1.0" elementFormDefault="qualified" attributeFormDefault="unqualified" version="1.0">
+	<!-- ====================================================================== -->
+	<!-- =====  Element Declarations				      ===== -->
+	<!-- ====================================================================== -->
+	<!-- =====  Root Element Declaration				      ===== -->
+	<!-- ====================================================================== -->
+	<xsd:element name="RequestProcessingStatusCode" type="clmICARRequestProcessingStatusCode:RequestProcessingStatusCodeType"/>
+	<!-- ====================================================================== -->
+	<!-- =====  Type Definitions					      ===== -->
+	<!-- ====================================================================== -->
+	<!-- =====  Type Definition: RequestProcessingStatus Type		      ===== -->
+	<!-- ====================================================================== -->
+	<xsd:simpleType name="RequestProcessingStatusCodeType">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="O">
+				<xsd:annotation>
+					<xsd:documentation>
+						<ccts:Name>O</ccts:Name>
+						<ccts:Definition>Processed without errors</ccts:Definition>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="P">
+				<xsd:annotation>
+					<xsd:documentation>
+						<ccts:Name>P</ccts:Name>
+						<ccts:Definition>Data accepted for asynchronous processing (client can retrieve the processing result later using provided ticket)</ccts:Definition>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="E">
+				<xsd:annotation>
+					<xsd:documentation>
+						<ccts:Name>E</ccts:Name>
+						<ccts:Definition>Processed and rejected due to errors</ccts:Definition>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="W">
+				<xsd:annotation>
+					<xsd:documentation>
+						<ccts:Name>W</ccts:Name>
+						<ccts:Definition>Processed with warnings</ccts:Definition>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+		</xsd:restriction>
+	</xsd:simpleType>
+</xsd:schema>

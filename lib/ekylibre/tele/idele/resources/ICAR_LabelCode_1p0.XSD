@@ -1,0 +1,74 @@
+<?xml version="1.0"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:ccts="urn:un:unece:uncefact:documentation:standard:CoreComponentsTechnicalSpecification:2" xmlns:clmICARLabelCode="urn:it:icar:ade:codelist:LabelCode:1.0" targetNamespace="urn:it:icar:ade:codelist:LabelCode:1.0" elementFormDefault="qualified" attributeFormDefault="unqualified" version="1.0">
+	<!-- ====================================================================== -->
+	<!-- =====  Element Declarations				      ===== -->
+	<!-- ====================================================================== -->
+	<!-- =====  Root Element Declaration				      ===== -->
+	<!-- ====================================================================== -->
+	<xsd:element name="LabelCode" type="clmICARLabelCode:LabelCodeType"/>
+	<!-- ====================================================================== -->
+	<!-- =====  Type Definitions					      ===== -->
+	<!-- ====================================================================== -->
+	<!-- =====  Type Definition: Label Type		      ===== -->
+	<!-- ====================================================================== -->
+	<xsd:simpleType name="LabelCodeType">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="EVN">
+				<xsd:annotation>
+					<xsd:documentation>
+						<ccts:Name>EVN</ccts:Name>
+						<ccts:Definition>EU legal visual identifier</ccts:Definition>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="ISM">
+				<xsd:annotation>
+					<xsd:documentation>
+						<ccts:Name>ISM</ccts:Name>
+						<ccts:Definition>Animal ISO RFID identifier starting with a manufacturer code (ISO 11 784)</ccts:Definition>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="ISL">
+				<xsd:annotation>
+					<xsd:documentation>
+						<ccts:Name>ISL</ccts:Name>
+						<ccts:Definition>Animal ISO RFID legal identifier starting with a country code (ISO 11 784)</ccts:Definition>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="FAN">
+				<xsd:annotation>
+					<xsd:documentation>
+						<ccts:Name>FAN</ccts:Name>
+						<ccts:Definition>Farm animal name</ccts:Definition>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="HBN">
+				<xsd:annotation>
+					<xsd:documentation>
+						<ccts:Name>HBN</ccts:Name>
+						<ccts:Definition>Herd Book name</ccts:Definition>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="FNB">
+				<xsd:annotation>
+					<xsd:documentation>
+						<ccts:Name>FNB</ccts:Name>
+						<ccts:Definition>Farm number</ccts:Definition>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="NKN">
+				<xsd:annotation>
+					<xsd:documentation>
+						<ccts:Name>NKN</ccts:Name>
+						<ccts:Definition>Necklace number</ccts:Definition>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+		</xsd:restriction>
+	</xsd:simpleType>
+</xsd:schema>

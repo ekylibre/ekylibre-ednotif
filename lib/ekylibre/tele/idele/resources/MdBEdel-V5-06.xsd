@@ -1,0 +1,1769 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSpy v2010 (http://www.altova.com) by Balvay (Institut De L'Elevage) -->
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://www.idele.fr/XML/Schema" xmlns:tnsfiea="http://www.fiea.org/types/" xmlns:CAUSEABSENCETAUXBOVINE="urn:fr:agri:elevage:codelist:CauseAbsenceTauxBovine:1" xmlns:CLASSEMERITE="urn:fr:agri:elevage:codelist:ClasseMerite:1" xmlns:CODEANIMALEVALUE="urn:fr:agri:elevage:codelist:CodeAnimalEvalue:1" xmlns:CODEANOMALIE="urn:fr:agri:elevage:codelist:CodeAnomalie:1" xmlns:CODECONDITIONVELAGE="urn:fr:agri:elevage:codelist:CodeConditionVelage:1" xmlns:CODECONSEILUTILISATION="urn:fr:agri:elevage:codelist:CodeConseilUtilisation:1" xmlns:CODEDECLARATIONINITIALETYPE="urn:fr:agri:elevage:codelist:CodeDeclarationInitialeMale:1" xmlns:CODEETATFEMELLE="urn:fr:agri:elevage:codelist:CodeEtatFemelle:1" xmlns:CODEEVENEMENTDEBUTLACTATION="urn:fr:agri:elevage:codelist:CodeEvenementDebutLactation:1" xmlns:CODEINDEXASCENDANCE="urn:fr:agri:elevage:codelist:CodeIndexAscendance:1" xmlns:CODEINDICATEURGENEALOGIECERTIFIEE="urn:fr:agri:elevage:codelist:CodeIndicateurGenealogieCertifiee:1" xmlns:CODEINDICATEURVELAGEMULTIPLE="urn:fr:agri:elevage:codelist:CodeIndicateurVelageMultiple:1" xmlns:CODEMODECONDUITE="urn:fr:agri:elevage:codelist:CodeModeConduite:1" xmlns:CODEMODECONSERVATION="urn:fr:agri:elevage:codelist:CodeModeConservation:1" xmlns:CODENATURECOLLECTE="urn:fr:agri:elevage:codelist:CodeNatureCollecte:1" xmlns:CODENONQUALIFICATIONLACTATION="urn:fr:agri:elevage:codelist:CodeNonQualificationLactation:1" xmlns:CODEORIGINECOLLECTEMAMMITE="urn:fr:agri:elevage:codelist:CodeOrigineCollecteMammite:1" xmlns:CODEPAILLETTEFRACTIONNEE="urn:fr:agri:elevage:codelist:CodePailletteFractionnee:1" xmlns:CODEPAYS="urn:fr:agri:elevage:codelist:CodePays:1" xmlns:CODEPOIDSAGETYPE="urn:fr:agri:elevage:codelist:CodePoidsAgeType:1" xmlns:CODEPROTOCOLECL="urn:fr:agri:elevage:codelist:CodeProtocoleCL:1" xmlns:LibelleQualification="urn:fr:agri:elevage:codelist:LibelleQualification:1" xmlns:CODEQUALIFICATIONLACTATION="urn:fr:agri:elevage:codelist:CodeQualificationLactation:1" xmlns:CODERACEBOVIN="urn:fr:agri:elevage:codelist:CodeRaceBovin:1" xmlns:CODEREFUSFILIATION="urn:fr:agri:elevage:codelist:CodeRefusFiliation:1" xmlns:CODESECTION="urn:fr:agri:elevage:codelist:CodeSection:1" xmlns:CODESEMENCESEXEE="urn:fr:agri:elevage:codelist:CodeSemenceSexee:1" xmlns:CODESEVERITEMAMMITE="urn:fr:agri:elevage:codelist:CodeSeveriteMammite:1" xmlns:CODESEVRAGEPOINTAGE="urn:fr:agri:elevage:codelist:CodeSevragePointage:1" xmlns:CODESITUATIONPARTICULIERE="urn:fr:agri:elevage:codelist:CodeSituationParticuliere:1" xmlns:CODETYPEANOMALIE="urn:fr:agri:elevage:codelist:CodeTypeAnomalie:1" xmlns:CODETYPEBASEINDEXATION="urn:fr:agri:elevage:codelist:CodeTypeBaseIndexation:1" xmlns:CODETYPECONDUITE="urn:fr:agri:elevage:codelist:CodeTypeConduite:1" xmlns:CODETYPEINDEX="urn:fr:agri:elevage:codelist:CodeTypeIndex:1" xmlns:CODETYPEMONTENATURELLE="urn:fr:agri:elevage:codelist:CodeTypeMonteNaturelle:1" xmlns:CODETYPEOPERATEUR="urn:fr:agri:elevage:codelist:CodeTypeOperateur:1" xmlns:CODETYPEPROGRAMME="urn:fr:agri:elevage:codelist:CodeTypeProgramme:1" xmlns:CODETYPEPROGRAMMEAGREMENTTYPE="urn:fr:agri:elevage:codelist:CodeTypeProgrammeAgrement:1" xmlns:CODEUTILISATIONEXTRAPOLATION60JOURS="urn:fr:agri:elevage:codelist:CodeUtilisationExtrapolation60Jours:1" xmlns:CODEUTILISATIONPESEEAPRESSORTIE="urn:fr:agri:elevage:codelist:CodeUtilisationPeseeApresSortie:1" xmlns:CODEUTILISATIONPOIDSNAISSANCE="urn:fr:agri:elevage:codelist:CodeUtilisationPoidsNaissance:1" xmlns:REGISTRATIONIDENTIFIANTTYPE="urn:fr:agri:elevage:codelist:RegistrationIdentifiantType:1" xmlns:RESULTATCONSTATGESTATION="urn:fr:agri:elevage:codelist:ResultatConstatGestation:1" xmlns:STADEPHYSIOLOGIQUE="urn:fr:agri:elevage:codelist:StadePhysiologique:1" xmlns:TYPECERTIFICATEDITE="urn:fr:agri:elevage:codelist:TypeCertificatEdite:1" xmlns:TYPECONSTATGESTATION="urn:fr:agri:elevage:codelist:TypeConstatGestation:1" targetNamespace="http://www.idele.fr/XML/Schema" version="4.00" xml:lang="fr">
+	<xsd:import namespace="http://www.fiea.org/types/" schemaLocation="fiea_types.xsd"/>
+	<xsd:import namespace="urn:fr:agri:elevage:codelist:CauseAbsenceTauxBovine:1" schemaLocation="CauseAbsenceTauxBovin.XSD"/>
+	<xsd:import namespace="urn:fr:agri:elevage:codelist:ClasseMerite:1" schemaLocation="ClasseMeriteBovin.XSD"/>
+	<xsd:import namespace="urn:fr:agri:elevage:codelist:CodeAnimalEvalue:1" schemaLocation="CodeAnimalEvalueBovin.XSD"/>
+	<xsd:import namespace="urn:fr:agri:elevage:codelist:CodeAnomalie:1" schemaLocation="CodeAnomalie.XSD"/>
+	<xsd:import namespace="urn:fr:agri:elevage:codelist:CodeConditionVelage:1" schemaLocation="CodeConditionVelageBovin.XSD"/>
+	<xsd:import namespace="urn:fr:agri:elevage:codelist:CodeConseilUtilisation:1" schemaLocation="CodeConseilUtilisationBovin.XSD"/>
+	<xsd:import namespace="urn:fr:agri:elevage:codelist:CodeDeclarationInitialeMale:1" schemaLocation="CodeDeclarationInitialeMaleBovin.XSD"/>
+	<xsd:import namespace="urn:fr:agri:elevage:codelist:CodeEtatFemelle:1" schemaLocation="CodeEtatFemelleBovin.XSD"/>
+	<xsd:import namespace="urn:fr:agri:elevage:codelist:CodeEvenementDebutLactation:1" schemaLocation="CodeEvenementDebutLactationBovin.XSD"/>
+	<xsd:import namespace="urn:fr:agri:elevage:codelist:CodeIndexAscendance:1" schemaLocation="CodeIndexAscendanceBovin.XSD"/>
+	<xsd:import namespace="urn:fr:agri:elevage:codelist:CodeIndicateurGenealogieCertifiee:1" schemaLocation="CodeIndicateurGenealogieCertifieeBovin.XSD"/>
+	<xsd:import namespace="urn:fr:agri:elevage:codelist:CodeIndicateurVelageMultiple:1" schemaLocation="CodeIndicateurVelageMultipleBovin.XSD"/>
+	<xsd:import namespace="urn:fr:agri:elevage:codelist:CodeModeConduite:1" schemaLocation="CodeModeConduiteBovin.XSD"/>
+	<xsd:import namespace="urn:fr:agri:elevage:codelist:CodeModeConservation:1" schemaLocation="CodeModeConservationBovin.XSD"/>
+	<xsd:import namespace="urn:fr:agri:elevage:codelist:CodeNatureCollecte:1" schemaLocation="CodeNatureCollecteBovin.XSD"/>
+	<xsd:import namespace="urn:fr:agri:elevage:codelist:CodeNonQualificationLactation:1" schemaLocation="CodeNonQualificationLactationBovin.XSD"/>
+	<xsd:import namespace="urn:fr:agri:elevage:codelist:CodeOrigineCollecteMammite:1" schemaLocation="CodeOrigineCollecteMammiteBovin.XSD"/>
+	<xsd:import namespace="urn:fr:agri:elevage:codelist:CodePailletteFractionnee:1" schemaLocation="CodePailletteFractionneeBovin.XSD"/>
+	<xsd:import namespace="urn:fr:agri:elevage:codelist:CodePays:1" schemaLocation="CodePays.XSD"/>
+	<xsd:import namespace="urn:fr:agri:elevage:codelist:CodePoidsAgeType:1" schemaLocation="CodePoidsAgeTypeBovin.XSD"/>
+	<xsd:import namespace="urn:fr:agri:elevage:codelist:CodeProtocoleCL:1" schemaLocation="CodeProtocoleCLBovin.XSD"/>
+	<xsd:import namespace="urn:fr:agri:elevage:codelist:CodeQualificationLactation:1" schemaLocation="CodeQualificationLactationBovin.XSD"/>
+	<xsd:import namespace="urn:fr:agri:elevage:codelist:CodeRaceBovin:1" schemaLocation="CodeRaceBovin.XSD"/>
+	<xsd:import namespace="urn:fr:agri:elevage:codelist:CodeRefusFiliation:1" schemaLocation="CodeRefusFiliationBovin.XSD"/>
+	<xsd:import namespace="urn:fr:agri:elevage:codelist:CodeSection:1" schemaLocation="CodeSectionBovin.XSD"/>
+	<xsd:import namespace="urn:fr:agri:elevage:codelist:CodeSemenceSexee:1" schemaLocation="CodeSemenceSexeeBovin.XSD"/>
+	<xsd:import namespace="urn:fr:agri:elevage:codelist:CodeSeveriteMammite:1" schemaLocation="CodeSeveriteMammiteBovin.XSD"/>
+	<xsd:import namespace="urn:fr:agri:elevage:codelist:CodeSevragePointage:1" schemaLocation="CodeSevragePointageBovin.XSD"/>
+	<xsd:import namespace="urn:fr:agri:elevage:codelist:CodeSituationParticuliere:1" schemaLocation="CodeSituationParticuliereBovin.XSD"/>
+	<xsd:import namespace="urn:fr:agri:elevage:codelist:CodeTypeAnomalie:1" schemaLocation="CodeTypeAnomalie.XSD"/>
+	<xsd:import namespace="urn:fr:agri:elevage:codelist:CodeTypeBaseIndexation:1" schemaLocation="CodeTypeBaseIndexationBovin.XSD"/>
+	<xsd:import namespace="urn:fr:agri:elevage:codelist:CodeTypeConduite:1" schemaLocation="CodeTypeConduiteBovin.XSD"/>
+	<xsd:import namespace="urn:fr:agri:elevage:codelist:CodeTypeIndex:1" schemaLocation="CodeTypeIndexBovin.XSD"/>
+	<xsd:import namespace="urn:fr:agri:elevage:codelist:CodeTypeMonteNaturelle:1" schemaLocation="CodeTypeMonteNaturelleBovin.XSD"/>
+	<xsd:import namespace="urn:fr:agri:elevage:codelist:CodeTypeOperateur:1" schemaLocation="CodeTypeOperateurBovin.XSD"/>
+	<xsd:import namespace="urn:fr:agri:elevage:codelist:CodeTypeProgramme:1" schemaLocation="CodeTypeProgrammeBovin.XSD"/>
+	<xsd:import namespace="urn:fr:agri:elevage:codelist:CodeTypeProgrammeAgrement:1" schemaLocation="CodeTypeProgrammeAgrementBovin.XSD"/>
+	<xsd:import namespace="urn:fr:agri:elevage:codelist:CodeUtilisationExtrapolation60Jours:1" schemaLocation="CodeUtilisationExtrapolation60JoursBovin.XSD"/>
+	<xsd:import namespace="urn:fr:agri:elevage:codelist:CodeUtilisationPeseeApresSortie:1" schemaLocation="CodeUtilisationPeseeApresSortieBovin.XSD"/>
+	<xsd:import namespace="urn:fr:agri:elevage:codelist:CodeUtilisationPoidsNaissance:1" schemaLocation="CodeUtilisationPoidsNaissanceBovin.XSD"/>
+	<xsd:import namespace="urn:fr:agri:elevage:codelist:LibelleQualification:1" schemaLocation="LibelleQualificationBovin.XSD"/>
+	<xsd:import namespace="urn:fr:agri:elevage:codelist:RegistrationIdentifiantType:1" schemaLocation="RegistrationIdentifiantType.XSD"/>
+	<xsd:import namespace="urn:fr:agri:elevage:codelist:ResultatConstatGestation:1" schemaLocation="ResultatConstatGestationBovin.XSD"/>
+	<xsd:import namespace="urn:fr:agri:elevage:codelist:StadePhysiologique:1" schemaLocation="StadePhysiologiqueBovin.XSD"/>
+	<xsd:import namespace="urn:fr:agri:elevage:codelist:TypeCertificatEdite:1" schemaLocation="TypeCertificatEditeBovin.XSD"/>
+	<xsd:import namespace="urn:fr:agri:elevage:codelist:TypeConstatGestation:1" schemaLocation="TypeConstatGestationBovin.XSD"/>
+	<!--### Opération de consultation ####-->
+	<xsd:element name="MdBGetDonneesGenetiquesAnimalesRequest">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element name="JetonAuthentification" type="tnsfiea:typeJeton"/>
+				<xsd:element name="Exploitation" type="tns:typeIdentifiantExploitation"/>
+				<xsd:element name="DateDebutDemande" type="xsd:date"/>
+				<xsd:element name="DateFinDemande" type="xsd:date" minOccurs="0"/>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="MdBGetDonneesGenetiquesAnimalesResponse">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element name="ReponseStandard" type="tnsfiea:typeReponse"/>
+				<xsd:element name="ReponseSpecifique" minOccurs="0">
+					<xsd:complexType>
+						<xsd:choice>
+							<xsd:element name="MdBDonneesGenetiquesAnimales" type="tns:MessageMdBDonneesGenetiquesAnimales"/>
+							<xsd:element name="MessageZip" type="xsd:base64Binary">
+								<xsd:annotation>
+									<xsd:documentation>Retourne un fichier XML zippé de type MessageMdBDonneesGenetiquesAnimales</xsd:documentation>
+								</xsd:annotation>
+							</xsd:element>
+						</xsd:choice>
+					</xsd:complexType>
+				</xsd:element>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="MdBGetDonneesMalesPublicsRequest">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element name="JetonAuthentification" type="tnsfiea:typeJeton"/>
+				<xsd:element name="OrganismeTiersDemandeur" type="tns:Organisation" minOccurs="0"/>
+				<xsd:element name="Exploitation" type="tns:typeIdentifiantExploitation"/>
+				<xsd:element name="DateDebutDemande" type="xsd:date"/>
+				<xsd:element name="DateFinDemande" type="xsd:date" minOccurs="0"/>
+				<xsd:element name="TaureauReproducteur" type="tns:TaureauReproducteur" minOccurs="0" maxOccurs="unbounded"/>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="MdBGetDonneesMalesPublicsResponse">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element name="ReponseStandard" type="tnsfiea:typeReponse"/>
+				<xsd:element name="ReponseSpecifique" minOccurs="0">
+					<xsd:complexType>
+						<xsd:choice>
+							<xsd:element name="MdBDonneesMalesPublics" type="tns:MessageMdBDonneesMalesPublics"/>
+							<xsd:element name="MessageZip" type="xsd:base64Binary">
+								<xsd:annotation>
+									<xsd:documentation>Retourne un fichier XML zippé de type MessageMdBDonneesMalesPublics</xsd:documentation>
+								</xsd:annotation>
+							</xsd:element>
+						</xsd:choice>
+					</xsd:complexType>
+				</xsd:element>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="IaBGetDonneesIARequest">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element name="JetonAuthentification" type="tnsfiea:typeJeton"/>
+				<xsd:element name="Exploitation" type="tns:typeIdentifiantExploitation"/>
+				<xsd:element name="DateDebutDemande" type="xsd:date"/>
+				<xsd:element name="DateFinDemande" type="xsd:date" minOccurs="0"/>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="IaBGetDonneesIAResponse">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element name="ReponseStandard" type="tnsfiea:typeReponse"/>
+				<xsd:element name="ReponseSpecifique" minOccurs="0">
+					<xsd:complexType>
+						<xsd:choice>
+							<xsd:element name="IaBDonneesIA" type="tns:MessageIaBDonneesIA"/>
+							<xsd:element name="MessageZip" type="xsd:base64Binary">
+								<xsd:annotation>
+									<xsd:documentation>Retourne un fichier XML zippé de type MessageIaBDonneesIA</xsd:documentation>
+								</xsd:annotation>
+							</xsd:element>
+						</xsd:choice>
+					</xsd:complexType>
+				</xsd:element>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="TkBGetDonneesTERequest">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element name="JetonAuthentification" type="tnsfiea:typeJeton"/>
+				<xsd:element name="Exploitation" type="tns:typeIdentifiantExploitation"/>
+				<xsd:element name="DateDebutDemande" type="xsd:date"/>
+				<xsd:element name="DateFinDemande" type="xsd:date" minOccurs="0"/>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="TkBGetDonneesTEResponse">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element name="ReponseStandard" type="tnsfiea:typeReponse"/>
+				<xsd:element name="ReponseSpecifique" minOccurs="0">
+					<xsd:complexType>
+						<xsd:choice>
+							<xsd:element name="TkBDonneesTE" type="tns:MessageTkBDonneesTE"/>
+							<xsd:element name="MessageZip" type="xsd:base64Binary">
+								<xsd:annotation>
+									<xsd:documentation>Retourne un fichier XML zippé de type MessageTkBDonneesTE</xsd:documentation>
+								</xsd:annotation>
+							</xsd:element>
+						</xsd:choice>
+					</xsd:complexType>
+				</xsd:element>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="CpBGetDonneesCPBRequest">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element name="JetonAuthentification" type="tnsfiea:typeJeton"/>
+				<xsd:element name="Exploitation" type="tns:typeIdentifiantExploitation"/>
+				<xsd:element name="DateDebutDemande" type="xsd:date"/>
+				<xsd:element name="DateFinDemande" type="xsd:date" minOccurs="0"/>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="CpBGetDonneesCPBResponse">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element name="ReponseStandard" type="tnsfiea:typeReponse"/>
+				<xsd:element name="ReponseSpecifique" minOccurs="0">
+					<xsd:complexType>
+						<xsd:choice>
+							<xsd:element name="CpBDonneesCPB" type="tns:MessageCpBDonneesCPB"/>
+							<xsd:element name="MessageZip" type="xsd:base64Binary">
+								<xsd:annotation>
+									<xsd:documentation>Retourne un fichier XML zippé de type MessageCpBDonneesCPB</xsd:documentation>
+								</xsd:annotation>
+							</xsd:element>
+						</xsd:choice>
+					</xsd:complexType>
+				</xsd:element>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="ClBGetDonneesCLRequest">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element name="JetonAuthentification" type="tnsfiea:typeJeton"/>
+				<xsd:element name="Exploitation" type="tns:typeIdentifiantExploitation"/>
+				<xsd:element name="DateDebutDemande" type="xsd:date"/>
+				<xsd:element name="DateFinDemande" type="xsd:date" minOccurs="0"/>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="ClBGetDonneesCLResponse">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element name="ReponseStandard" type="tnsfiea:typeReponse"/>
+				<xsd:element name="ReponseSpecifique" minOccurs="0">
+					<xsd:complexType>
+						<xsd:choice>
+							<xsd:element name="ClBDonneesCL" type="tns:MessageClBDonneesCL"/>
+							<xsd:element name="MessageZip" type="xsd:base64Binary">
+								<xsd:annotation>
+									<xsd:documentation>Retourne un fichier XML zippé de type MessageClBDonneesCL</xsd:documentation>
+								</xsd:annotation>
+							</xsd:element>
+						</xsd:choice>
+					</xsd:complexType>
+				</xsd:element>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="VaBGetDonneesCPVRequest">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element name="JetonAuthentification" type="tnsfiea:typeJeton"/>
+				<xsd:element name="Exploitation" type="tns:typeIdentifiantExploitation"/>
+				<xsd:element name="DateDebutDemande" type="xsd:date"/>
+				<xsd:element name="DateFinDemande" type="xsd:date" minOccurs="0"/>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="VaBGetDonneesCPVResponse">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element name="ReponseStandard" type="tnsfiea:typeReponse"/>
+				<xsd:element name="ReponseSpecifique" minOccurs="0">
+					<xsd:complexType>
+						<xsd:choice>
+							<xsd:element name="VaBDonneesCPV" type="tns:MessageVaBDonneesCPV"/>
+							<xsd:element name="MessageZip" type="xsd:base64Binary">
+								<xsd:annotation>
+									<xsd:documentation>Retourne un fichier XML zippé de type MessageVaBDonneesCPV</xsd:documentation>
+								</xsd:annotation>
+							</xsd:element>
+						</xsd:choice>
+					</xsd:complexType>
+				</xsd:element>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="OsBGetDonneesRACRequest">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element name="JetonAuthentification" type="tnsfiea:typeJeton"/>
+				<xsd:element name="Exploitation" type="tns:typeIdentifiantExploitation"/>
+				<xsd:element name="DateDebutDemande" type="xsd:date"/>
+				<xsd:element name="RaceDemande" type="CODERACEBOVIN:TypeCodeRaceBovin"/>
+				<xsd:element name="DateFinDemande" type="xsd:date" minOccurs="0"/>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="OsBGetDonneesRACResponse">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element name="ReponseStandard" type="tnsfiea:typeReponse"/>
+				<xsd:element name="ReponseSpecifique" minOccurs="0">
+					<xsd:complexType>
+						<xsd:choice>
+							<xsd:element name="OsBDonneesRAC" type="tns:MessageOsBDonneesRAC"/>
+							<xsd:element name="MessageZip" type="xsd:base64Binary">
+								<xsd:annotation>
+									<xsd:documentation>Retourne un fichier XML zippé de type MessageOsBDonneesRAC</xsd:documentation>
+								</xsd:annotation>
+							</xsd:element>
+						</xsd:choice>
+					</xsd:complexType>
+				</xsd:element>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="MdBGetDonneesOrganismeTiersRequest">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element name="JetonAuthentification" type="tnsfiea:typeJeton"/>
+				<xsd:element name="OrganismeTiersDemandeur" type="tns:Organisation"/>
+				<xsd:element name="Exploitation" type="tns:typeIdentifiantExploitation"/>
+				<xsd:element name="DateDebutDemande" type="xsd:date"/>
+				<xsd:element name="DateFinDemande" type="xsd:date" minOccurs="0"/>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="MdBGetDonneesOrganismeTiersResponse">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element name="ReponseStandard" type="tnsfiea:typeReponse"/>
+				<xsd:element name="ReponseSpecifique" minOccurs="0">
+					<xsd:complexType>
+						<xsd:choice>
+							<xsd:element name="MdBDonneesOrganismeTiers" type="tns:MessageMdBDonneesOrganismeTiers"/>
+							<xsd:element name="MessageZip" type="xsd:base64Binary">
+								<xsd:annotation>
+									<xsd:documentation>Retourne un fichier XML zippé de type MessageMdBDonneesOrganismeTiers</xsd:documentation>
+								</xsd:annotation>
+							</xsd:element>
+						</xsd:choice>
+					</xsd:complexType>
+				</xsd:element>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	<!--###  message de retour  qui  seront zippés ###-->
+	<xsd:complexType name="MessageMdBDonneesGenetiquesAnimales">
+		<xsd:annotation>
+			<xsd:documentation>Message XML  utilisé  pour la réponse MdBGetDonneesGenetiquesAnimales</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="InformationsMessage" type="tns:InformationsMessage"/>
+			<xsd:element name="PassageControleLaitier" type="tns:PassageControleLaitier" minOccurs="0" maxOccurs="unbounded"/>
+			<xsd:element name="Bovin" type="tns:Bovin" minOccurs="0" maxOccurs="unbounded"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="MessageMdBDonneesMalesPublics">
+		<xsd:annotation>
+			<xsd:documentation>Message XML  utilisé  pour la réponse MdBDonneesMalesPublics</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="InformationsMessage" type="tns:InformationsMessage"/>
+			<xsd:element name="DeclarationInitiale" type="tns:DeclarationInitialeMalePublic" minOccurs="0" maxOccurs="unbounded"/>
+			<xsd:element name="TaureauEnErreur" type="tns:typeAnimalEnErreur" minOccurs="0" maxOccurs="unbounded"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="MessageIaBDonneesIA">
+		<xsd:annotation>
+			<xsd:documentation>Message XML  utilisé  pour la réponse IaBGetDonneesIA</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="InformationsMessage" type="tns:InformationsMessage"/>
+			<xsd:element name="BovinIA" type="tns:BovinIA" minOccurs="0" maxOccurs="unbounded"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="MessageTkBDonneesTE">
+		<xsd:annotation>
+			<xsd:documentation>Message XML  utilisé  pour la réponse TkBGetDonneesTE</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="InformationsMessage" type="tns:InformationsMessage"/>
+			<xsd:element name="BovinTE" type="tns:BovinTE" minOccurs="0" maxOccurs="unbounded"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="MessageCpBDonneesCPB">
+		<xsd:annotation>
+			<xsd:documentation>Message XML  utilisé  pour la réponse CpBGetDonneesCPB</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="InformationsMessage" type="tns:InformationsMessage"/>
+			<xsd:element name="BovinCPB" type="tns:BovinCPB" minOccurs="0" maxOccurs="unbounded"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="MessageClBDonneesCL">
+		<xsd:annotation>
+			<xsd:documentation>Message XML  utilisé  pour la réponse ClBGetDonneesCL</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="InformationsMessage" type="tns:InformationsMessage"/>
+			<xsd:element name="PassageControleLaitier" type="tns:PassageControleLaitier" minOccurs="0" maxOccurs="unbounded"/>
+			<xsd:element name="BovinCL" type="tns:BovinCL" minOccurs="0" maxOccurs="unbounded"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="MessageVaBDonneesCPV">
+		<xsd:annotation>
+			<xsd:documentation>Message XML  utilisé  pour la réponse VaBGetDonneesCPV</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="InformationsMessage" type="tns:InformationsMessage"/>
+			<xsd:element name="BovinCPV" type="tns:BovinCPV" minOccurs="0" maxOccurs="unbounded"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="MessageOsBDonneesRAC">
+		<xsd:annotation>
+			<xsd:documentation>Message XML  utilisé  pour la réponse OsBGetDonneesRAC</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="InformationsMessage" type="tns:InformationsMessage"/>
+			<xsd:element name="BovinRAC" type="tns:BovinRAC" minOccurs="0" maxOccurs="unbounded"/>
+			<xsd:element name="ReferenceVisitePointage" type="tns:ReferenceVisitePointage" minOccurs="0" maxOccurs="unbounded"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="MessageMdBDonneesOrganismeTiers">
+		<xsd:annotation>
+			<xsd:documentation>Message XML  utilisé  pour la réponse MdBGetDonneesOrganismeTiers</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="InformationsMessage" type="tns:InformationsMessage"/>
+			<xsd:element name="PassageControleLaitierTiers" type="tns:PassageControleLaitierTiers" minOccurs="0" maxOccurs="unbounded"/>
+			<xsd:element name="BovinTiers" type="tns:BovinTiers" minOccurs="0" maxOccurs="unbounded"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<!--### TYPES Simples réutilisables dans les opérations  ###-->
+	<xsd:simpleType name="RegistrationIdentifiantTypeType">
+		<xsd:restriction base="xsd:string"/>
+	</xsd:simpleType>
+	<xsd:simpleType name="typeNumeroIdentification">
+		<xsd:restriction base="xsd:string">
+			<xsd:maxLength value="12"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="Libelle1">
+		<xsd:restriction base="xsd:string">
+			<xsd:maxLength value="1"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="Libelle2">
+		<xsd:restriction base="xsd:string">
+			<xsd:maxLength value="2"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="Libelle3">
+		<xsd:restriction base="xsd:string">
+			<xsd:maxLength value="3"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="Libelle4">
+		<xsd:restriction base="xsd:string">
+			<xsd:maxLength value="4"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="Libelle5">
+		<xsd:restriction base="xsd:string">
+			<xsd:maxLength value="5"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="Libelle6">
+		<xsd:restriction base="xsd:string">
+			<xsd:maxLength value="6"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="Libelle10">
+		<xsd:restriction base="xsd:string">
+			<xsd:maxLength value="10"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="Libelle30">
+		<xsd:restriction base="xsd:string">
+			<xsd:maxLength value="30"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="Libelle80">
+		<xsd:restriction base="xsd:string">
+			<xsd:maxLength value="80"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="Nombre2Chiffres">
+		<xsd:restriction base="xsd:integer">
+			<xsd:maxInclusive value="99"/>
+			<xsd:minInclusive value="0"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="Nombre3Chiffres">
+		<xsd:restriction base="xsd:integer">
+			<xsd:maxInclusive value="999"/>
+			<xsd:minInclusive value="0"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="Nombre4Chiffres">
+		<xsd:restriction base="xsd:integer">
+			<xsd:maxInclusive value="9999"/>
+			<xsd:minInclusive value="0"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="Nombre6Chiffres">
+		<xsd:restriction base="xsd:integer">
+			<xsd:maxInclusive value="999999"/>
+			<xsd:minInclusive value="0"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="Decimal3_1">
+		<xsd:restriction base="xsd:decimal">
+			<xsd:totalDigits value="3"/>
+			<xsd:maxInclusive value="99.9"/>
+			<xsd:fractionDigits value="1"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="Decimal3_2">
+		<xsd:restriction base="xsd:decimal">
+			<xsd:totalDigits value="3"/>
+			<xsd:maxInclusive value="9.99"/>
+			<xsd:fractionDigits value="2"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="Decimal4_1">
+		<xsd:restriction base="xsd:decimal">
+			<xsd:totalDigits value="4"/>
+			<xsd:maxInclusive value="999.9"/>
+			<xsd:fractionDigits value="4"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="Decimal5_1">
+		<xsd:restriction base="xsd:decimal">
+			<xsd:totalDigits value="5"/>
+			<xsd:maxInclusive value="9999.9"/>
+			<xsd:fractionDigits value="1"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="NombreRelatif3Chiffres">
+		<xsd:restriction base="xsd:integer">
+			<xsd:maxInclusive value="999"/>
+			<xsd:minInclusive value="-999"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="NombreRelatif4Chiffres">
+		<xsd:restriction base="xsd:integer">
+			<xsd:maxInclusive value="9999"/>
+			<xsd:minInclusive value="-9999"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="TypeCodeSexe">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="1"/>
+			<xsd:enumeration value="2"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="TypeCodeStatutLactation">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="Terminee"/>
+			<xsd:enumeration value="EnCours"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="TypeCodeStatutReglementaire">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="2"/>
+			<xsd:enumeration value="1"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<!--### TYPES Complexes réutilisables dans les opérations  ###-->
+	<xsd:complexType name="InformationsMessage" mixed="false">
+		<xsd:sequence>
+			<xsd:element name="Exploitation" type="tns:typeIdentifiantExploitation"/>
+			<xsd:element name="DateDebutDemande" type="xsd:date"/>
+			<xsd:element name="DateFinDemande" type="xsd:date" minOccurs="0"/>
+			<xsd:element name="OrganismeTiersDemandeur" type="tns:Organisation" minOccurs="0"/>
+			<xsd:element name="TaureauReproducteur" type="tns:TaureauReproducteur" minOccurs="0" maxOccurs="unbounded"/>
+			<xsd:element name="RaceDemande" type="CODERACEBOVIN:TypeCodeRaceBovin" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="typeIdentifiantExploitation">
+		<xsd:sequence>
+			<xsd:element name="CodePaysExploitation" type="CODEPAYS:TypeCodePays"/>
+			<xsd:element name="NumeroExploitation" type="tns:typeNumeroIdentification"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="typeAnimalEnErreur">
+		<xsd:sequence>
+			<xsd:element name="CodePaysAnimal" type="CODEPAYS:TypeCodePays"/>
+			<xsd:element name="NumeroAnimal" type="tns:typeNumeroIdentification"/>
+			<xsd:element name="Anomalie" type="tnsfiea:typeAnomalie"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="Bovin" mixed="false">
+		<xsd:sequence>
+			<xsd:element name="CodePays" type="CODEPAYS:TypeCodePays"/>
+			<xsd:element name="NumeroNationalAnimal" type="tns:typeNumeroIdentification"/>
+			<xsd:element name="Identite" type="tns:Identite" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation><![CDATA[Identite bovine]]></xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="EvenementAnimal" type="tns:EvenementAnimal" minOccurs="0" maxOccurs="unbounded"/>
+			<xsd:element name="DonneeElaboreeAnimal" type="tns:DonneeElaboreeAnimal" minOccurs="0" maxOccurs="unbounded"/>
+			<xsd:element name="CodeSuppression" type="xsd:boolean" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="BovinIA" mixed="false">
+		<xsd:sequence>
+			<xsd:element name="CodePays" type="CODEPAYS:TypeCodePays"/>
+			<xsd:element name="NumeroNationalAnimal" type="tns:typeNumeroIdentification"/>
+			<xsd:element name="Identite" type="tns:Identite" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation><![CDATA[Identite bovine]]></xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="EvenementsAnimauxIA" type="tns:EvenementsAnimauxIA" minOccurs="0" maxOccurs="unbounded"/>
+			<xsd:element name="CodeSuppression" type="xsd:boolean" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="BovinTE" mixed="false">
+		<xsd:sequence>
+			<xsd:element name="CodePays" type="CODEPAYS:TypeCodePays"/>
+			<xsd:element name="NumeroNationalAnimal" type="tns:typeNumeroIdentification"/>
+			<xsd:element name="Identite" type="tns:Identite" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation><![CDATA[Identite bovine]]></xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="EvenementsAnimauxTE" type="tns:EvenementsAnimauxTE" minOccurs="0" maxOccurs="unbounded"/>
+			<xsd:element name="CodeSuppression" type="xsd:boolean" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="BovinCPB" mixed="false">
+		<xsd:sequence>
+			<xsd:element name="CodePays" type="CODEPAYS:TypeCodePays"/>
+			<xsd:element name="NumeroNationalAnimal" type="tns:typeNumeroIdentification"/>
+			<xsd:element name="Identite" type="tns:Identite" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation><![CDATA[Identite bovine]]></xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="EvenementsAnimauxCPB" type="tns:EvenementsAnimauxCPB" minOccurs="0" maxOccurs="unbounded"/>
+			<xsd:element name="DonneesElaboreesAnimalCPB" type="tns:DonneesElaboreesAnimalCPB" minOccurs="0" maxOccurs="unbounded"/>
+			<xsd:element name="CodeSuppression" type="xsd:boolean" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="BovinCL" mixed="false">
+		<xsd:sequence>
+			<xsd:element name="CodePays" type="CODEPAYS:TypeCodePays"/>
+			<xsd:element name="NumeroNationalAnimal" type="tns:typeNumeroIdentification"/>
+			<xsd:element name="Identite" type="tns:Identite" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation><![CDATA[Identite bovine]]></xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="EvenementsAnimauxCL" type="tns:EvenementsAnimauxCL" minOccurs="0" maxOccurs="unbounded"/>
+			<xsd:element name="DonneesElaboreesAnimalCL" type="tns:DonneesElaboreesAnimalCL" minOccurs="0" maxOccurs="unbounded"/>
+			<xsd:element name="CodeSuppression" type="xsd:boolean" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="BovinCPV" mixed="false">
+		<xsd:sequence>
+			<xsd:element name="CodePays" type="CODEPAYS:TypeCodePays"/>
+			<xsd:element name="NumeroNationalAnimal" type="tns:typeNumeroIdentification"/>
+			<xsd:element name="Identite" type="tns:Identite" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation><![CDATA[Identite bovine]]></xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="EvenementsAnimauxCPV" type="tns:EvenementsAnimauxCPV" minOccurs="0" maxOccurs="unbounded"/>
+			<xsd:element name="DonneesElaboreesAnimalCPV" type="tns:DonneesElaboreesAnimalCPV" minOccurs="0" maxOccurs="unbounded"/>
+			<xsd:element name="CodeSuppression" type="xsd:boolean" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="BovinRAC" mixed="false">
+		<xsd:sequence>
+			<xsd:element name="CodePays" type="CODEPAYS:TypeCodePays"/>
+			<xsd:element name="NumeroNationalAnimal" type="tns:Libelle80"/>
+			<xsd:element name="Identite" type="tns:Identite" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation><![CDATA[Identite bovine]]></xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="EvenementsAnimauxRAC" type="tns:EvenementsAnimauxRAC" minOccurs="0" maxOccurs="unbounded"/>
+			<xsd:element name="DonneesElaboreesAnimalRAC" type="tns:DonneesElaboreesAnimalRAC" minOccurs="0" maxOccurs="unbounded"/>
+			<xsd:element name="CodeSuppression" type="xsd:boolean" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="BovinTiers" mixed="false">
+		<xsd:sequence>
+			<xsd:element name="CodePays" type="CODEPAYS:TypeCodePays"/>
+			<xsd:element name="NumeroNationalAnimal" type="tns:typeNumeroIdentification"/>
+			<xsd:element name="Identite" type="tns:Identite" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation><![CDATA[Identite bovine]]></xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="EvenementAnimalTiers" type="tns:EvenementAnimalTiers" minOccurs="0" maxOccurs="unbounded"/>
+			<xsd:element name="DonneeElaboreeAnimalTiers" type="tns:DonneeElaboreeAnimalTiers" minOccurs="0" maxOccurs="unbounded"/>
+			<xsd:element name="CodeSuppression" type="xsd:boolean" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="EvenementAnimal" mixed="false">
+		<xsd:choice>
+			<xsd:element name="EvenementsAnimauxIA" type="tns:EvenementsAnimauxIA"/>
+			<xsd:element name="EvenementsAnimauxTE" type="tns:EvenementsAnimauxTE"/>
+			<xsd:element name="EvenementsAnimauxCPB" type="tns:EvenementsAnimauxCPB"/>
+			<xsd:element name="EvenementsAnimauxCL" type="tns:EvenementsAnimauxCL"/>
+			<xsd:element name="EvenementsAnimauxCPV" type="tns:EvenementsAnimauxCPV"/>
+		</xsd:choice>
+	</xsd:complexType>
+	<xsd:complexType name="EvenementAnimalTiers" mixed="false">
+		<xsd:complexContent mixed="false">
+			<xsd:extension base="tns:Evenement">
+				<xsd:choice>
+					<xsd:element name="InseminationAnimaleTiers" type="tns:InseminationAnimaleTiers"/>
+					<xsd:element name="ConstatGestationTiers" type="tns:ConstatGestationTiers"/>
+					<xsd:element name="CollecteEmbryonTiers" type="tns:CollecteEmbryonsTiers"/>
+					<xsd:element name="MisePlaceEmbryonTiers" type="tns:MisePlaceEmbryonTiers"/>
+					<xsd:element name="MiseEnPresence" type="tns:MiseEnPresence"/>
+					<xsd:element name="Avortement" type="tns:Avortement"/>
+					<xsd:element name="Velage" type="tns:Velage"/>
+					<xsd:element name="Mammite" type="tns:Mammite"/>
+					<xsd:element name="DebutLactationTiers" type="tns:DebutLactationTiers"/>
+					<xsd:element name="ObservationLaitiere" type="tns:ObservationLaitiereIndividuelle"/>
+					<xsd:element name="MouvementULConstate" type="tns:MouvementULConstate"/>
+					<xsd:element name="PeseeVif" type="tns:PeseeVif"/>
+					<xsd:element name="PointageSevrageTiers" type="tns:PointageSevrageTiers"/>
+					<xsd:element name="ConstatGroupeConduite" type="tns:ConstatGroupeConduite"/>
+					<xsd:element name="ConstatSituationParticuliereNaissanceSevrage" type="tns:ConstatSituationParticuliereNaissanceSevrage"/>
+				</xsd:choice>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:complexType name="EvenementsAnimauxIA" mixed="false">
+		<xsd:complexContent mixed="false">
+			<xsd:extension base="tns:Evenement">
+				<xsd:choice>
+					<xsd:element name="InseminationAnimale" type="tns:InseminationAnimale"/>
+					<xsd:element name="ConstatGestation" type="tns:ConstatGestation"/>
+				</xsd:choice>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:complexType name="EvenementsAnimauxTE" mixed="false">
+		<xsd:complexContent mixed="false">
+			<xsd:extension base="tns:Evenement">
+				<xsd:choice>
+					<xsd:element name="CollecteEmbryon" type="tns:CollecteEmbryons"/>
+					<xsd:element name="MisePlaceEmbryon" type="tns:MisePlaceEmbryon"/>
+				</xsd:choice>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:complexType name="EvenementsAnimauxCPB" mixed="false">
+		<xsd:complexContent mixed="false">
+			<xsd:extension base="tns:Evenement">
+				<xsd:choice>
+					<xsd:element name="MiseEnPresence" type="tns:MiseEnPresence"/>
+					<xsd:element name="Avortement" type="tns:Avortement"/>
+					<xsd:element name="Velage" type="tns:Velage"/>
+				</xsd:choice>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:complexType name="EvenementsAnimauxCL" mixed="false">
+		<xsd:complexContent mixed="false">
+			<xsd:extension base="tns:Evenement">
+				<xsd:choice>
+					<xsd:element name="Mammite" type="tns:Mammite"/>
+					<xsd:element name="DebutLactation" type="tns:DebutLactation"/>
+					<xsd:element name="ObservationLaitiere" type="tns:ObservationLaitiereIndividuelle"/>
+					<xsd:element name="MouvementULConstate" type="tns:MouvementULConstate"/>
+				</xsd:choice>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:complexType name="EvenementsAnimauxCPV" mixed="false">
+		<xsd:complexContent mixed="false">
+			<xsd:extension base="tns:Evenement">
+				<xsd:choice>
+					<xsd:element name="PeseeVif" type="tns:PeseeVif"/>
+					<xsd:element name="PointageSevrage" type="tns:PointageSevrage"/>
+					<xsd:element name="Adoption" type="tns:Adoption"/>
+					<xsd:element name="ConstatModeConduite" type="tns:ConstatModeConduite"/>
+					<xsd:element name="ConstatGroupeConduite" type="tns:ConstatGroupeConduite"/>
+					<xsd:element name="ConstatSituationParticuliereNaissanceSevrage" type="tns:ConstatSituationParticuliereNaissanceSevrage"/>
+				</xsd:choice>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:complexType name="EvenementsAnimauxRAC" mixed="false">
+		<xsd:complexContent mixed="false">
+			<xsd:extension base="tns:Evenement">
+				<xsd:choice>
+					<xsd:element name="PointageAdulte" type="tns:PointageAdulte"/>
+				</xsd:choice>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:complexType name="DonneeElaboreeAnimal" mixed="false">
+		<xsd:choice>
+			<xsd:element name="DonneesElaboreesAnimalCPB" type="tns:DonneesElaboreesAnimalCPB"/>
+			<xsd:element name="DonneesElaboreesAnimalCL" type="tns:DonneesElaboreesAnimalCL"/>
+			<xsd:element name="DonneesElaboreesAnimalCPV" type="tns:DonneesElaboreesAnimalCPV"/>
+		</xsd:choice>
+	</xsd:complexType>
+	<xsd:complexType name="DonneeElaboreeAnimalTiers" mixed="false">
+		<xsd:sequence>
+			<xsd:element name="Createur" type="tns:Organisation" minOccurs="0"/>
+			<xsd:choice>
+				<xsd:element name="CertificationParente" type="tns:CertificationParente"/>
+				<xsd:element name="LactationTiers" type="tns:LactationTiers"/>
+				<xsd:element name="IndexBovinLaitier" type="tns:IndexBovinLaitier"/>
+				<xsd:element name="PoidsAgeType" type="tns:PoidsAgeType"/>
+				<xsd:element name="IndexIBOVAL" type="tns:IndexIBOVAL"/>
+			</xsd:choice>
+			<xsd:element name="DateElaboration" type="xsd:date" minOccurs="0"/>
+			<xsd:element name="CodeSuppression" type="xsd:boolean"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="DonneesElaboreesAnimalCPB" mixed="false">
+		<xsd:sequence>
+			<xsd:element name="Createur" type="tns:Organisation" minOccurs="0"/>
+			<xsd:element name="CertificationParente" type="tns:CertificationParente" minOccurs="0"/>
+			<xsd:element name="DateElaboration" type="xsd:date" minOccurs="0"/>
+			<xsd:element name="CodeSuppression" type="xsd:boolean"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="DonneesElaboreesAnimalCL" mixed="false">
+		<xsd:sequence>
+			<xsd:element name="Createur" type="tns:Organisation" minOccurs="0"/>
+			<xsd:choice>
+				<xsd:element name="Lactation" type="tns:Lactation" minOccurs="0"/>
+				<xsd:element name="IndexBovinLaitier" type="tns:IndexBovinLaitier" minOccurs="0"/>
+			</xsd:choice>
+			<xsd:element name="DateElaboration" type="xsd:date" minOccurs="0"/>
+			<xsd:element name="CodeSuppression" type="xsd:boolean"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="DonneesElaboreesAnimalCPV" mixed="false">
+		<xsd:sequence>
+			<xsd:element name="Createur" type="tns:Organisation" minOccurs="0"/>
+			<xsd:choice>
+				<xsd:element name="PoidsAgeType" type="tns:PoidsAgeType"/>
+				<xsd:element name="IndexIBOVAL" type="tns:IndexIBOVAL"/>
+				<xsd:element name="IndexCDABJeunesBovins" type="tns:IndexCDABJeunesBovins"/>
+				<xsd:element name="IndexCDFaciliteNaissance" type="tns:IndexCDFaciliteNaissance"/>
+				<xsd:element name="IndexCDMuscularitePrecoce" type="tns:IndexCDMuscularitePrecoce"/>
+				<xsd:element name="IndexCDQualitesMaternelles" type="tns:IndexCDQualitesMaternelles"/>
+				<xsd:element name="IndexCDVeauBoucherie" type="tns:IndexCDVeauBoucherie"/>
+				<xsd:element name="IndexControleStationsSECI" type="tns:IndexControleStationsSECI"/>
+			</xsd:choice>
+			<xsd:element name="DateElaboration" type="xsd:date" minOccurs="0"/>
+			<xsd:element name="CodeSuppression" type="xsd:boolean"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="DonneesElaboreesAnimalRAC" mixed="false">
+		<xsd:sequence>
+			<xsd:element name="Createur" type="tns:Organisation" minOccurs="0"/>
+			<xsd:choice>
+				<xsd:element name="InscriptionLivreGenealogique" type="tns:InscriptionLivreGenealogique" minOccurs="0"/>
+				<xsd:element name="Qualification" type="tns:Qualification" minOccurs="0"/>
+			</xsd:choice>
+			<xsd:element name="DateElaboration" type="xsd:date" minOccurs="0"/>
+			<xsd:element name="CodeSuppression" type="xsd:boolean"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="PeseeVif" mixed="false">
+		<xsd:sequence>
+			<xsd:element name="PoidsVifPese" type="tns:Decimal5_1" minOccurs="0"/>
+			<xsd:element name="CodeTypeOperateur" type="CODETYPEOPERATEUR:TypeCodeTypeOperateur"/>
+			<xsd:element name="StadePhysiologique" type="STADEPHYSIOLOGIQUE:TypeStadePhysiologique" minOccurs="0"/>
+			<xsd:element name="TypeConduitePS" type="CODETYPECONDUITE:TypeCodeTypeConduite" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="Adoption" mixed="false">
+		<xsd:sequence>
+			<xsd:element name="MereAdoptive" type="tns:Bovin" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="ConstatModeConduite" mixed="false">
+		<xsd:sequence>
+			<xsd:element name="CodeModeConduite" type="CODEMODECONDUITE:TypeCodeModeConduite"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="ConstatSituationParticuliereNaissanceSevrage" mixed="false">
+		<xsd:sequence>
+			<xsd:element name="CodeSituationIndividuelleParticuliere" type="CODESITUATIONPARTICULIERE:TypeCodeSituationParticuliere"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="ConstatGestation" mixed="false">
+		<xsd:sequence>
+			<xsd:element name="TypeConstatGestation" type="TYPECONSTATGESTATION:TypeTypeConstatGestation"/>
+			<xsd:element name="ResultatConstatGestation" type="RESULTATCONSTATGESTATION:TypeResultatConstatGestation" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="InseminationAnimale" mixed="false">
+		<xsd:sequence>
+			<xsd:element name="Inseminateur" type="tns:Inseminateur" minOccurs="0"/>
+			<xsd:element name="DoseSemence" type="tns:DoseSemence"/>
+			<xsd:element name="NumeroBulletinIA" type="tns:Libelle80" minOccurs="0"/>
+			<xsd:element name="IndicateurIAPourCollecteEmbryon" type="xsd:boolean" minOccurs="0"/>
+			<xsd:element name="IndicateurTraitementHormonal" type="xsd:boolean" minOccurs="0"/>
+			<xsd:element name="PailletteFractionnee" type="CODEPAILLETTEFRACTIONNEE:TypeCodePailletteFractionnee" minOccurs="0"/>
+			<xsd:element name="IndicateurIPE" type="xsd:boolean" minOccurs="0"/>
+			<xsd:element name="IndicateurIAReconnue" type="xsd:boolean" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="Avortement" mixed="false">
+		<xsd:annotation>
+			<xsd:documentation><![CDATA[Avortement]]></xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="RangFinGestation" type="tns:Nombre6Chiffres" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="DebutLactation" mixed="false">
+		<xsd:sequence>
+			<xsd:element name="NumeroLactation" type="tns:Nombre6Chiffres"/>
+			<xsd:element name="EvenementDebutLactation" type="CODEEVENEMENTDEBUTLACTATION:TypeCodeEvenementDebutLactation"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="ProtocoleControleLaitier" mixed="false">
+		<xsd:sequence>
+			<xsd:element name="CodeProtocole" type="CODEPROTOCOLECL:TypeCodeProtocoleCL"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="AgentTraite" mixed="false">
+		<xsd:sequence>
+			<xsd:element name="IdentifiantSectoriel" type="tns:IdentifiantSectoriel" minOccurs="0"/>
+			<xsd:element name="Immatriculation" type="tns:Immatriculation" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="IndexFaciliteVelageNaissance" mixed="false">
+		<xsd:sequence>
+			<xsd:element name="ReferenceIndex" type="tns:Libelle4"/>
+			<xsd:element name="CDIndexFaciliteNaissance" type="tns:Nombre2Chiffres" minOccurs="0"/>
+			<xsd:element name="IndexFaciliteNaissance" type="tns:Nombre6Chiffres" minOccurs="0"/>
+			<xsd:element name="CDIndexFaciliteVelage" type="tns:Nombre2Chiffres" minOccurs="0"/>
+			<xsd:element name="IndexFaciliteVelage" type="tns:Nombre6Chiffres" minOccurs="0"/>
+			<xsd:element name="TypeIndex" type="CODETYPEINDEX:TypeCodeTypeIndex" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="IndexFertilite" mixed="false">
+		<xsd:sequence>
+			<xsd:element name="ReferenceIndex" type="tns:Libelle4"/>
+			<xsd:element name="CDIndexFertiliteElementaire" type="tns:Nombre2Chiffres" minOccurs="0"/>
+			<xsd:element name="IndexFertiliteElementaire" type="tns:Decimal3_1" minOccurs="0"/>
+			<xsd:element name="CDIndexFertiliteGenisses" type="tns:Nombre2Chiffres" minOccurs="0"/>
+			<xsd:element name="IndexFertiliteGenisses" type="tns:Decimal3_1" minOccurs="0"/>
+			<xsd:element name="CDIndexFertiliteVelageIA" type="tns:Nombre2Chiffres" minOccurs="0"/>
+			<xsd:element name="IndexFertiliteVelageIA" type="tns:Decimal3_1" minOccurs="0"/>
+			<xsd:element name="CDIndexFertiliteSynthese" type="tns:Nombre2Chiffres" minOccurs="0"/>
+			<xsd:element name="IndexFertiliteSynthese" type="tns:Decimal3_1" minOccurs="0"/>
+			<xsd:element name="TypeIndex" type="CODETYPEINDEX:TypeCodeTypeIndex" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="IndexIBOVAL" mixed="false">
+		<xsd:sequence>
+			<xsd:element name="IBOVALCarcasse" type="tns:IBOVALCarcasse" minOccurs="0"/>
+			<xsd:element name="IBOVALPostePointage" type="tns:IBOVALPostePointage" minOccurs="0"/>
+			<xsd:element name="IBOVALSevrage" type="tns:IBOVALSevrage" minOccurs="0" maxOccurs="unbounded"/>
+			<xsd:element name="IBOVALCroissancePostSevrage" type="tns:IBOVALCroissancePostSevrage" minOccurs="0" maxOccurs="unbounded"/>
+			<xsd:element name="IBOVALMorphologiePostSevrage" type="tns:IBOVALMorphologiePostSevrage" minOccurs="0" maxOccurs="unbounded"/>
+			<xsd:element name="IBOVALVieProductive" type="tns:IBOVALVieProductive" minOccurs="0" maxOccurs="unbounded"/>
+			<xsd:element name="CodeRaceIndexation" type="CODERACEBOVIN:TypeCodeRaceBovin"/>
+			<xsd:element name="AnneeIndexation" type="tns:Libelle4"/>
+			<xsd:element name="RangIndexation" type="tns:Libelle2"/>
+			<xsd:element name="LibelleBaseReference" type="tns:Libelle10" maxOccurs="unbounded"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="IndexLongevite" mixed="false">
+		<xsd:sequence>
+			<xsd:element name="ReferenceIndex" type="tns:Libelle4"/>
+			<xsd:element name="CDIndexLongeviteFonctionnelle" type="tns:Nombre2Chiffres" minOccurs="0"/>
+			<xsd:element name="IndexLongeviteFonctionnelle" type="tns:Decimal3_1" minOccurs="0"/>
+			<xsd:element name="TypeIndex" type="CODETYPEINDEX:TypeCodeTypeIndex" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="IndexMammite" mixed="false">
+		<xsd:sequence>
+			<xsd:element name="ReferenceIndex" type="tns:Libelle4"/>
+			<xsd:element name="CDIndexMammiteClinique" type="tns:Nombre2Chiffres" minOccurs="0"/>
+			<xsd:element name="IndexMammiteClinique" type="tns:Decimal3_1" minOccurs="0"/>
+			<xsd:element name="CDIndexSanteMamelle" type="tns:Nombre2Chiffres" minOccurs="0"/>
+			<xsd:element name="IndexSanteMamelle" type="tns:Decimal3_1" minOccurs="0"/>
+			<xsd:element name="TypeIndex" type="CODETYPEINDEX:TypeCodeTypeIndex" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="IndexProductionLaitiere" mixed="false">
+		<xsd:sequence>
+			<xsd:element name="ReferenceIndex" type="tns:Libelle4"/>
+			<xsd:element name="CDINEL" type="tns:Nombre2Chiffres" minOccurs="0"/>
+			<xsd:element name="INEL" type="tns:NombreRelatif3Chiffres" minOccurs="0"/>
+			<xsd:element name="IndexTauxProteique" type="tns:Decimal3_1" minOccurs="0"/>
+			<xsd:element name="IndexTauxButyreux" type="tns:Decimal3_1" minOccurs="0"/>
+			<xsd:element name="IndexMatiereGrasse" type="tns:NombreRelatif3Chiffres" minOccurs="0"/>
+			<xsd:element name="IndexMatiereProteique" type="tns:NombreRelatif3Chiffres" minOccurs="0"/>
+			<xsd:element name="IndexLait" type="tns:NombreRelatif4Chiffres" minOccurs="0"/>
+			<xsd:element name="NombreFillesIndexLait" type="tns:Nombre6Chiffres" minOccurs="0"/>
+			<xsd:element name="NombreCheptelsIndexLait" type="tns:Nombre6Chiffres" minOccurs="0"/>
+			<xsd:element name="TypeIndex" type="CODETYPEINDEX:TypeCodeTypeIndex" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="IndexVitalite" mixed="false">
+		<xsd:sequence>
+			<xsd:element name="ReferenceIndex" type="tns:Libelle4"/>
+			<xsd:element name="CDIndexVitaliteNaissance" type="tns:Nombre2Chiffres" minOccurs="0"/>
+			<xsd:element name="IndexVitaliteNaissance" type="tns:Nombre6Chiffres" minOccurs="0"/>
+			<xsd:element name="CDIndexVitaliteVelage" type="tns:Nombre2Chiffres" minOccurs="0"/>
+			<xsd:element name="IndexVitaliteVelage" type="tns:Nombre6Chiffres" minOccurs="0"/>
+			<xsd:element name="TypeIndex" type="CODETYPEINDEX:TypeCodeTypeIndex" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="IndexCDABJeunesBovins" mixed="false">
+		<xsd:sequence>
+			<xsd:element name="BaseReference" type="tns:Libelle10"/>
+			<xsd:element name="CRjbs" type="tns:Nombre3Chiffres" minOccurs="0"/>
+			<xsd:element name="CDCRjbs" type="tns:Decimal3_2" minOccurs="0"/>
+			<xsd:element name="VOSjbs" type="tns:Nombre3Chiffres" minOccurs="0"/>
+			<xsd:element name="CDVOSjbs" type="tns:Decimal3_2" minOccurs="0"/>
+			<xsd:element name="DMjbs" type="tns:Nombre3Chiffres" minOccurs="0"/>
+			<xsd:element name="CDDMjbs" type="tns:Decimal3_2" minOccurs="0"/>
+			<xsd:element name="DSjbs" type="tns:Nombre3Chiffres" minOccurs="0"/>
+			<xsd:element name="CDDSjbs" type="tns:Decimal3_2" minOccurs="0"/>
+			<xsd:element name="AFjbs" type="tns:Nombre3Chiffres" minOccurs="0"/>
+			<xsd:element name="CDAFjbs" type="tns:Decimal3_2" minOccurs="0"/>
+			<xsd:element name="QRjbs" type="tns:Nombre3Chiffres" minOccurs="0"/>
+			<xsd:element name="CDQRjbs" type="tns:Decimal3_2" minOccurs="0"/>
+			<xsd:element name="IABVjbs" type="tns:Nombre3Chiffres" minOccurs="0"/>
+			<xsd:element name="CDIABVjbs" type="tns:Decimal3_2" minOccurs="0"/>
+			<xsd:element name="PCARjbs" type="tns:Nombre3Chiffres" minOccurs="0"/>
+			<xsd:element name="CDPCARjbs" type="tns:Decimal3_2" minOccurs="0"/>
+			<xsd:element name="RDTjbs" type="tns:Nombre3Chiffres" minOccurs="0"/>
+			<xsd:element name="CDRTDjbs" type="tns:Decimal3_2" minOccurs="0"/>
+			<xsd:element name="CONFjbs" type="tns:Nombre3Chiffres" minOccurs="0"/>
+			<xsd:element name="CDCONFjbs" type="tns:Decimal3_2" minOccurs="0"/>
+			<xsd:element name="CECjbs" type="tns:Nombre3Chiffres" minOccurs="0"/>
+			<xsd:element name="CDCECjbs" type="tns:Decimal3_2" minOccurs="0"/>
+			<xsd:element name="CDCjbs" type="tns:Nombre3Chiffres" minOccurs="0"/>
+			<xsd:element name="CDCDCjbs" type="tns:Decimal3_2" minOccurs="0"/>
+			<xsd:element name="CACjbs" type="tns:Nombre3Chiffres" minOccurs="0"/>
+			<xsd:element name="CDCACjbs" type="tns:Decimal3_2" minOccurs="0"/>
+			<xsd:element name="CCUjbs" type="tns:Nombre3Chiffres" minOccurs="0"/>
+			<xsd:element name="CDCCUjbs" type="tns:Decimal3_2" minOccurs="0"/>
+			<xsd:element name="CCAjbs" type="tns:Nombre3Chiffres" minOccurs="0"/>
+			<xsd:element name="CDCCAjbs" type="tns:Decimal3_2" minOccurs="0"/>
+			<xsd:element name="GRASjbs" type="tns:Nombre3Chiffres" minOccurs="0"/>
+			<xsd:element name="CDGRASjbs" type="tns:Decimal3_2" minOccurs="0"/>
+			<xsd:element name="IABjbs" type="tns:Nombre3Chiffres" minOccurs="0"/>
+			<xsd:element name="CDIABjbs" type="tns:Decimal3_2" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="IndexCDFaciliteNaissance" mixed="false">
+		<xsd:sequence>
+			<xsd:element name="BaseReference" type="tns:Libelle10"/>
+			<xsd:element name="FNtest" type="tns:Nombre3Chiffres"/>
+			<xsd:element name="CDFNtest" type="tns:Decimal3_2" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="IndexCDMuscularitePrecoce" mixed="false">
+		<xsd:sequence>
+			<xsd:element name="BaseReference" type="tns:Libelle10"/>
+			<xsd:element name="MPv3s" type="tns:Nombre3Chiffres" minOccurs="0"/>
+			<xsd:element name="CDMPv3s" type="tns:Decimal3_2" minOccurs="0"/>
+			<xsd:element name="TVv3s" type="tns:Nombre3Chiffres" minOccurs="0"/>
+			<xsd:element name="CDTVv3s" type="tns:Decimal3_2" minOccurs="0"/>
+			<xsd:element name="FOSv3s" type="tns:Nombre3Chiffres" minOccurs="0"/>
+			<xsd:element name="CDFOSv3s" type="tns:Decimal3_2" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="IndexCDQualitesMaternelles" mixed="false">
+		<xsd:sequence>
+			<xsd:element name="BaseReference" type="tns:Libelle10"/>
+			<xsd:element name="CRqms" type="tns:Nombre3Chiffres" minOccurs="0"/>
+			<xsd:element name="CDCRqms" type="tns:Decimal3_2" minOccurs="0"/>
+			<xsd:element name="DMqms" type="tns:Nombre3Chiffres" minOccurs="0"/>
+			<xsd:element name="CDDMqms" type="tns:Decimal3_2" minOccurs="0"/>
+			<xsd:element name="DSqms" type="tns:Nombre3Chiffres" minOccurs="0"/>
+			<xsd:element name="CDDSqms" type="tns:Decimal3_2" minOccurs="0"/>
+			<xsd:element name="AFqms" type="tns:Nombre3Chiffres" minOccurs="0"/>
+			<xsd:element name="CDAFqms" type="tns:Decimal3_2" minOccurs="0"/>
+			<xsd:element name="QRqms" type="tns:Nombre3Chiffres" minOccurs="0"/>
+			<xsd:element name="CDQRqms" type="tns:Decimal3_2" minOccurs="0"/>
+			<xsd:element name="HGqms" type="tns:Nombre3Chiffres" minOccurs="0"/>
+			<xsd:element name="CDHGqms" type="tns:Decimal3_2" minOccurs="0"/>
+			<xsd:element name="PRECqms" type="tns:Nombre3Chiffres" minOccurs="0"/>
+			<xsd:element name="CDPRECqms" type="tns:Decimal3_2" minOccurs="0"/>
+			<xsd:element name="RIAqms" type="tns:Nombre3Chiffres" minOccurs="0"/>
+			<xsd:element name="CDRIAqms" type="tns:Decimal3_2" minOccurs="0"/>
+			<xsd:element name="VIEqms" type="tns:Nombre3Chiffres" minOccurs="0"/>
+			<xsd:element name="CDVIEqms" type="tns:Decimal3_2" minOccurs="0"/>
+			<xsd:element name="TXTDIFqms" type="tns:Nombre3Chiffres" minOccurs="0"/>
+			<xsd:element name="CDTXTDIFqms" type="tns:Decimal3_2" minOccurs="0"/>
+			<xsd:element name="MERPNqms" type="tns:Nombre3Chiffres" minOccurs="0"/>
+			<xsd:element name="CDMERPNqms" type="tns:Decimal3_2" minOccurs="0"/>
+			<xsd:element name="PREPqms" type="tns:Nombre3Chiffres" minOccurs="0"/>
+			<xsd:element name="CDPREPqms" type="tns:Decimal3_2" minOccurs="0"/>
+			<xsd:element name="PVELqms" type="tns:Nombre3Chiffres" minOccurs="0"/>
+			<xsd:element name="CDPVELqms" type="tns:Decimal3_2" minOccurs="0"/>
+			<xsd:element name="OPqms" type="tns:Nombre3Chiffres" minOccurs="0"/>
+			<xsd:element name="CDOPqms" type="tns:Decimal3_2" minOccurs="0"/>
+			<xsd:element name="PLAITqms" type="tns:Nombre3Chiffres" minOccurs="0"/>
+			<xsd:element name="CDPLAITqms" type="tns:Decimal3_2" minOccurs="0"/>
+			<xsd:element name="MERP4qms" type="tns:Nombre3Chiffres" minOccurs="0"/>
+			<xsd:element name="CDMERP4qms" type="tns:Decimal3_2" minOccurs="0"/>
+			<xsd:element name="MERP6qms" type="tns:Nombre3Chiffres" minOccurs="0"/>
+			<xsd:element name="CDMERP6qms" type="tns:Decimal3_2" minOccurs="0"/>
+			<xsd:element name="MERDMqms" type="tns:Nombre3Chiffres" minOccurs="0"/>
+			<xsd:element name="CDMERDMqms" type="tns:Decimal3_2" minOccurs="0"/>
+			<xsd:element name="IMOCRqms" type="tns:Nombre3Chiffres" minOccurs="0"/>
+			<xsd:element name="CDIMOCRqms" type="tns:Decimal3_2" minOccurs="0"/>
+			<xsd:element name="IFERqms" type="tns:Nombre3Chiffres" minOccurs="0"/>
+			<xsd:element name="CDIFERqms" type="tns:Decimal3_2" minOccurs="0"/>
+			<xsd:element name="IVELqms" type="tns:Nombre3Chiffres" minOccurs="0"/>
+			<xsd:element name="CDIVELqms" type="tns:Decimal3_2" minOccurs="0"/>
+			<xsd:element name="IMERqms" type="tns:Nombre3Chiffres" minOccurs="0"/>
+			<xsd:element name="CDIMERqms" type="tns:Decimal3_2" minOccurs="0"/>
+			<xsd:element name="IQMqms" type="tns:Nombre3Chiffres" minOccurs="0"/>
+			<xsd:element name="CDIQMqms" type="tns:Decimal3_2" minOccurs="0"/>
+			<xsd:element name="DEEqms" type="tns:Libelle4" minOccurs="0"/>
+			<xsd:element name="LADqms" type="tns:Libelle4" minOccurs="0"/>
+			<xsd:element name="ARCqms" type="tns:Libelle4" minOccurs="0"/>
+			<xsd:element name="LACqms" type="tns:Libelle4" minOccurs="0"/>
+			<xsd:element name="EPDqms" type="tns:Libelle4" minOccurs="0"/>
+			<xsd:element name="GRCqms" type="tns:Libelle4" minOccurs="0"/>
+			<xsd:element name="LODqms" type="tns:Libelle4" minOccurs="0"/>
+			<xsd:element name="LOBqms" type="tns:Libelle4" minOccurs="0"/>
+			<xsd:element name="LAHqms" type="tns:Libelle4" minOccurs="0"/>
+			<xsd:element name="DEVqms" type="tns:Libelle4" minOccurs="0"/>
+			<xsd:element name="TETqms" type="tns:Libelle4" minOccurs="0"/>
+			<xsd:element name="AAVqms" type="tns:Libelle4" minOccurs="0"/>
+			<xsd:element name="AARqms" type="tns:Libelle4" minOccurs="0"/>
+			<xsd:element name="REDqms" type="tns:Libelle4" minOccurs="0"/>
+			<xsd:element name="ETAqms" type="tns:Libelle4" minOccurs="0"/>
+			<xsd:element name="LOCqms" type="tns:Libelle4" minOccurs="0"/>
+			<xsd:element name="LATqms" type="tns:Libelle4" minOccurs="0"/>
+			<xsd:element name="LAPqms" type="tns:Libelle4" minOccurs="0"/>
+			<xsd:element name="PPOqms" type="tns:Libelle4" minOccurs="0"/>
+			<xsd:element name="HARqms" type="tns:Libelle4" minOccurs="0"/>
+			<xsd:element name="POIqms" type="tns:Libelle4" minOccurs="0"/>
+			<xsd:element name="LAIqms" type="tns:Libelle4" minOccurs="0"/>
+			<xsd:element name="BASqms" type="tns:Libelle4" minOccurs="0"/>
+			<xsd:element name="EXTqms" type="tns:Libelle4" minOccurs="0"/>
+			<xsd:element name="COUqms" type="tns:Libelle4" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="IndexCDVeauBoucherie" mixed="false">
+		<xsd:sequence>
+			<xsd:element name="BaseReference" type="tns:Libelle10"/>
+			<xsd:element name="CRvbs" type="tns:Nombre3Chiffres" minOccurs="0"/>
+			<xsd:element name="CDCRvbs" type="tns:Decimal3_2" minOccurs="0"/>
+			<xsd:element name="DMvbs" type="tns:Nombre3Chiffres" minOccurs="0"/>
+			<xsd:element name="CDDMvbs" type="tns:Decimal3_2" minOccurs="0"/>
+			<xsd:element name="VENTvbs" type="tns:Nombre3Chiffres" minOccurs="0"/>
+			<xsd:element name="CDVENTvbs" type="tns:Decimal3_2" minOccurs="0"/>
+			<xsd:element name="FOSvbs" type="tns:Nombre3Chiffres" minOccurs="0"/>
+			<xsd:element name="CDFOSvbs" type="tns:Decimal3_2" minOccurs="0"/>
+			<xsd:element name="IABVvbs" type="tns:Nombre3Chiffres" minOccurs="0"/>
+			<xsd:element name="CDIABVvbs" type="tns:Decimal3_2" minOccurs="0"/>
+			<xsd:element name="PCARvbs" type="tns:Nombre3Chiffres" minOccurs="0"/>
+			<xsd:element name="CDPCARvbs" type="tns:Decimal3_2" minOccurs="0"/>
+			<xsd:element name="RDTvbs" type="tns:Nombre3Chiffres" minOccurs="0"/>
+			<xsd:element name="CDRDTvbs" type="tns:Decimal3_2" minOccurs="0"/>
+			<xsd:element name="CONFvbs" type="tns:Nombre3Chiffres" minOccurs="0"/>
+			<xsd:element name="CDCONFvbs" type="tns:Decimal3_2" minOccurs="0"/>
+			<xsd:element name="CECvbs" type="tns:Nombre3Chiffres" minOccurs="0"/>
+			<xsd:element name="CDCECvbs" type="tns:Decimal3_2" minOccurs="0"/>
+			<xsd:element name="CDCvbs" type="tns:Nombre3Chiffres" minOccurs="0"/>
+			<xsd:element name="CDCDCvbs" type="tns:Decimal3_2" minOccurs="0"/>
+			<xsd:element name="CACvbs" type="tns:Nombre3Chiffres" minOccurs="0"/>
+			<xsd:element name="CDCACvbs" type="tns:Decimal3_2" minOccurs="0"/>
+			<xsd:element name="CCUvbs" type="tns:Nombre3Chiffres" minOccurs="0"/>
+			<xsd:element name="CDCCUvbs" type="tns:Decimal3_2" minOccurs="0"/>
+			<xsd:element name="CCAvbs" type="tns:Nombre3Chiffres" minOccurs="0"/>
+			<xsd:element name="CDCCAvbs" type="tns:Decimal3_2" minOccurs="0"/>
+			<xsd:element name="COULvbs" type="tns:Nombre3Chiffres" minOccurs="0"/>
+			<xsd:element name="CDCOULvbs" type="tns:Decimal3_2" minOccurs="0"/>
+			<xsd:element name="GRASvbs" type="tns:Nombre3Chiffres" minOccurs="0"/>
+			<xsd:element name="CDGRASvbs" type="tns:Decimal3_2" minOccurs="0"/>
+			<xsd:element name="IABvbs" type="tns:Nombre3Chiffres" minOccurs="0"/>
+			<xsd:element name="CDIABvbs" type="tns:Decimal3_2" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="IndexCellules" mixed="false">
+		<xsd:sequence>
+			<xsd:element name="ReferenceIndex" type="tns:Libelle4"/>
+			<xsd:element name="CDIndexCellules" type="tns:Nombre2Chiffres" minOccurs="0"/>
+			<xsd:element name="IndexCellulesElementaire" type="tns:Decimal3_1" minOccurs="0"/>
+			<xsd:element name="NombreFillesIndexCellules" type="tns:Nombre6Chiffres" minOccurs="0"/>
+			<xsd:element name="NombreCheptelsIndexCellules" type="tns:Nombre6Chiffres" minOccurs="0"/>
+			<xsd:element name="TypeIndex" type="CODETYPEINDEX:TypeCodeTypeIndex" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="IndexControleStationsSECI" mixed="false">
+		<xsd:sequence>
+			<xsd:element name="CodeStation" type="tns:Libelle3"/>
+			<xsd:element name="CodeRaceProgramme" type="CODERACEBOVIN:TypeCodeRaceBovin"/>
+			<xsd:element name="TypeProgramme" type="CODETYPEPROGRAMME:TypeCodeTypeProgramme"/>
+			<xsd:element name="CampagneEntreeStation" type="tns:Libelle4" minOccurs="0"/>
+			<xsd:element name="NumeroSerieCampagne" type="tns:Libelle1" minOccurs="0"/>
+			<xsd:element name="IndicateurAnimalEvalue" type="CODEANIMALEVALUE:TypeCodeAnimalEvalue"/>
+			<xsd:element name="BaseReference" type="tns:Libelle10" minOccurs="0"/>
+			<xsd:element name="CRseCRci" type="tns:Nombre3Chiffres" minOccurs="0"/>
+			<xsd:element name="CDCRseCRci" type="tns:Decimal3_2" minOccurs="0"/>
+			<xsd:element name="VOSseVOSci" type="tns:Nombre3Chiffres" minOccurs="0"/>
+			<xsd:element name="CDVOSseVOSci" type="tns:Decimal3_2" minOccurs="0"/>
+			<xsd:element name="EFAci" type="tns:Nombre3Chiffres" minOccurs="0"/>
+			<xsd:element name="CDEFAci" type="tns:Decimal3_2" minOccurs="0"/>
+			<xsd:element name="DMseDMci" type="tns:Nombre3Chiffres" minOccurs="0"/>
+			<xsd:element name="CDDMseDMci" type="tns:Decimal3_2" minOccurs="0"/>
+			<xsd:element name="DSseDSci" type="tns:Nombre3Chiffres" minOccurs="0"/>
+			<xsd:element name="CDDSseDSci" type="tns:Decimal3_2" minOccurs="0"/>
+			<xsd:element name="AFseAFci" type="tns:Nombre3Chiffres" minOccurs="0"/>
+			<xsd:element name="CDAFseAFci" type="tns:Decimal3_2" minOccurs="0"/>
+			<xsd:element name="QRseQRci" type="tns:Nombre3Chiffres" minOccurs="0"/>
+			<xsd:element name="CDQRseQRci" type="tns:Decimal3_2" minOccurs="0"/>
+			<xsd:element name="IABVseIABVci" type="tns:Nombre3Chiffres" minOccurs="0"/>
+			<xsd:element name="CDIABVseIABVci" type="tns:Decimal3_2" minOccurs="0"/>
+			<xsd:element name="IMOCRseIMOCRci" type="tns:Nombre3Chiffres" minOccurs="0"/>
+			<xsd:element name="CDIMOCRseIMOCRci" type="tns:Decimal3_2" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="IBOVALCarcasse" mixed="false">
+		<xsd:sequence>
+			<xsd:element name="ICRCjbfBase100" type="tns:Nombre3Chiffres" minOccurs="0"/>
+			<xsd:element name="CDCRCjbf" type="tns:Decimal3_2" minOccurs="0"/>
+			<xsd:element name="CONFjbf" type="tns:Nombre3Chiffres" minOccurs="0"/>
+			<xsd:element name="CDCONFjbf" type="tns:Decimal3_2" minOccurs="0"/>
+			<xsd:element name="IABjbfEuros" type="tns:Decimal4_1" minOccurs="0"/>
+			<xsd:element name="IABjbfBase100" type="tns:Nombre3Chiffres" minOccurs="0"/>
+			<xsd:element name="CDIABjbf" type="tns:Decimal3_2" minOccurs="0"/>
+			<xsd:element name="NombrePCUtilises" type="tns:Nombre6Chiffres" minOccurs="0"/>
+			<xsd:element name="NombreConformationsUtilisees" type="tns:Nombre6Chiffres" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="IBOVALPostePointage" mixed="false">
+		<xsd:sequence>
+			<xsd:element name="DEEse3" type="tns:Libelle3" minOccurs="0"/>
+			<xsd:element name="LADse3" type="tns:Libelle3" minOccurs="0"/>
+			<xsd:element name="LACse3" type="tns:Libelle3" minOccurs="0"/>
+			<xsd:element name="ARCse3" type="tns:Libelle3" minOccurs="0"/>
+			<xsd:element name="EPDse3" type="tns:Libelle3" minOccurs="0"/>
+			<xsd:element name="GRCse3" type="tns:Libelle3" minOccurs="0"/>
+			<xsd:element name="LODse3" type="tns:Libelle3" minOccurs="0"/>
+			<xsd:element name="LOBse3" type="tns:Libelle3" minOccurs="0"/>
+			<xsd:element name="LAHse3" type="tns:Libelle3" minOccurs="0"/>
+			<xsd:element name="DEVse3" type="tns:Libelle3" minOccurs="0"/>
+			<xsd:element name="TETse3" type="tns:Libelle3" minOccurs="0"/>
+			<xsd:element name="AAVse3" type="tns:Libelle3" minOccurs="0"/>
+			<xsd:element name="AARse3" type="tns:Libelle3" minOccurs="0"/>
+			<xsd:element name="REDse3" type="tns:Libelle3" minOccurs="0"/>
+			<xsd:element name="ETAse3" type="tns:Libelle3" minOccurs="0"/>
+			<xsd:element name="LOCse3" type="tns:Libelle3" minOccurs="0"/>
+			<xsd:element name="LATse3" type="tns:Libelle3" minOccurs="0"/>
+			<xsd:element name="LAPse3" type="tns:Libelle3" minOccurs="0"/>
+			<xsd:element name="PPOse3" type="tns:Libelle3" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="IBOVALSevrage" mixed="false">
+		<xsd:sequence>
+			<xsd:element name="TypeBaseIndexation" type="CODETYPEBASEINDEXATION:TypeCodeTypeBaseIndexation" minOccurs="0"/>
+			<xsd:element name="IFNAIS" type="tns:Nombre3Chiffres" minOccurs="0"/>
+			<xsd:element name="CDIFNAIS" type="tns:Decimal3_2" minOccurs="0"/>
+			<xsd:element name="CRsevKg" type="tns:Decimal3_1" minOccurs="0"/>
+			<xsd:element name="CRsevBase100" type="tns:Nombre3Chiffres" minOccurs="0"/>
+			<xsd:element name="CDCRsev" type="tns:Decimal3_2" minOccurs="0"/>
+			<xsd:element name="DMsevPoints" type="tns:Decimal3_1" minOccurs="0"/>
+			<xsd:element name="DMsevBase100" type="tns:Nombre3Chiffres" minOccurs="0"/>
+			<xsd:element name="CDDMsev" type="tns:Decimal3_2" minOccurs="0"/>
+			<xsd:element name="DSsevPoints" type="tns:Decimal3_1" minOccurs="0"/>
+			<xsd:element name="DSsevBase100" type="tns:Nombre3Chiffres" minOccurs="0"/>
+			<xsd:element name="CDDSsev" type="tns:Decimal3_2" minOccurs="0"/>
+			<xsd:element name="ALaitKg" type="tns:Decimal3_1" minOccurs="0"/>
+			<xsd:element name="ALaitBase100" type="tns:Nombre3Chiffres" minOccurs="0"/>
+			<xsd:element name="CDALait" type="tns:Decimal3_2" minOccurs="0"/>
+			<xsd:element name="MERPsevKg" type="tns:Decimal3_1" minOccurs="0"/>
+			<xsd:element name="MERPsevBase100" type="tns:Nombre3Chiffres" minOccurs="0"/>
+			<xsd:element name="CDMERPsev" type="tns:Decimal3_2" minOccurs="0"/>
+			<xsd:element name="ISEVR" type="tns:Nombre3Chiffres" minOccurs="0"/>
+			<xsd:element name="CDISEVR" type="tns:Decimal3_2" minOccurs="0"/>
+			<xsd:element name="IVMAT" type="tns:Nombre3Chiffres" minOccurs="0"/>
+			<xsd:element name="CDIVMAT" type="tns:Decimal3_2" minOccurs="0"/>
+			<xsd:element name="AVEL" type="tns:Nombre3Chiffres" minOccurs="0"/>
+			<xsd:element name="CDAVEL" type="tns:Decimal3_2" minOccurs="0"/>
+			<xsd:element name="FOSsevBase100" type="tns:Nombre3Chiffres" minOccurs="0"/>
+			<xsd:element name="CDFOSsev" type="tns:Decimal3_2" minOccurs="0"/>
+			<xsd:element name="IndicateurIndexAscendance" type="CODEINDEXASCENDANCE:TypeCodeIndexAscendance" minOccurs="0"/>
+			<xsd:element name="NombreCampagnesUtilisation" type="tns:Nombre6Chiffres" minOccurs="0"/>
+			<xsd:element name="NombreProduitsUtilises" type="tns:Nombre6Chiffres" minOccurs="0"/>
+			<xsd:element name="NombreProduitsConnectesUtilises" type="tns:Nombre6Chiffres" minOccurs="0"/>
+			<xsd:element name="NombreTroupeaux" type="tns:Nombre6Chiffres" minOccurs="0"/>
+			<xsd:element name="NombreTroupeauxCampagnes" type="tns:Nombre6Chiffres" minOccurs="0"/>
+			<xsd:element name="NombreTroupeauxCampagnesConnectes" type="tns:Nombre6Chiffres" minOccurs="0"/>
+			<xsd:element name="NombreFillesAvecProduit" type="tns:Nombre6Chiffres" minOccurs="0"/>
+			<xsd:element name="NombrePetitsProduits" type="tns:Nombre6Chiffres" minOccurs="0"/>
+			<xsd:element name="NombrePetitsProduitsConnectes" type="tns:Nombre6Chiffres" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="IBOVALCroissancePostSevrage" mixed="false">
+		<xsd:sequence>
+			<xsd:element name="TypeBaseIndexation" type="CODETYPEBASEINDEXATION:TypeCodeTypeBaseIndexation" minOccurs="0"/>
+			<xsd:element name="CRpsfKg" type="tns:Decimal4_1" minOccurs="0"/>
+			<xsd:element name="CRpsfBase100" type="tns:Nombre3Chiffres" minOccurs="0"/>
+			<xsd:element name="CDCRpsf" type="tns:Decimal3_2" minOccurs="0"/>
+			<xsd:element name="NombreCroissancesUtilisees" type="tns:Nombre6Chiffres" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="IBOVALMorphologiePostSevrage" mixed="false">
+		<xsd:sequence>
+			<xsd:element name="TypeBaseIndexation" type="CODETYPEBASEINDEXATION:TypeCodeTypeBaseIndexation" minOccurs="0"/>
+			<xsd:element name="DMpsfEnPoints" type="tns:Decimal3_1" minOccurs="0"/>
+			<xsd:element name="DMpsfBase100" type="tns:Nombre3Chiffres" minOccurs="0"/>
+			<xsd:element name="CDDMpsf" type="tns:Decimal3_2" minOccurs="0"/>
+			<xsd:element name="DSpsfEnPoints" type="tns:Decimal3_1" minOccurs="0"/>
+			<xsd:element name="DSpsfBase100" type="tns:Nombre3Chiffres" minOccurs="0"/>
+			<xsd:element name="CDDSpsf" type="tns:Decimal3_2" minOccurs="0"/>
+			<xsd:element name="FOSpsfBase100" type="tns:Nombre3Chiffres" minOccurs="0"/>
+			<xsd:element name="CDFOSpsf" type="tns:Decimal3_2" minOccurs="0"/>
+			<xsd:element name="AFpsfEnPoints" type="tns:Decimal3_1" minOccurs="0"/>
+			<xsd:element name="AFpsfBase100" type="tns:Nombre3Chiffres" minOccurs="0"/>
+			<xsd:element name="CDAFpsf" type="tns:Decimal3_2" minOccurs="0"/>
+			<xsd:element name="QRpsfEnPoints" type="tns:Decimal3_1" minOccurs="0"/>
+			<xsd:element name="QRpsfBase100" type="tns:Nombre3Chiffres" minOccurs="0"/>
+			<xsd:element name="CDQRpsf" type="tns:Decimal3_2" minOccurs="0"/>
+			<xsd:element name="BASpsfEnPoints" type="tns:Decimal3_1" minOccurs="0"/>
+			<xsd:element name="BASpsfBase100" type="tns:Nombre3Chiffres" minOccurs="0"/>
+			<xsd:element name="CDBASpsf" type="tns:Decimal3_2" minOccurs="0"/>
+			<xsd:element name="NGpsfEnPoints" type="tns:Decimal3_1" minOccurs="0"/>
+			<xsd:element name="NGpsfBase100" type="tns:Nombre3Chiffres" minOccurs="0"/>
+			<xsd:element name="CDNGpsf" type="tns:Decimal3_2" minOccurs="0"/>
+			<xsd:element name="CSpsfEnPoints" type="tns:Decimal3_1" minOccurs="0"/>
+			<xsd:element name="CSpsfBase100" type="tns:Nombre3Chiffres" minOccurs="0"/>
+			<xsd:element name="CDCSpsf" type="tns:Decimal3_2" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="IBOVALVieProductive" mixed="false">
+		<xsd:sequence>
+			<xsd:element name="TypeBaseIndexation" type="CODETYPEBASEINDEXATION:TypeCodeTypeBaseIndexation" minOccurs="0"/>
+			<xsd:element name="RIAPBase100EnFerme" type="tns:Nombre3Chiffres" minOccurs="0"/>
+			<xsd:element name="CDRIAP" type="tns:Decimal3_2" minOccurs="0"/>
+			<xsd:element name="PNUMBase100EffReproEnFerme" type="tns:Nombre3Chiffres" minOccurs="0"/>
+			<xsd:element name="CDPNUM" type="tns:Decimal3_2" minOccurs="0"/>
+			<xsd:element name="LONGEVBase100EnFerme" type="tns:Nombre3Chiffres" minOccurs="0"/>
+			<xsd:element name="CDLONGEV" type="tns:Decimal3_2" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="Velage" mixed="false">
+		<xsd:sequence>
+			<xsd:element name="ConditionVelage" type="CODECONDITIONVELAGE:TypeCodeConditionVelage" minOccurs="0"/>
+			<xsd:element name="RangVelage" type="tns:Nombre6Chiffres" minOccurs="0"/>
+			<xsd:element name="IndicateurVelageMultiple" type="CODEINDICATEURVELAGEMULTIPLE:TypeCodeIndicateurVelageMultiple" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="Immatriculation" mixed="false">
+		<xsd:sequence>
+			<xsd:element name="Identifiant" type="tns:Libelle80"/>
+			<xsd:element name="TypeIdentifiant" type="tns:RegistrationIdentifiantTypeType"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="Organisation" mixed="false">
+		<xsd:sequence>
+			<xsd:element name="Immatriculation" type="tns:Immatriculation"/>
+			<xsd:element name="Nom" type="tns:Libelle80" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="Identite" mixed="false">
+		<xsd:sequence>
+			<xsd:element name="Nom" type="tns:Libelle80" minOccurs="0"/>
+			<xsd:element name="DateNaissance" type="xsd:date" minOccurs="0"/>
+			<xsd:element name="CodeRaceBovin" type="CODERACEBOVIN:TypeCodeRaceBovin" minOccurs="0"/>
+			<xsd:element name="Sexe" type="tns:TypeCodeSexe" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="Mammite" mixed="false">
+		<xsd:sequence>
+			<xsd:element name="CodeOrigineCollecte" type="CODEORIGINECOLLECTEMAMMITE:TypeCodeOrigineCollecteMammite" minOccurs="0"/>
+			<xsd:element name="SeveriteMammite" type="CODESEVERITEMAMMITE:TypeCodeSeveriteMammite" minOccurs="0"/>
+			<xsd:element name="DateCollecteMammite" type="xsd:date"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="PassageControleLaitier" mixed="false">
+		<xsd:complexContent mixed="false">
+			<xsd:extension base="tns:Evenement">
+				<xsd:sequence>
+					<xsd:element name="ProtocoleControleLaitier" type="tns:ProtocoleControleLaitier"/>
+					<xsd:element name="AgentTraite" type="tns:AgentTraite" minOccurs="0"/>
+					<xsd:element name="NombreTraitesPassage" type="tns:Nombre6Chiffres" minOccurs="0"/>
+					<xsd:element name="PresenceRobotTraite" type="xsd:boolean" minOccurs="0"/>
+					<xsd:element name="NombreEchantillonsPreleves" type="tns:Nombre6Chiffres" minOccurs="0"/>
+					<xsd:element name="HoraireTraite" type="tns:HoraireTraite" minOccurs="0" maxOccurs="unbounded"/>
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:complexType name="HoraireTraite" mixed="false">
+		<xsd:sequence>
+			<xsd:element name="HeureDebutTraite" type="xsd:time" minOccurs="0"/>
+			<xsd:element name="HeureFinTraite" type="xsd:time" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="MisePlaceEmbryon" mixed="false">
+		<xsd:sequence>
+			<xsd:element name="EquipeTransfert" type="tns:Organisation" minOccurs="0"/>
+			<xsd:element name="EmbryonMisEnPlace" type="tns:EmbryonMisEnPlace"/>
+			<xsd:element name="NumeroBulletinTransfert" type="tns:Libelle80" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="MouvementULConstate" mixed="false">
+		<xsd:sequence>
+			<xsd:element name="DateEntree" type="xsd:date" minOccurs="0"/>
+			<xsd:element name="DateSortie" type="xsd:date" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="DoseSemence" mixed="false">
+		<xsd:sequence>
+			<xsd:element name="TaureauReproducteur" type="tns:TaureauReproducteur" minOccurs="0"/>
+			<xsd:element name="ReferencePaillette" type="tns:Libelle80" minOccurs="0"/>
+			<xsd:element name="StatutReglementaire" type="tns:TypeCodeStatutReglementaire" minOccurs="0"/>
+			<xsd:element name="ModeConservation" type="CODEMODECONSERVATION:TypeCodeModeConservation" minOccurs="0"/>
+			<xsd:element name="SemenceSexee" type="CODESEMENCESEXEE:TypeCodeSemenceSexee" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="Lactation" mixed="false">
+		<xsd:sequence>
+			<xsd:element name="NumeroLactation" type="tns:Nombre6Chiffres"/>
+			<xsd:element name="DateLactation" type="xsd:date"/>
+			<xsd:element name="EvenementDebutLactation" type="CODEEVENEMENTDEBUTLACTATION:TypeCodeEvenementDebutLactation"/>
+			<xsd:element name="EtatLactation" type="tns:TypeCodeStatutLactation"/>
+			<xsd:element name="CauseNonQualification" type="CODENONQUALIFICATIONLACTATION:TypeCodeNonQualificationLactation" minOccurs="0"/>
+			<xsd:element name="TypeQualificationLactation" type="CODEQUALIFICATIONLACTATION:TypeCodeQualificationLactation" minOccurs="0"/>
+			<xsd:element name="DureeLactation" type="tns:Nombre6Chiffres" minOccurs="0"/>
+			<xsd:element name="LaitTotalLactation" type="tns:Nombre6Chiffres" minOccurs="0"/>
+			<xsd:element name="MGTotalLactation" type="tns:Nombre6Chiffres" minOccurs="0"/>
+			<xsd:element name="MPTotalLactation" type="tns:Nombre6Chiffres" minOccurs="0"/>
+			<xsd:element name="TBTotalLactation" type="tns:Nombre6Chiffres" minOccurs="0"/>
+			<xsd:element name="TPTotalLactation" type="tns:Nombre6Chiffres" minOccurs="0"/>
+			<xsd:element name="LaitReference" type="tns:Nombre6Chiffres" minOccurs="0"/>
+			<xsd:element name="MGReference" type="tns:Nombre6Chiffres" minOccurs="0"/>
+			<xsd:element name="MPReference" type="tns:Nombre6Chiffres" minOccurs="0"/>
+			<xsd:element name="TBReference" type="tns:Nombre6Chiffres" minOccurs="0"/>
+			<xsd:element name="TPReference" type="tns:Nombre6Chiffres" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="Inseminateur" mixed="false">
+		<xsd:sequence>
+			<xsd:element name="EMP" type="tns:Organisation"/>
+			<xsd:element name="CodeInseminateur" type="tns:Libelle80"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="IdentifiantSectoriel" mixed="false">
+		<xsd:sequence>
+			<xsd:element name="SecteurControleur" type="tns:Libelle80" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="MiseEnPresence" mixed="false">
+		<xsd:sequence>
+			<xsd:element name="TaureauReproducteur" type="tns:TaureauReproducteur" minOccurs="0"/>
+			<xsd:element name="StatutReglementaire" type="tns:TypeCodeStatutReglementaire"/>
+			<xsd:element name="TypeMonteNaturelle" type="CODETYPEMONTENATURELLE:TypeCodeTypeMonteNaturelle"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="EmbryonMisEnPlace" mixed="false">
+		<xsd:sequence>
+			<xsd:element name="PerePossible" type="tns:Bovin" maxOccurs="unbounded"/>
+			<xsd:element name="FemelleDonneuse" type="tns:Bovin"/>
+			<xsd:element name="NumeroEmbryon" type="tns:Libelle80"/>
+			<xsd:element name="NumeroBulletinCollecte" type="tns:Libelle80"/>
+			<xsd:element name="AgeEmbryon" type="tns:Nombre6Chiffres"/>
+			<xsd:element name="SexeEmbryon" type="tns:TypeCodeSexe" minOccurs="0"/>
+			<xsd:element name="StatutReglementaire" type="tns:TypeCodeStatutReglementaire"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="RefusCertification" mixed="false">
+		<xsd:sequence>
+			<xsd:element name="MereRefusee" type="tns:Bovin" minOccurs="0"/>
+			<xsd:element name="PereRefuse" type="tns:Bovin" minOccurs="0"/>
+			<xsd:element name="CauseRefusCertification" type="CODEREFUSFILIATION:TypeCodeRefusFiliation"/>
+			<xsd:element name="DateRefusCertification" type="xsd:date"/>
+			<xsd:element name="DateLeveeRefus" type="xsd:date" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="CertificationParente" mixed="false">
+		<xsd:sequence>
+			<xsd:element name="MereCertifiee" type="tns:Bovin" minOccurs="0"/>
+			<xsd:element name="RefusCertification" type="tns:RefusCertification" minOccurs="0" maxOccurs="unbounded"/>
+			<xsd:element name="PereCertifie" type="tns:Bovin" minOccurs="0"/>
+			<xsd:element name="CodeRaceGenetique" type="CODERACEBOVIN:TypeCodeRaceBovin" minOccurs="0"/>
+			<xsd:element name="IndicateurGenealogieCertifiee" type="CODEINDICATEURGENEALOGIECERTIFIEE:TypeCodeIndicateurGenealogieCertifiee" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="IndexBovinLaitier" mixed="false">
+		<xsd:sequence>
+			<xsd:element name="CodeRaceIndexation" type="CODERACEBOVIN:TypeCodeRaceBovin"/>
+			<xsd:element name="IndexProductionLaitiere" type="tns:IndexProductionLaitiere" minOccurs="0"/>
+			<xsd:element name="IndexCellules" type="tns:IndexCellules" minOccurs="0"/>
+			<xsd:element name="IndexFertilite" type="tns:IndexFertilite" minOccurs="0"/>
+			<xsd:element name="IndexLongevite" type="tns:IndexLongevite" minOccurs="0"/>
+			<xsd:element name="IndexMammite" type="tns:IndexMammite" minOccurs="0"/>
+			<xsd:element name="IndexFaciliteVelageNaissance" type="tns:IndexFaciliteVelageNaissance" minOccurs="0"/>
+			<xsd:element name="IndexVitalite" type="tns:IndexVitalite" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="CollecteEmbryons" mixed="false">
+		<xsd:sequence>
+			<xsd:element name="EquipeCollecte" type="tns:Organisation" minOccurs="0"/>
+			<xsd:element name="NombreCollecte" type="tns:Nombre6Chiffres"/>
+			<xsd:element name="NatureCollecte" type="CODENATURECOLLECTE:TypeCodeNatureCollecte"/>
+			<xsd:element name="NumeroBulletinCollecte" type="tns:Libelle80"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="Evenement" mixed="false">
+		<xsd:sequence>
+			<xsd:element name="Identifiant" type="tns:Libelle80" minOccurs="0"/>
+			<xsd:element name="Createur" type="tns:Organisation" minOccurs="0"/>
+			<xsd:element name="DateDebut" type="xsd:date"/>
+			<xsd:element name="DateFin" type="xsd:date" minOccurs="0"/>
+			<xsd:element name="CodeSuppression" type="xsd:boolean"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="PointageSevrage" mixed="false">
+		<xsd:sequence>
+			<xsd:element name="CodeSevragePointage" type="CODESEVRAGEPOINTAGE:TypeCodeSevragePointage" minOccurs="0"/>
+			<xsd:element name="DessusEpauleCPV" type="tns:Nombre2Chiffres"/>
+			<xsd:element name="LargeurDosCPV" type="tns:Nombre2Chiffres"/>
+			<xsd:element name="ArrondiCulotteCPV" type="tns:Nombre2Chiffres"/>
+			<xsd:element name="LargeurCulotteCPV" type="tns:Nombre2Chiffres"/>
+			<xsd:element name="EpaisseurDessusCPV" type="tns:Nombre2Chiffres"/>
+			<xsd:element name="GrosseurCanonsCPV" type="tns:Nombre2Chiffres"/>
+			<xsd:element name="LongueurDessusCPV" type="tns:Nombre2Chiffres"/>
+			<xsd:element name="LongueurBassinCPV" type="tns:Nombre2Chiffres"/>
+			<xsd:element name="LargeurHanchesCPV" type="tns:Nombre2Chiffres"/>
+			<xsd:element name="DeveloppementCPV" type="tns:Nombre2Chiffres"/>
+			<xsd:element name="LargeurMufleCPV" type="tns:Nombre2Chiffres"/>
+			<xsd:element name="AplombsAvantCPV" type="tns:Nombre2Chiffres"/>
+			<xsd:element name="AplombsArriereCPV" type="tns:Nombre2Chiffres"/>
+			<xsd:element name="RectitudeDessusCPV" type="tns:Nombre2Chiffres"/>
+			<xsd:element name="NoteEtatPointageCPV" type="tns:Nombre2Chiffres"/>
+			<xsd:element name="ProfondeurPoitrineCPV" type="tns:Nombre2Chiffres" minOccurs="0"/>
+			<xsd:element name="LargeurPoitrineCPV" type="tns:Nombre2Chiffres" minOccurs="0"/>
+			<xsd:element name="LargeurTrochantersCPV" type="tns:Nombre2Chiffres" minOccurs="0"/>
+			<xsd:element name="LongueurCulotteCPV" type="tns:Nombre2Chiffres" minOccurs="0"/>
+			<xsd:element name="DeveloppementMusculaireCPV" type="tns:Nombre2Chiffres" minOccurs="0"/>
+			<xsd:element name="DeveloppementSquelettiqueCPV" type="tns:Nombre2Chiffres" minOccurs="0"/>
+			<xsd:element name="AptitudeFonctionnelleCPV" type="tns:Nombre2Chiffres" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="PoidsAgeType" mixed="false">
+		<xsd:sequence>
+			<xsd:element name="CodePAT" type="CODEPOIDSAGETYPE:TypeCodePoidsAgeType"/>
+			<xsd:element name="PAT" type="tns:Nombre6Chiffres"/>
+			<xsd:element name="IndicateurUtilisationPoidsNaissance" type="CODEUTILISATIONPOIDSNAISSANCE:TypeCodeUtilisationPoidsNaissance" minOccurs="0"/>
+			<xsd:element name="IndicateurExtrapolation60Jours" type="CODEUTILISATIONEXTRAPOLATION60JOURS:TypeCodeUtilisationExtrapolation60Jours" minOccurs="0"/>
+			<xsd:element name="IndicateurUtilisationPeseeSortie" type="CODEUTILISATIONPESEEAPRESSORTIE:TypeCodeUtilisationPeseeApresSortie" minOccurs="0"/>
+			<xsd:element name="DatePremierePeseeUtilisee" type="xsd:date" minOccurs="0"/>
+			<xsd:element name="DateDeuxiemePeseeUtilisee" type="xsd:date" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="ConstatGroupeConduite" mixed="false">
+		<xsd:sequence>
+			<xsd:element name="CampagneGroupeConduiteNS" type="tns:Libelle4"/>
+			<xsd:element name="NumeroGroupeConduiteNS" type="tns:Libelle1"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="ObservationLaitiereIndividuelle" mixed="false">
+		<xsd:sequence>
+			<xsd:element name="NumeroLactation" type="tns:Nombre6Chiffres"/>
+			<xsd:element name="NumeroControle" type="tns:Nombre6Chiffres" minOccurs="0"/>
+			<xsd:element name="CodeEtatFemelle" type="CODEETATFEMELLE:TypeCodeEtatFemelle"/>
+			<xsd:element name="LaitTotalObservation" type="tns:Nombre3Chiffres" minOccurs="0"/>
+			<xsd:element name="CauseAbsenceTaux" type="CAUSEABSENCETAUXBOVINE:TypeCauseAbsenceTauxBovine" minOccurs="0"/>
+			<xsd:element name="TPObservation" type="tns:Nombre3Chiffres" minOccurs="0"/>
+			<xsd:element name="TBObservation" type="tns:Nombre4Chiffres" minOccurs="0"/>
+			<xsd:element name="CellulesObservation" type="tns:Nombre4Chiffres" minOccurs="0"/>
+			<xsd:element name="UreeObservation" type="tns:Nombre3Chiffres" minOccurs="0"/>
+			<xsd:element name="IndicateurLiu" type="xsd:boolean" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="ReferenceVisitePointage">
+		<xsd:sequence>
+			<xsd:element name="CodeRaceVisite" type="CODERACEBOVIN:TypeCodeRaceBovin"/>
+			<xsd:element name="VersionTablePointage" type="tns:Libelle5"/>
+			<xsd:element name="NumeroPostePointage" type="tns:Libelle6"/>
+			<xsd:element name="LibellePostePointage" type="tns:Libelle30"/>
+			<xsd:element name="AbreviationPostePointage" type="tns:Libelle3"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="PointageAdulte">
+		<xsd:sequence>
+			<xsd:element name="CodeRaceVisite" type="CODERACEBOVIN:TypeCodeRaceBovin"/>
+			<xsd:element name="VersionTablePointage" type="tns:Libelle5"/>
+			<xsd:element name="CodeOperateurPointage" type="tns:Libelle4"/>
+			<xsd:element name="POSP01" type="tns:Libelle3" minOccurs="0"/>
+			<xsd:element name="POSP02" type="tns:Libelle3" minOccurs="0"/>
+			<xsd:element name="POSP03" type="tns:Libelle3" minOccurs="0"/>
+			<xsd:element name="POSP04" type="tns:Libelle3" minOccurs="0"/>
+			<xsd:element name="POSP05" type="tns:Libelle3" minOccurs="0"/>
+			<xsd:element name="POSP06" type="tns:Libelle3" minOccurs="0"/>
+			<xsd:element name="POSP07" type="tns:Libelle3" minOccurs="0"/>
+			<xsd:element name="POSP08" type="tns:Libelle3" minOccurs="0"/>
+			<xsd:element name="POSP09" type="tns:Libelle3" minOccurs="0"/>
+			<xsd:element name="POSP10" type="tns:Libelle3" minOccurs="0"/>
+			<xsd:element name="POSP11" type="tns:Libelle3" minOccurs="0"/>
+			<xsd:element name="POSP12" type="tns:Libelle3" minOccurs="0"/>
+			<xsd:element name="POSP13" type="tns:Libelle3" minOccurs="0"/>
+			<xsd:element name="POSP14" type="tns:Libelle3" minOccurs="0"/>
+			<xsd:element name="POSP15" type="tns:Libelle3" minOccurs="0"/>
+			<xsd:element name="POSP16" type="tns:Libelle3" minOccurs="0"/>
+			<xsd:element name="POSP17" type="tns:Libelle3" minOccurs="0"/>
+			<xsd:element name="POSP18" type="tns:Libelle3" minOccurs="0"/>
+			<xsd:element name="POSP19" type="tns:Libelle3" minOccurs="0"/>
+			<xsd:element name="POSP20" type="tns:Libelle3" minOccurs="0"/>
+			<xsd:element name="POSP21" type="tns:Libelle3" minOccurs="0"/>
+			<xsd:element name="POSP22" type="tns:Libelle3" minOccurs="0"/>
+			<xsd:element name="POSP23" type="tns:Libelle3" minOccurs="0"/>
+			<xsd:element name="POSP24" type="tns:Libelle3" minOccurs="0"/>
+			<xsd:element name="POSP25" type="tns:Libelle3" minOccurs="0"/>
+			<xsd:element name="POSP26" type="tns:Libelle3" minOccurs="0"/>
+			<xsd:element name="POSP27" type="tns:Libelle3" minOccurs="0"/>
+			<xsd:element name="POSP28" type="tns:Libelle3" minOccurs="0"/>
+			<xsd:element name="POSP29" type="tns:Libelle3" minOccurs="0"/>
+			<xsd:element name="POSP30" type="tns:Libelle3" minOccurs="0"/>
+			<xsd:element name="POSP31" type="tns:Libelle3" minOccurs="0"/>
+			<xsd:element name="POSP32" type="tns:Libelle3" minOccurs="0"/>
+			<xsd:element name="POSP33" type="tns:Libelle3" minOccurs="0"/>
+			<xsd:element name="POSP34" type="tns:Libelle3" minOccurs="0"/>
+			<xsd:element name="POSP35" type="tns:Libelle3" minOccurs="0"/>
+			<xsd:element name="POSP36" type="tns:Libelle3" minOccurs="0"/>
+			<xsd:element name="POSP37" type="tns:Libelle3" minOccurs="0"/>
+			<xsd:element name="POSP38" type="tns:Libelle3" minOccurs="0"/>
+			<xsd:element name="POSP39" type="tns:Libelle3" minOccurs="0"/>
+			<xsd:element name="POSP40" type="tns:Libelle3" minOccurs="0"/>
+			<xsd:element name="POSP41" type="tns:Libelle3" minOccurs="0"/>
+			<xsd:element name="POSP42" type="tns:Libelle3" minOccurs="0"/>
+			<xsd:element name="POSP43" type="tns:Libelle3" minOccurs="0"/>
+			<xsd:element name="POSP44" type="tns:Libelle3" minOccurs="0"/>
+			<xsd:element name="POSP45" type="tns:Libelle3" minOccurs="0"/>
+			<xsd:element name="POSP46" type="tns:Libelle3" minOccurs="0"/>
+			<xsd:element name="POSP47" type="tns:Libelle3" minOccurs="0"/>
+			<xsd:element name="POSP48" type="tns:Libelle3" minOccurs="0"/>
+			<xsd:element name="POSP49" type="tns:Libelle3" minOccurs="0"/>
+			<xsd:element name="POSP50" type="tns:Libelle3" minOccurs="0"/>
+			<xsd:element name="POSP51" type="tns:Libelle3" minOccurs="0"/>
+			<xsd:element name="POSP52" type="tns:Libelle3" minOccurs="0"/>
+			<xsd:element name="POSP53" type="tns:Libelle3" minOccurs="0"/>
+			<xsd:element name="POSP54" type="tns:Libelle3" minOccurs="0"/>
+			<xsd:element name="POSP55" type="tns:Libelle3" minOccurs="0"/>
+			<xsd:element name="POSP56" type="tns:Libelle3" minOccurs="0"/>
+			<xsd:element name="POSP57" type="tns:Libelle3" minOccurs="0"/>
+			<xsd:element name="POSP58" type="tns:Libelle3" minOccurs="0"/>
+			<xsd:element name="POSP59" type="tns:Libelle3" minOccurs="0"/>
+			<xsd:element name="POSP60" type="tns:Libelle3" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="Qualification">
+		<xsd:sequence>
+			<xsd:element name="RaceQualification" type="CODERACEBOVIN:TypeCodeRaceBovin"/>
+			<xsd:element name="LibelleQualification" type="LibelleQualification:TypeLibelleQualification"/>
+			<xsd:element name="CodeConseilUtilisation" type="CODECONSEILUTILISATION:TypeCodeConseilUtilisation" minOccurs="0"/>
+			<xsd:element name="DateExamen" type="xsd:date" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="InscriptionLivreGenealogique">
+		<xsd:sequence>
+			<xsd:element name="RaceLivreGenealogique" type="CODERACEBOVIN:TypeCodeRaceBovin"/>
+			<xsd:element name="CodeSection" type="CODESECTION:TypeCodeSection"/>
+			<xsd:element name="ClasseMerite" type="CLASSEMERITE:TypeClasseMerite" minOccurs="0"/>
+			<xsd:element name="TypeCertificatEdite" type="TYPECERTIFICATEDITE:TypeTypeCertificatEdite" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="TaureauReproducteur" mixed="false">
+		<xsd:annotation>
+			<xsd:documentation><![CDATA[Taureau reproducteur]]></xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexContent mixed="false">
+			<xsd:extension base="tns:Bovin">
+				<xsd:sequence>
+					<xsd:element name="NumeroIETaureau" type="tns:Libelle5"/>
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:complexType name="DeclarationInitialeMalePublic" mixed="false">
+		<xsd:complexContent mixed="false">
+			<xsd:extension base="tns:Evenement">
+				<xsd:sequence>
+					<xsd:element name="TaureauReproducteur" type="tns:TaureauReproducteur"/>
+					<xsd:element name="EntrepriseSelectionDeclarante" type="tns:Organisation" minOccurs="0"/>
+					<xsd:element name="TypeDeclarationInitiale" type="CODEDECLARATIONINITIALETYPE:TypeCodeDeclarationInitialeMale" minOccurs="0"/>
+					<xsd:element name="ValiditeDeclarationInitiale" type="xsd:boolean" minOccurs="0"/>
+					<xsd:element name="TypeProgrammeAgrement" type="CODETYPEPROGRAMMEAGREMENTTYPE:TypeCodeTypeProgrammeAgrement" minOccurs="0"/>
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:complexType name="PassageControleLaitierTiers" mixed="false">
+		<xsd:complexContent mixed="false">
+			<xsd:extension base="tns:Evenement">
+				<xsd:sequence>
+					<xsd:element name="ProtocoleControleLaitier" type="tns:ProtocoleControleLaitier" minOccurs="0"/>
+					<xsd:element name="AgentTraite" type="tns:AgentTraite" minOccurs="0"/>
+					<xsd:element name="NombreTraitesPassage" type="tns:Nombre6Chiffres" minOccurs="0"/>
+					<xsd:element name="PresenceRobotTraite" type="xsd:boolean" minOccurs="0"/>
+					<xsd:element name="NombreEchantillonsPreleves" type="tns:Nombre6Chiffres" minOccurs="0"/>
+					<xsd:element name="HoraireTraite" type="tns:HoraireTraite" minOccurs="0" maxOccurs="unbounded"/>
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:complexType name="ConstatGestationTiers" mixed="false">
+		<xsd:sequence>
+			<xsd:element name="TypeConstatGestation" type="TYPECONSTATGESTATION:TypeTypeConstatGestation" minOccurs="0"/>
+			<xsd:element name="ResultatConstatGestation" type="RESULTATCONSTATGESTATION:TypeResultatConstatGestation" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="InseminationAnimaleTiers" mixed="false">
+		<xsd:sequence>
+			<xsd:element name="Inseminateur" type="tns:Inseminateur" minOccurs="0"/>
+			<xsd:element name="DoseSemence" type="tns:DoseSemence" minOccurs="0"/>
+			<xsd:element name="NumeroBulletinIA" type="tns:Libelle80" minOccurs="0"/>
+			<xsd:element name="IndicateurIAPourCollecteEmbryon" type="xsd:boolean" minOccurs="0"/>
+			<xsd:element name="IndicateurTraitementHormonal" type="xsd:boolean" minOccurs="0"/>
+			<xsd:element name="PailletteFractionnee" type="CODEPAILLETTEFRACTIONNEE:TypeCodePailletteFractionnee" minOccurs="0"/>
+			<xsd:element name="IndicateurIPE" type="xsd:boolean" minOccurs="0"/>
+			<xsd:element name="IndicateurIAReconnue" type="xsd:boolean" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="CollecteEmbryonsTiers" mixed="false">
+		<xsd:sequence>
+			<xsd:element name="EquipeCollecte" type="tns:Organisation" minOccurs="0"/>
+			<xsd:element name="NombreCollecte" type="tns:Nombre6Chiffres" minOccurs="0"/>
+			<xsd:element name="NatureCollecte" type="CODENATURECOLLECTE:TypeCodeNatureCollecte" minOccurs="0"/>
+			<xsd:element name="NumeroBulletinCollecte" type="tns:Libelle80"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="MisePlaceEmbryonTiers" mixed="false">
+		<xsd:sequence>
+			<xsd:element name="EquipeTransfert" type="tns:Organisation" minOccurs="0"/>
+			<xsd:element name="EmbryonMisEnPlace" type="tns:EmbryonMisEnPlace" minOccurs="0"/>
+			<xsd:element name="NumeroBulletinTransfert" type="tns:Libelle80" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="PointageSevrageTiers" mixed="false">
+		<xsd:sequence>
+			<xsd:element name="CodeSevragePointage" type="CODESEVRAGEPOINTAGE:TypeCodeSevragePointage" minOccurs="0"/>
+			<xsd:element name="DessusEpauleCPV" type="tns:Nombre2Chiffres" minOccurs="0"/>
+			<xsd:element name="LargeurDosCPV" type="tns:Nombre2Chiffres" minOccurs="0"/>
+			<xsd:element name="ArrondiCulotteCPV" type="tns:Nombre2Chiffres" minOccurs="0"/>
+			<xsd:element name="LargeurCulotteCPV" type="tns:Nombre2Chiffres" minOccurs="0"/>
+			<xsd:element name="EpaisseurDessusCPV" type="tns:Nombre2Chiffres" minOccurs="0"/>
+			<xsd:element name="GrosseurCanonsCPV" type="tns:Nombre2Chiffres" minOccurs="0"/>
+			<xsd:element name="LongueurDessusCPV" type="tns:Nombre2Chiffres" minOccurs="0"/>
+			<xsd:element name="LongueurBassinCPV" type="tns:Nombre2Chiffres" minOccurs="0"/>
+			<xsd:element name="LargeurHanchesCPV" type="tns:Nombre2Chiffres" minOccurs="0"/>
+			<xsd:element name="DeveloppementCPV" type="tns:Nombre2Chiffres" minOccurs="0"/>
+			<xsd:element name="LargeurMufleCPV" type="tns:Nombre2Chiffres" minOccurs="0"/>
+			<xsd:element name="AplombsAvantCPV" type="tns:Nombre2Chiffres" minOccurs="0"/>
+			<xsd:element name="AplombsArriereCPV" type="tns:Nombre2Chiffres" minOccurs="0"/>
+			<xsd:element name="RectitudeDessusCPV" type="tns:Nombre2Chiffres" minOccurs="0"/>
+			<xsd:element name="NoteEtatPointageCPV" type="tns:Nombre2Chiffres" minOccurs="0"/>
+			<xsd:element name="ProfondeurPoitrineCPV" type="tns:Nombre2Chiffres" minOccurs="0"/>
+			<xsd:element name="LargeurPoitrineCPV" type="tns:Nombre2Chiffres" minOccurs="0"/>
+			<xsd:element name="LargeurTrochantersCPV" type="tns:Nombre2Chiffres" minOccurs="0"/>
+			<xsd:element name="LongueurCulotteCPV" type="tns:Nombre2Chiffres" minOccurs="0"/>
+			<xsd:element name="DeveloppementMusculaireCPV" type="tns:Nombre2Chiffres" minOccurs="0"/>
+			<xsd:element name="DeveloppementSquelettiqueCPV" type="tns:Nombre2Chiffres" minOccurs="0"/>
+			<xsd:element name="AptitudeFonctionnelleCPV" type="tns:Nombre2Chiffres" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="DebutLactationTiers" mixed="false">
+		<xsd:sequence>
+			<xsd:element name="NumeroLactation" type="tns:Nombre6Chiffres"/>
+			<xsd:element name="EvenementDebutLactation" type="CODEEVENEMENTDEBUTLACTATION:TypeCodeEvenementDebutLactation" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="LactationTiers" mixed="false">
+		<xsd:sequence>
+			<xsd:element name="NumeroLactation" type="tns:Nombre6Chiffres"/>
+			<xsd:element name="DateLactation" type="xsd:date" minOccurs="0"/>
+			<xsd:element name="EvenementDebutLactation" type="CODEEVENEMENTDEBUTLACTATION:TypeCodeEvenementDebutLactation" minOccurs="0"/>
+			<xsd:element name="EtatLactation" type="tns:TypeCodeStatutLactation" minOccurs="0"/>
+			<xsd:element name="CauseNonQualification" type="CODENONQUALIFICATIONLACTATION:TypeCodeNonQualificationLactation" minOccurs="0"/>
+			<xsd:element name="TypeQualificationLactation" type="CODEQUALIFICATIONLACTATION:TypeCodeQualificationLactation" minOccurs="0"/>
+			<xsd:element name="DureeLactation" type="tns:Nombre6Chiffres" minOccurs="0"/>
+			<xsd:element name="LaitTotalLactation" type="tns:Nombre6Chiffres" minOccurs="0"/>
+			<xsd:element name="MGTotalLactation" type="tns:Nombre6Chiffres" minOccurs="0"/>
+			<xsd:element name="MPTotalLactation" type="tns:Nombre6Chiffres" minOccurs="0"/>
+			<xsd:element name="TBTotalLactation" type="tns:Nombre6Chiffres" minOccurs="0"/>
+			<xsd:element name="TPTotalLactation" type="tns:Nombre6Chiffres" minOccurs="0"/>
+			<xsd:element name="LaitReference" type="tns:Nombre6Chiffres" minOccurs="0"/>
+			<xsd:element name="MGReference" type="tns:Nombre6Chiffres" minOccurs="0"/>
+			<xsd:element name="MPReference" type="tns:Nombre6Chiffres" minOccurs="0"/>
+			<xsd:element name="TBReference" type="tns:Nombre6Chiffres" minOccurs="0"/>
+			<xsd:element name="TPReference" type="tns:Nombre6Chiffres" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+</xsd:schema>

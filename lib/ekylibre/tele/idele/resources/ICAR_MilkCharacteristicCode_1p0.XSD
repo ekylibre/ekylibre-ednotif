@@ -1,0 +1,138 @@
+<?xml version="1.0"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:ccts="urn:un:unece:uncefact:documentation:standard:CoreComponentsTechnicalSpecification:2" xmlns:clmICARMilkCharacteristicCode="urn:it:icar:ade:codelist:MilkCharacteristicCode:1.0" targetNamespace="urn:it:icar:ade:codelist:MilkCharacteristicCode:1.0" elementFormDefault="qualified" attributeFormDefault="unqualified" version="1.0">
+	<!-- ====================================================================== -->
+	<!-- =====  Element Declarations				      ===== -->
+	<!-- ====================================================================== -->
+	<!-- =====  Root Element Declaration				      ===== -->
+	<!-- ====================================================================== -->
+	<xsd:element name="MilkCharacteristicCode" type="clmICARMilkCharacteristicCode:MilkCharacteristicCodeType"/>
+	<!-- ====================================================================== -->
+	<!-- =====  Type Definitions					      ===== -->
+	<!-- ====================================================================== -->
+	<!-- =====  Type Definition: Milk Characteristic Type		      ===== -->
+	<!-- ====================================================================== -->
+	<xsd:simpleType name="MilkCharacteristicCodeType">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="SCC">
+				<xsd:annotation>
+					<xsd:documentation>
+						<ccts:Name>SCC</ccts:Name>
+						<ccts:Definition>Somatic cell count</ccts:Definition>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="FAT">
+				<xsd:annotation>
+					<xsd:documentation>
+						<ccts:Name>FAT</ccts:Name>
+						<ccts:Definition>Fat</ccts:Definition>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="PROTEIN">
+				<xsd:annotation>
+					<xsd:documentation>
+						<ccts:Name>PROTEIN</ccts:Name>
+						<ccts:Definition>Protein</ccts:Definition>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="LAC">
+				<xsd:annotation>
+					<xsd:documentation>
+						<ccts:Name>LAC</ccts:Name>
+						<ccts:Definition>Lactose</ccts:Definition>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="UREA">
+				<xsd:annotation>
+					<xsd:documentation>
+						<ccts:Name>UREA</ccts:Name>
+						<ccts:Definition>Urea</ccts:Definition>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="BLOOD">
+				<xsd:annotation>
+					<xsd:documentation>
+						<ccts:Name>BLOOD</ccts:Name>
+						<ccts:Definition>Blood</ccts:Definition>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="ACETONE">
+				<xsd:annotation>
+					<xsd:documentation>
+						<ccts:Name>ACETONE</ccts:Name>
+						<ccts:Definition>Acetone</ccts:Definition>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="BHB">
+				<xsd:annotation>
+					<xsd:documentation>
+						<ccts:Name>BHB</ccts:Name>
+						<ccts:Definition>Beta hydroxybutyrate</ccts:Definition>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="LDH">
+				<xsd:annotation>
+					<xsd:documentation>
+						<ccts:Name>LDH</ccts:Name>
+						<ccts:Definition>Lactate dehydrogenase</ccts:Definition>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="PRO">
+				<xsd:annotation>
+					<xsd:documentation>
+						<ccts:Name>PRO</ccts:Name>
+						<ccts:Definition>Progesteron</ccts:Definition>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="AVGCOND">
+				<xsd:annotation>
+					<xsd:documentation>
+						<ccts:Name>AVGCOND</ccts:Name>
+						<ccts:Definition>Average conductivity value of the milk  at 25 ° C</ccts:Definition>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="MAXCOND">
+				<xsd:annotation>
+					<xsd:documentation>
+						<ccts:Name>MAXCOND</ccts:Name>
+						<ccts:Definition>Maximum conductivity value of the milk at 25 ° C</ccts:Definition>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="AVGFLWR">
+				<xsd:annotation>
+					<xsd:documentation>
+						<ccts:Name>AVGFLWR</ccts:Name>
+						<ccts:Definition>Average flow rate</ccts:Definition>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="MAXFLWR">
+				<xsd:annotation>
+					<xsd:documentation>
+						<ccts:Name>MAXFLWR</ccts:Name>
+						<ccts:Definition>Max flow rate</ccts:Definition>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="WEIGHT">
+				<xsd:annotation>
+					<xsd:documentation>
+						<ccts:Name>WEIGHT</ccts:Name>
+						<ccts:Definition>Weight of animal</ccts:Definition>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+		</xsd:restriction>
+	</xsd:simpleType>
+</xsd:schema>

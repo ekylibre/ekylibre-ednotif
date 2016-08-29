@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:icar="ICARAggregateBusinessInformationEntity:1" xmlns:rsm="ADEType:1" xmlns:ns1="urn:un:unece:uncefact:identifierlist:standard:5:ISO316612A:SecondEdition2006VI-13" targetNamespace="ADEType:1" elementFormDefault="qualified" attributeFormDefault="unqualified" version="1.0">
+	<!-- ======================================================================= -->
+	<!-- ===== Imports                                                     ===== -->
+	<!-- ======================================================================= -->
+	<xsd:import namespace="ICARAggregateBusinessInformationEntity:1" schemaLocation="ICARAggregateBusinessInformationEntity_1ap0.xsd"/>
+	<!-- ======================================================================= -->
+	<!-- ===== Import of Unqualified DataType Schema Module                ===== -->
+	<!-- ======================================================================= -->
+	<!-- ======================================================================= -->
+	<!-- ===== Import of Qualified DataType Schema Module                  ===== -->
+	<!-- ======================================================================= -->
+	<!-- ======================================================================= -->
+	<!-- ===== Import of Reusable Aggregate Business Information Entity Schema Module ===== -->
+	<!-- ======================================================================= -->
+	<!-- ======================================================================= -->
+	<!-- ===== Import of ICAR ADE Aggregate Business Information Entity Schema Module ===== -->
+	<!-- ======================================================================= -->
+	<!-- ===== Element Declarations                                           ===== -->
+	<!-- ======================================================================= -->
+	<!-- ===Version 1.7    ========================================================= -->
+	<!-- ======Create 5 March 2014       FVD================================ -->
+	<!-- ======Update 8 April 2014          JPA================================ -->
+	<!-- ======Update 23 Mai 2014          JPA================================ -->
+	<!-- ======================================================================= -->
+	<!-- ===== Root Element Declarations                                   ===== -->
+	<!-- ======================================================================= -->
+	<xsd:element name="GetHerdListRequest" type="icar:GetHerdListRequestType"/>
+	<xsd:element name="GetHerdListResponse" type="icar:GetHerdListResponseType"/>
+	<xsd:element name="UpdateAnimalRequest" type="icar:UpdateAnimalRequestType"/>
+	<xsd:element name="UpdateAnimalResponse" type="icar:UpdateAnimalResponseType"/>
+	<xsd:element name="UpdateDeviceRequest" type="icar:UpdateDeviceRequestType"/>
+	<xsd:element name="UpdateDeviceResponse" type="icar:UpdateDeviceResponseType"/>
+	<xsd:element name="UpdateLivestockLocationRequest" type="icar:UpdateLivestockLocationRequestType"/>
+	<xsd:element name="UpdateLivestockLocationResponse" type="icar:UpdateLivestockLocationResponseType"/>
+	<xsd:element name="UpdateMilkingResultsRequest" type="icar:UpdateMilkingResultRequestType"/>
+	<xsd:element name="UpdateMilkingResultsResponse" type="icar:UpdateMilkingResultResponseType"/>
+	<!-- ================================================================== -->
+	<!-- ===== Type Definitions                                       ===== -->
+	<!-- ================================================================== -->
+</xsd:schema>

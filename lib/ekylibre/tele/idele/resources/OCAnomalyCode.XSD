@@ -4,6 +4,12 @@
 <xsd:schema xmlns="urn:fr:agri:elevage:codelist:OCAnomalyCode:1" xmlns:xsd="http://www.w3.org/2001/XMLSchema" targetNamespace="urn:fr:agri:elevage:codelist:OCAnomalyCode:1">
 	<xsd:simpleType name="OCAnomalyCodeType">
 		<xsd:restriction base="xsd:token">
+		<xsd:enumeration value="P999">
+				<xsd:annotation>
+					<xsd:documentation>Presomption de mouvement</xsd:documentation>
+					<xsd:documentation>erreur OVINFOS de type 5</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
 			<xsd:enumeration value="M501">
 				<xsd:annotation>
 					<xsd:documentation>Il existe déjà une circulation portant l'identifiant "...................."</xsd:documentation>

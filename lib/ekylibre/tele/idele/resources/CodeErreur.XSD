@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+<xsd:schema xmlns="urn:fr:agri:elevage:codelist:CodeErreur:1" xmlns:xsd="http://www.w3.org/2001/XMLSchema" targetNamespace="urn:fr:agri:elevage:codelist:CodeErreur:1">
+	<xsd:simpleType name="TypeCodeErreur">
+		<xsd:restriction base="xsd:token"/>
+	</xsd:simpleType>
+</xsd:schema>

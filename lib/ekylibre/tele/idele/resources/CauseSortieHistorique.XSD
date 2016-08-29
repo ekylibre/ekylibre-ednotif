@@ -1,0 +1,78 @@
+<?xml version="1.0"?>
+<!-- version 1.02 modifiée du 11/02/2015 -->
+<xsd:schema xmlns="urn:fr:agri:elevage:codelist:CauseSortieHistorique:1" xmlns:xsd="http://www.w3.org/2001/XMLSchema" targetNamespace="urn:fr:agri:elevage:codelist:CauseSortieHistorique:1">
+	<xsd:simpleType name="CauseSortieHistoriqueType">
+		<xsd:restriction base="xsd:token">
+			<xsd:enumeration value="O">
+				<xsd:annotation>
+					<xsd:documentation>mouvement présumé calculé</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="B">
+				<xsd:annotation>
+					<xsd:documentation>Boucherie</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="C">
+				<xsd:annotation>
+					<xsd:documentation>Auto-Consommation</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="D">
+				<xsd:annotation>
+					<xsd:documentation>Don</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="E">
+				<xsd:annotation>
+					<xsd:documentation>Elevage ou vente</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="H">
+				<xsd:annotation>
+					<xsd:documentation>Prêt ou pension</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="J">
+				<xsd:annotation>
+					<xsd:documentation>Estives</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="L">
+				<xsd:annotation>
+					<xsd:documentation>Location</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="M">
+				<xsd:annotation>
+					<xsd:documentation>Mort</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="P">
+				<xsd:annotation>
+					<xsd:documentation>Prêt ou Pension</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="S">
+				<xsd:annotation>
+					<xsd:documentation>Centre de rassemblement</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="T">
+				<xsd:annotation>
+					<xsd:documentation>Exploitation de négoce</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="U">
+				<xsd:annotation>
+					<xsd:documentation>Multipropriété</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="X">
+				<xsd:annotation>
+					<xsd:documentation>Autre cause de sortie</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+		</xsd:restriction>
+	</xsd:simpleType>
+</xsd:schema>

@@ -1,0 +1,50 @@
+<?xml version="1.0"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:ccts="urn:un:unece:uncefact:documentation:standard:CoreComponentsTechnicalSpecification:2" xmlns:clmICARSpecieCode="urn:it:icar:ade:codelist:SpecieCode:1.0" targetNamespace="urn:it:icar:ade:codelist:SpecieCode:1.0" elementFormDefault="qualified" attributeFormDefault="unqualified" version="1.0">
+	<!-- ====================================================================== -->
+	<!-- =====  Element Declarations				      ===== -->
+	<!-- ====================================================================== -->
+	<!-- =====  Root Element Declaration				      ===== -->
+	<!-- ====================================================================== -->
+	<xsd:element name="SpecieCode" type="clmICARSpecieCode:SpecieCodeType"/>
+	<!-- ====================================================================== -->
+	<!-- =====  Type Definitions					      ===== -->
+	<!-- ====================================================================== -->
+	<!-- =====  Type Definition: Specie Type		      ===== -->
+	<!-- ====================================================================== -->
+	<xsd:simpleType name="SpecieCodeType">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="BUF">
+				<xsd:annotation>
+					<xsd:documentation>
+						<ccts:Name>BUF</ccts:Name>
+						<ccts:Definition>Buffalo</ccts:Definition>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="OVI">
+				<xsd:annotation>
+					<xsd:documentation>
+						<ccts:Name>OVI</ccts:Name>
+						<ccts:Definition>Ovine</ccts:Definition>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="BOV">
+				<xsd:annotation>
+					<xsd:documentation>
+						<ccts:Name>BOV</ccts:Name>
+						<ccts:Definition>Bovine</ccts:Definition>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="GOT">
+				<xsd:annotation>
+					<xsd:documentation>
+						<ccts:Name>GOT</ccts:Name>
+						<ccts:Definition>Goat</ccts:Definition>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+		</xsd:restriction>
+	</xsd:simpleType>
+</xsd:schema>

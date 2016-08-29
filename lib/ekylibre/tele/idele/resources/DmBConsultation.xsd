@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- version 1.02 modifiée du 11/02/2015 -->
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://www.idele.fr/XML/Schema/" xmlns:tnsfiea="http://www.fiea.org/types/" xmlns:tnsdemat="urn:fr:agri:elevage:codelist:demat_types:1" targetNamespace="http://www.idele.fr/XML/Schema/" elementFormDefault="qualified">
+	<xsd:import namespace="urn:fr:agri:elevage:codelist:demat_types:1" schemaLocation="demat_types.xsd"/>
+	<xsd:import namespace="http://www.fiea.org/types/" schemaLocation="fiea_types.xsd"/>
+	<!--
+######  Consultation statut pour deplacement  ###### ######  Consultation statut pour deplacement  ###### ######  Consultation statut pour deplacement  ############  Consultation statut pour deplacement  ###### ######  Consultation statut pour deplacement  ###### ######  Consultation statut pour deplacement  ######-->
+	<!--
+######  Opération DmBConsultationGetListeStatutDeplacement ######-->
+	<xsd:element name="DmBConsultationGetListeStatutDeplacementRequest">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element name="JetonAuthentification" type="tnsfiea:typeJeton"/>
+				<xsd:element name="Utilisateur" type="tnsdemat:typeDemandeur"/>
+				<xsd:choice>
+					<xsd:element ref="tns:MessageDemandeListeStatutDeplacement"/>
+					<xsd:element name="MessageZip" type="xsd:base64Binary">
+						<xsd:annotation>
+							<xsd:documentation>Envoi d'un un fichier XML zippé de type MessageDemandeListeStatutDeplacement</xsd:documentation>
+						</xsd:annotation>
+					</xsd:element>
+				</xsd:choice>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="DmBConsultationGetListeStatutDeplacementResponse">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element name="ReponseStandard" type="tnsfiea:typeReponse"/>
+				<xsd:element name="ReponseSpecifique" minOccurs="0">
+					<xsd:complexType>
+						<xsd:choice>
+							<xsd:element ref="tns:MessageReponseListeStatutDeplacement"/>
+							<xsd:element name="MessageZip" type="xsd:base64Binary">
+								<xsd:annotation>
+									<xsd:documentation>Envoi d'un un fichier XML zippé de type MessageReponseListeStatutDeplacement</xsd:documentation>
+								</xsd:annotation>
+							</xsd:element>
+						</xsd:choice>
+					</xsd:complexType>
+				</xsd:element>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	<!--
+######  Consultation données Identification et traçabilité des animaux  ############  Consultation données Identification et traçabilité des animaux  ############  Consultation données Identification et traçabilité des animaux  ############  Consultation données Identification et traçabilité des animaux  ############  Consultation données Identification et traçabilité des animaux  ######-->
+	<!--
+######  Opération DmBConsultationGetListeDonneesIT  ######-->
+	<xsd:element name="DmBConsultationGetListeDonneesITRequest">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element name="JetonAuthentification" type="tnsfiea:typeJeton"/>
+				<xsd:element name="Utilisateur" type="tnsdemat:typeDemandeur"/>
+				<xsd:choice>
+					<xsd:element ref="tns:MessageDemandeListeDonneesIT"/>
+					<xsd:element name="MessageZip" type="xsd:base64Binary">
+						<xsd:annotation>
+							<xsd:documentation>Envoi d'un un fichier XML zippé de type MessageDemandeListeDonneesIT</xsd:documentation>
+						</xsd:annotation>
+					</xsd:element>
+				</xsd:choice>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="DmBConsultationGetListeDonneesITResponse">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element name="ReponseStandard" type="tnsfiea:typeReponse"/>
+				<xsd:element name="ReponseSpecifique" minOccurs="0">
+					<xsd:complexType>
+						<xsd:choice>
+							<xsd:element ref="tns:MessageReponseListeDonneesIT"/>
+							<xsd:element name="MessageZip" type="xsd:base64Binary">
+								<xsd:annotation>
+									<xsd:documentation>Envoi d'un un fichier XML zippé de type MessageReponseListeDonneesIT</xsd:documentation>
+								</xsd:annotation>
+							</xsd:element>
+						</xsd:choice>
+					</xsd:complexType>
+				</xsd:element>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	<!--
+	######  Messages pour opération DmBConsultationGetListeStatutDeplacement ######-->
+	<xsd:element name="MessageDemandeListeStatutDeplacement" type="tnsdemat:typeDemandeListe">
+		<xsd:annotation>
+			<xsd:documentation>Message XML utilisé pour la demande de l'opération DmBConsultationGetListeStatutDeplacement</xsd:documentation>
+		</xsd:annotation>
+	</xsd:element>
+	<xsd:element name="MessageReponseListeStatutDeplacement" type="tnsdemat:typeReponseListeStatut">
+		<xsd:annotation>
+			<xsd:documentation>Message XML utilisé pour la réponse de l'opération DmBConsultationGetListeStatutDeplacement</xsd:documentation>
+		</xsd:annotation>
+	</xsd:element>
+	<!--
+######  Messages pour opération DmBConsultationGetListeDonneesIT ######-->
+	<xsd:element name="MessageDemandeListeDonneesIT" type="tnsdemat:typeDemandeListe">
+		<xsd:annotation>
+			<xsd:documentation>Message XML utilisé pour la demande de l'opération DmBConsultationGetListeDonneesIT</xsd:documentation>
+		</xsd:annotation>
+	</xsd:element>
+	<xsd:element name="MessageReponseListeDonneesIT" type="tnsdemat:typeReponseListeDonnees">
+		<xsd:annotation>
+			<xsd:documentation>Message XML utilisé pour la réponse de l'opération DmBConsultationGetListeDonneesIT</xsd:documentation>
+		</xsd:annotation>
+	</xsd:element>
+</xsd:schema>

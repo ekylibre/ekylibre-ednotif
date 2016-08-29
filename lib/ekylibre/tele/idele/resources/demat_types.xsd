@@ -1,0 +1,855 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- version 1.02 modifiée du 11/02/2015 -->
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:tns="urn:fr:agri:elevage:codelist:demat_types:1" xmlns:ns1="urn:fr:agri:elevage:codelist:CodePays:1" xmlns:ns2="urn:fr:agri:elevage:codelist:CodeRaceBovin:1" xmlns:ns12="urn:fr:agri:elevage:codelist:CodeRaceGenetique:1" xmlns:ns5="urn:fr:agri:elevage:codelist:CodeCategorieBovinIPG:1" xmlns:ns6="urn:fr:agri:elevage:codelist:CodeAtelierBovinIPG:1" xmlns:ns7="urn:fr:agri:elevage:codelist:AtelierBovinIPG:1" xmlns:ns8="urn:fr:agri:elevage:codelist:CategorieBovinIPG:1" xmlns:ns9="urn:fr:agri:elevage:codelist:CauseEntreeHistorique:1" xmlns:ns10="urn:fr:agri:elevage:codelist:CauseSortieHistorique:1" xmlns:ns11="urn:fr:agri:elevage:codelist:CodePaysAnimal:1" xmlns:ns13="urn:fr:agri:elevage:codelist:CodeErreur:1" xmlns:ns3="urn:fr:agri:elevage:codelist:demat_types:1" targetNamespace="urn:fr:agri:elevage:codelist:demat_types:1" elementFormDefault="qualified">
+	<xsd:import namespace="urn:fr:agri:elevage:codelist:CodePaysAnimal:1" schemaLocation="CodePaysAnimal.XSD"/>
+	<xsd:import namespace="urn:fr:agri:elevage:codelist:CodePays:1" schemaLocation="CodePays.XSD"/>
+	<xsd:import namespace="urn:fr:agri:elevage:codelist:CauseSortieHistorique:1" schemaLocation="CauseSortieHistorique.XSD"/>
+	<xsd:import namespace="urn:fr:agri:elevage:codelist:CauseEntreeHistorique:1" schemaLocation="CauseEntreeHistorique.XSD"/>
+	<xsd:import namespace="urn:fr:agri:elevage:codelist:CodeRaceBovin:1" schemaLocation="CodeRaceBovin.XSD"/>
+	<xsd:import namespace="urn:fr:agri:elevage:codelist:CodeRaceGenetique:1" schemaLocation="CodeRaceGenetique.XSD"/>
+	<xsd:import namespace="urn:fr:agri:elevage:codelist:CodeErreur:1" schemaLocation="CodeErreur.XSD"/>
+	<!-- les types génériques DEMAT -->
+	<!-- version 1.0.2 -->
+	<xsd:simpleType name="typeAction">
+		<xsd:annotation>
+			<xsd:documentation>gestion d'un animal dans une liste</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:length value="1"/>
+			<xsd:enumeration value="C"/>
+			<xsd:enumeration value="S"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="typeCodePaysFr">
+		<xsd:annotation>
+			<xsd:documentation>Type spécial pour limiter au code pays FR uniquement</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:length value="2"/>
+			<xsd:enumeration value="FR"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="typeCouleurASDA">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="V">
+				<xsd:annotation>
+					<xsd:documentation>ASDA verte</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="J">
+				<xsd:annotation>
+					<xsd:documentation>ASDA jaune</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="R">
+				<xsd:annotation>
+					<xsd:documentation>ASDA rouge</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="typeNatureAcces">
+		<xsd:annotation>
+			<xsd:documentation>Nature du droit d'acces à l'animal d'une liste</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="DE">
+				<xsd:annotation>
+					<xsd:documentation>détenu par l'utilisateur</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="PU">
+				<xsd:annotation>
+					<xsd:documentation>droits d'accès ouvert pour l'utilisateur</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="PE">
+				<xsd:annotation>
+					<xsd:documentation>présumé entré chez l'utilisateur</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="CI">
+				<xsd:annotation>
+					<xsd:documentation>connu comme circulant</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="EN">
+				<xsd:annotation>
+					<xsd:documentation>liste dont l'utilisateur est destinataire</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="typeNatureInterdiction">
+		<xsd:restriction base="xsd:string"/>
+	</xsd:simpleType>
+	<xsd:simpleType name="typeNatureRisque">
+		<xsd:annotation>
+			<xsd:documentation>Type correspondant à la nature du risque sanitaire professionnel</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="H">
+				<xsd:annotation>
+					<xsd:documentation>hypodermose bovine</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="I">
+				<xsd:annotation>
+					<xsd:documentation>IBR</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="typeNomBovin">
+		<xsd:annotation>
+			<xsd:documentation>Type correspondant au nom d'un bovin</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:maxLength value="10"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="typeNumeroLot">
+		<xsd:restriction base="xsd:string">
+			<xsd:length value="6"/>
+			<xsd:pattern value="([0-9A-Z])*"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="typeNumeroTravail">
+		<xsd:annotation>
+			<xsd:documentation>Type correspondant au numéro de travail d'un bovin</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:NMTOKEN">
+			<xsd:maxLength value="4"/>
+			<xsd:pattern value="[0-9]*"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="typeSexe">
+		<xsd:annotation>
+			<xsd:documentation>Type sexe d'un bovin</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="M">
+				<xsd:annotation>
+					<xsd:documentation>mâle</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="F">
+				<xsd:annotation>
+					<xsd:documentation>femelle</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="I">
+				<xsd:annotation>
+					<xsd:documentation>inconnu</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="typeStatutRisque">
+		<xsd:annotation>
+			<xsd:documentation>Type correspondant au statit par rapport àà un risque sanitaire professionnel</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="0"/>
+			<xsd:enumeration value="1"/>
+			<xsd:enumeration value="2"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="typeTemoinCompletude">
+		<xsd:annotation>
+			<xsd:documentation>Type témoin de complétude pour les date de naissance</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:length value="1"/>
+			<xsd:enumeration value="0"/>
+			<xsd:enumeration value="1"/>
+			<xsd:enumeration value="2"/>
+			<!--Date complète-->
+			<!--Seul le mois et l’année sont à prendre en compte-->
+			<!--Seule l’année est à prendre en compte-->
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:complexType name="typeAnimalAutorise">
+		<xsd:sequence>
+			<xsd:element name="IdentifiantOfficielBovin" type="tns:typeBovinPK"/>
+			<xsd:element name="Action" type="tns:typeAction"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="typeAnimalDefautAcces">
+		<xsd:sequence>
+			<xsd:element name="IdentifiantOfficielBovin" type="tns:typeBovinPK"/>
+			<xsd:element name="Action" type="tns:typeAction"/>
+			<xsd:element name="Erreur" type="tns:typeErreur"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="typeAnimalEnAcces">
+		<xsd:sequence>
+			<xsd:element name="IdentifiantOfficielBovin" type="tns:typeBovinPK"/>
+			<xsd:element name="Action" type="tns:typeAction"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="typeAnimalOKICA">
+		<xsd:sequence>
+			<xsd:element name="IdentifiantOfficielBovin" type="tns:typeBovinPK"/>
+			<xsd:element name="Action" type="tns:typeAction"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="typeAnimauxAutorises">
+		<xsd:sequence>
+			<xsd:element name="AnimalAutorise" type="tns:typeAnimalAutorise" maxOccurs="unbounded"/>
+			<xsd:element name="Destinataire" type="tns:typeDemandeur" minOccurs="0" maxOccurs="5"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="typeAutorisationDeplacements">
+		<xsd:annotation>
+			<xsd:documentation>Nature de l'autorisation de déplacement</xsd:documentation>
+		</xsd:annotation>
+		<xsd:choice>
+			<xsd:element name="Autorisation">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="StatutSanitaireOfficiel" type="tns:typeStatutSanitaireOfficiel"/>
+						<xsd:element name="StatutSanitaireProfessionnel" type="tns:typeStatutSanitaireProfessionnel" minOccurs="0"/>
+						<xsd:element name="DateFinValidite" type="xsd:date" minOccurs="0"/>
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name="Interdiction">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="NatureInterdiction" type="tns:typeNatureInterdiction"/>
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+		</xsd:choice>
+	</xsd:complexType>
+	<xsd:complexType name="typeBovinEtranger">
+		<xsd:annotation>
+			<xsd:documentation>Type Bovin étranger</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="CodePays">
+				<xsd:simpleType>
+					<xsd:restriction base="ns1:TypeCodePays">
+						<xsd:length value="2" fixed="true"/>
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+			<xsd:element name="NumeroNational" minOccurs="0">
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:NMTOKEN">
+						<xsd:maxLength value="12"/>
+						<xsd:pattern value="([0-9A-Z])*"/>
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="typeBovinEtrangerPK">
+		<xsd:annotation>
+			<xsd:documentation>Type Bovin étranger PK</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="CodePays">
+				<xsd:simpleType>
+					<xsd:restriction base="ns1:TypeCodePays">
+						<xsd:length value="2" fixed="true"/>
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+			<xsd:element name="NumeroNational">
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:NMTOKEN">
+						<xsd:maxLength value="12"/>
+						<xsd:pattern value="([0-9A-Z])*"/>
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="typeBovinNumeroTravail">
+		<xsd:annotation>
+			<xsd:documentation>Bovin par numéro de travail unitaire</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="Exploitation" type="tns:typeExploitationFrancaisePK"/>
+			<xsd:element name="NumeroTravail">
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:NMTOKEN">
+						<xsd:maxLength value="4" fixed="false"/>
+						<xsd:pattern value="([0-9])*"/>
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="typeBovinNumeroTravails">
+		<xsd:annotation>
+			<xsd:documentation>Bovin par numéro de travail</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="Exploitation" type="tns:typeExploitationFrancaisePK"/>
+			<xsd:element name="NumeroTravail" maxOccurs="unbounded">
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:NMTOKEN">
+						<xsd:maxLength value="4" fixed="false"/>
+						<xsd:pattern value="([0-9])*"/>
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="typeBovinPK">
+		<xsd:annotation>
+			<xsd:documentation>Type Bovin français, union européenne</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="CodePays">
+				<xsd:simpleType>
+					<xsd:restriction base="ns11:TypeCodePaysAnimal">
+						<xsd:length value="2" fixed="true"/>
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+			<xsd:element name="NumeroNational">
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:NMTOKEN">
+						<xsd:maxLength value="12" fixed="false"/>
+						<xsd:pattern value="([0-9A-Z])*"/>
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="typeBovinRefuse">
+		<xsd:annotation>
+			<xsd:documentation>Refus de fournir les données IT d'un animal</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:choice>
+				<xsd:element name="NumeroTravailBovin" type="tns:typeBovinNumeroTravail"/>
+				<xsd:element name="IdentifiantOfficielBovin" type="tns:typeBovinPK"/>
+			</xsd:choice>
+			<xsd:element name="Erreur" type="tns:typeErreur"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="typeCertificatFiliation">
+		<xsd:sequence>
+			<xsd:element name="NomBovin" type="tns:typeNomBovin" minOccurs="0"/>
+			<xsd:element name="CodeRaceGenetique" type="ns12:TypeCodeRaceGenetique" minOccurs="0"/>
+			<xsd:element name="Jumeau" type="xsd:boolean" minOccurs="0"/>
+			<xsd:element name="TransplantationEmbryonnaire" type="xsd:boolean" minOccurs="0"/>
+			<xsd:element name="NomMere" type="tns:typeNomBovin" minOccurs="0"/>
+			<xsd:element name="NumeroTravailMere" type="tns:typeNumeroTravail" minOccurs="0"/>
+			<xsd:element name="MereGenetique" type="tns:typeParentGenetiqueEtranger" minOccurs="0"/>
+			<xsd:element name="NomPere" type="tns:typeNomBovin" minOccurs="0"/>
+			<xsd:element name="PereGenetique" type="tns:typeParentGenetiqueEtranger" minOccurs="0"/>
+			<xsd:element name="NomDetenteurNaisseur" minOccurs="0">
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:string">
+						<xsd:length value="30"/>
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+			<xsd:element name="CauseRefusFiliation" minOccurs="0">
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:string">
+						<xsd:length value="2"/>
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="typeChargement">
+		<xsd:sequence>
+			<xsd:element name="IdentifiantCamion" type="tns:typeIdentifiantCamion"/>
+			<xsd:element name="ExploitationDeChargement" type="tns:typeExploitationFrancaisePK"/>
+			<xsd:element name="DateChargement" type="xsd:date"/>
+			<xsd:element name="HeureChargement" type="xsd:time" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="typeChargementDeclare">
+		<xsd:sequence>
+			<xsd:element name="ChargementDeclare" type="tns:typeEtatMouvementDeclare" maxOccurs="unbounded"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="typeChargementEchec">
+		<xsd:sequence>
+			<xsd:element name="ChargementEchec" type="tns:typeEtatMouvementEchec" maxOccurs="unbounded"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="typeCreationChargement">
+		<xsd:sequence>
+			<xsd:element name="Chargement" type="tns:typeChargement"/>
+			<xsd:element name="ListeChargee" type="tns:typeListeChargee" maxOccurs="unbounded"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="typeCreationDechargement">
+		<xsd:sequence>
+			<xsd:element name="Dechargement" type="tns:typeDechargement"/>
+			<xsd:element name="ListeDechargee" type="tns:typeListeDechargee" maxOccurs="unbounded"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="typeCreationListeBovin">
+		<xsd:sequence>
+			<xsd:element name="ListeAnimaux" type="tns:typeListeAnimaux" maxOccurs="unbounded"/>
+			<xsd:element name="NumeroLot" type="tns:typeNumeroLot" minOccurs="0"/>
+			<xsd:element name="Destinataire" type="tns:typeDemandeur" minOccurs="0" maxOccurs="5"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="typeCreationListeBovins">
+		<xsd:sequence>
+			<xsd:element name="ListesBovines" type="tns:typeCreationListeBovin" maxOccurs="unbounded"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="typeCreationReponseBovins">
+		<xsd:sequence>
+			<xsd:element name="ListeAnimauxOK" type="tns:typeAnimauxOK" minOccurs="0"/>
+			<xsd:element name="ListeEnEchec" type="tns:typeListeEnEchec" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="typeAnimauxOK">
+		<xsd:sequence>
+			<xsd:element name="AnimauxOK" type="tns:typeListeAnimaux" maxOccurs="unbounded"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="typeDateAvecTemoinCompletude">
+		<xsd:annotation>
+			<xsd:documentation>Type Date avec témoin de complétude</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="Date" type="xsd:date"/>
+			<xsd:element name="TemoinCompletude" type="tns:typeTemoinCompletude" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="typeDechargement">
+		<xsd:sequence>
+			<xsd:element name="IdentifiantCamion" type="tns:typeIdentifiantCamion"/>
+			<xsd:element name="ExploitationDeDechargement" type="tns:typeExploitationFrancaisePK"/>
+			<xsd:element name="DateDechargement" type="xsd:date"/>
+			<xsd:element name="HeureDechargement" type="xsd:time" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="typeDechargementDeclare">
+		<xsd:sequence>
+			<xsd:element name="DechargementDeclare" type="tns:typeEtatMouvementDeclare" maxOccurs="unbounded"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="typeDechargementEchec">
+		<xsd:sequence>
+			<xsd:element name="DechargementEchec" type="tns:typeEtatMouvementEchec" maxOccurs="unbounded"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="typeDeclarationICA">
+		<xsd:sequence>
+			<xsd:element name="ICA" type="tns:typeICA"/>
+			<xsd:element name="Action" type="tns:typeAction"/>
+			<xsd:element name="ListeNumeroOfficiel">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="IdentifiantOfficielBovin" type="tns:typeBovinPK" maxOccurs="unbounded"/>
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="typeDeclarationsICA">
+		<xsd:sequence>
+			<xsd:element name="DeclarationICA" type="tns:typeDeclarationICA" maxOccurs="unbounded"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="typeDemandeListe">
+		<xsd:choice>
+			<xsd:element name="ListeNumeroOfficiel">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="IdentifiantOfficielBovin" type="tns:typeBovinPK" maxOccurs="unbounded"/>
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name="ListeNumeroTravail" type="tns:typeBovinNumeroTravails"/>
+		</xsd:choice>
+	</xsd:complexType>
+	<xsd:complexType name="typeDemandeListeBovins">
+		<xsd:sequence>
+			<xsd:element name="PerimetreAcces" type="tns:typeNatureAcces"/>
+			<xsd:choice>
+				<xsd:element name="IdentifiantStructure" type="tns:typeStructure"/>
+				<xsd:element name="IdentifiantCamion" type="tns:typeIdentifiantCamion"/>
+			</xsd:choice>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="typeDemandeur">
+		<xsd:sequence>
+			<xsd:element name="CodePays" type="ns1:TypeCodePays"/>
+			<xsd:element name="Identifiant">
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:string">
+						<xsd:minLength value="6"/>
+						<xsd:maxLength value="15"/>
+						<xsd:pattern value="([0-9A-Z])*"/>
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="typeDonneesICA">
+		<xsd:annotation>
+			<xsd:documentation>Donnees ICA Associé à un animal</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="ICA" type="tns:typeICA"/>
+			<xsd:element name="ExploitationICADeclaree" type="tns:typeExploitationFrancaisePK"/>
+			<xsd:element name="DateDeclarationICA" type="xsd:date"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="typeDossierBovin">
+		<xsd:annotation>
+			<xsd:documentation>Type identité certification et statut sanitaire d'un bovin</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="InformationIdentification" type="tns:typeInformationIdentification"/>
+			<xsd:element name="PeriodesPresences" type="tns:typePeriodePresence" maxOccurs="unbounded"/>
+			<xsd:element name="StatutSanitaire" type="tns:typeStatutSanitaire"/>
+			<xsd:element name="CertificatFiliation" type="tns:typeCertificatFiliation" minOccurs="0"/>
+			<xsd:element name="DonneesICA" type="tns:typeDonneesICA" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="typeErreur">
+		<xsd:sequence>
+			<xsd:element name="CodeErreur" type="ns13:TypeCodeErreur" minOccurs="0"/>
+			<xsd:element name="LibelleErreur" type="xsd:string" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="typeErreurAnimalICA">
+		<xsd:sequence>
+			<xsd:element name="IdentifiantOfficielBovin" type="tns:typeBovinPK"/>
+			<xsd:element name="Action" type="tns:typeAction"/>
+			<xsd:element name="Erreur" type="tns:typeErreur"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="typeErreurListe">
+		<xsd:sequence>
+			<xsd:element name="IdentifiantOfficielBovin" type="tns:typeBovinPK"/>
+			<xsd:element name="Action" type="tns:typeAction"/>
+			<xsd:element name="Erreur" type="tns:typeErreur"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="typeEtatMouvementEchec">
+		<xsd:sequence>
+			<xsd:element name="IdentifiantOfficielBovin" type="tns:typeBovinPK" maxOccurs="unbounded"/>
+			<xsd:element name="Action" type="tns:typeAction"/>
+			<xsd:element name="Erreur" type="tns:typeErreur"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="typeEtatMouvementDeclare">
+		<xsd:sequence>
+			<xsd:element name="IdentifiantOfficielBovin" type="tns:typeBovinPK" maxOccurs="unbounded"/>
+			<xsd:element name="Action" type="tns:typeAction"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="typeExploitationFrancaisePK">
+		<xsd:annotation>
+			<xsd:documentation>Type Exploitation française (FR uniquement)</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="CodePays" type="tns:typeCodePaysFr"/>
+			<xsd:element name="NumeroExploitation">
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:NMTOKEN">
+						<xsd:length value="8"/>
+						<xsd:pattern value="0[1-9][0-9]{6}|[1-8][0-9]{7}|9[0-5][0-9]{6}|9[7-8][0-9]{6}"/>
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="typeExploitationTiersPK">
+		<xsd:annotation>
+			<xsd:documentation>Type Exploitation pays tiers acheteur/vendeur</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="CodePays">
+				<xsd:simpleType>
+					<xsd:restriction base="ns1:TypeCodePays">
+						<xsd:length value="2" fixed="true"/>
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+			<xsd:element name="NumeroExploitation">
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:NMTOKEN">
+						<xsd:maxLength value="12"/>
+						<xsd:pattern value="([0-9A-Z])*"/>
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="typeICA">
+		<xsd:choice>
+			<xsd:element name="SansMentionICA"/>
+			<xsd:element name="MentionICASpecifique" type="tns:typeInformationsICA"/>
+		</xsd:choice>
+	</xsd:complexType>
+	<xsd:complexType name="typeIdentifiantCamion">
+		<xsd:annotation>
+			<xsd:documentation>identifiant d'un camion</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="CodePaysCamion">
+				<xsd:simpleType>
+					<xsd:restriction base="ns11:TypeCodePaysAnimal">
+						<xsd:length value="2" fixed="true"/>
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+			<xsd:element name="NumeroMineralogique">
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:NMTOKEN">
+						<xsd:maxLength value="12" fixed="false"/>
+						<xsd:pattern value="([0-9A-Z])*"/>
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="typeInformationIdentification">
+		<xsd:annotation>
+			<xsd:documentation>Identité d'un bovin</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="IdentifiantOfficielBovin" type="tns:typeBovinPK"/>
+			<xsd:element name="NumeroTravail" type="tns:typeNumeroTravail" minOccurs="0"/>
+			<xsd:element name="Sexe" type="tns:typeSexe"/>
+			<xsd:element name="TypeRacial" type="ns2:TypeCodeRaceBovin"/>
+			<xsd:element name="DateNaissance" type="tns:typeDateAvecTemoinCompletude"/>
+			<xsd:element name="ExploitationNaissance" type="tns:typeExploitationTiersPK"/>
+			<xsd:element name="MereDeclaree" type="tns:typeParentEtranger"/>
+			<xsd:element name="TypeRacialPere" type="ns2:TypeCodeRaceBovin" minOccurs="0"/>
+			<xsd:element name="CadreE" type="xsd:string" minOccurs="0"/>
+			<xsd:element name="TemoinVelage" type="xsd:boolean"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="typeInformationsICA">
+		<xsd:sequence>
+			<xsd:element name="Traitement" type="xsd:boolean" minOccurs="0"/>
+			<xsd:element name="Botulisme" type="xsd:boolean" minOccurs="0"/>
+			<xsd:element name="Listeriose" type="xsd:boolean" minOccurs="0"/>
+			<xsd:element name="Salmonellose" type="xsd:boolean" minOccurs="0"/>
+			<xsd:element name="Cysticercose" type="xsd:boolean" minOccurs="0"/>
+			<xsd:element name="RisqueNotifie" minOccurs="0">
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:string">
+						<xsd:maxLength value="50"/>
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="typeListeAnimaux">
+		<xsd:sequence>
+			<xsd:element name="IdentifiantOfficielBovin" type="tns:typeBovinPK"/>
+			<xsd:element name="Action" type="tns:typeAction"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="typeListeAnimauxAutorises">
+		<xsd:sequence>
+			<xsd:element name="AnimauxAutorises" type="tns:typeAnimauxAutorises" maxOccurs="unbounded"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="typeListeChargee">
+		<xsd:sequence>
+			<xsd:element name="ExploitationDestinationPrevue" type="tns:typeExploitationFrancaisePK" minOccurs="0"/>
+			<xsd:element name="Action" type="tns:typeAction"/>
+			<xsd:element name="IdentifiantOfficielBovin" type="tns:typeBovinPK" maxOccurs="unbounded"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="typeListeDechargee">
+		<xsd:sequence>
+			<xsd:element name="IdentifiantOfficielBovin" type="tns:typeBovinPK" maxOccurs="unbounded"/>
+			<xsd:element name="Action" type="tns:typeAction"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="typeListeEnEchec">
+		<xsd:sequence>
+			<xsd:element name="ErreurAnimalListe" type="tns:typeErreurListe" maxOccurs="unbounded"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="typeReponseListeICA">
+		<xsd:sequence>
+			<xsd:element name="AnimauxOKICA" type="tns:typeAnimalOKICA" minOccurs="0" maxOccurs="unbounded"/>
+			<xsd:element name="ErreurAnimauxICA" type="tns:typeErreurAnimalICA" minOccurs="0" maxOccurs="unbounded"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="typeListeRetour">
+		<xsd:sequence>
+			<xsd:element name="NbBovins" type="xsd:unsignedInt"/>
+			<xsd:element name="ListeAnimaux" minOccurs="0" maxOccurs="unbounded">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="IdentifiantOfficielBovin" type="tns:typeBovinPK" maxOccurs="unbounded"/>
+						<xsd:element name="PerimetreAcces" type="tns:typeNatureAcces"/>
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="typeMLRC">
+		<xsd:sequence>
+			<xsd:element name="Leucose" type="xsd:boolean"/>
+			<xsd:element name="Brucellose" type="xsd:boolean"/>
+			<xsd:element name="Tuberculose" type="xsd:boolean"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="typeMouvementEntree">
+		<xsd:annotation>
+			<xsd:documentation>Type Mouvement d'entrée</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="DateEntree" type="xsd:date"/>
+			<xsd:element name="CauseEntree" type="ns9:CauseEntreeHistoriqueType"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="typeMouvementSortie">
+		<xsd:annotation>
+			<xsd:documentation>Type Mouvement de sortie</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="DateSortie" type="xsd:date"/>
+			<xsd:element name="CauseSortie" type="ns10:CauseSortieHistoriqueType"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="typeParentEtranger">
+		<xsd:annotation>
+			<xsd:documentation>Type Parent étranger</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="IdentiteBovin" type="tns:typeBovinEtrangerPK" minOccurs="0"/>
+			<xsd:element name="TypeRacial" type="ns2:TypeCodeRaceBovin" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="typeParentGenetiqueEtranger">
+		<xsd:annotation>
+			<xsd:documentation>Type Parent génétique étranger</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="IdentiteBovin" type="tns:typeBovinEtranger" minOccurs="0"/>
+			<xsd:element name="CodeRaceGenetique" type="ns12:TypeCodeRaceGenetique" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="typePeriodePresence">
+		<xsd:sequence>
+			<xsd:element name="Exploitation" type="tns:typeExploitationFrancaisePK"/>
+			<xsd:element name="PeriodePresence">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="Entree" type="tns:typeMouvementEntree"/>
+						<xsd:element name="Sortie" type="tns:typeMouvementSortie" minOccurs="0"/>
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="typeReponseChargement">
+		<xsd:sequence>
+			<xsd:element name="ListeChargementDeclare" type="tns:typeChargementDeclare" minOccurs="0"/>
+			<xsd:element name="ListeChargementEchec" type="tns:typeChargementEchec" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="typeReponseDechargement">
+		<xsd:sequence>
+			<xsd:element name="ListeDechargementDeclare" type="tns:typeDechargementDeclare" minOccurs="0"/>
+			<xsd:element name="ListeDechargementEchec" type="tns:typeDechargementEchec" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="typeReponseDroitAcces">
+		<xsd:sequence>
+			<xsd:element name="AnimauxEnAcces" type="tns:typeAnimalEnAcces" minOccurs="0" maxOccurs="unbounded"/>
+			<xsd:element name="AnimauxDefautAcces" type="tns:typeAnimalDefautAcces" minOccurs="0" maxOccurs="unbounded"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="typeReponseListeDonnees">
+		<xsd:sequence>
+			<xsd:element name="DossierBovin" type="tns:typeDossierBovin" minOccurs="0" maxOccurs="unbounded"/>
+			<xsd:element name="BovinRefuse" type="tns:typeBovinRefuse" minOccurs="0" maxOccurs="unbounded"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="typeReponseListeStatut">
+		<xsd:sequence>
+			<xsd:element name="StatutDeplacementBovin" type="tns:typeStatutDeplacementBovin" minOccurs="0" maxOccurs="unbounded"/>
+			<xsd:element name="StatutRefuse" type="tns:typeStatutRefuse" minOccurs="0" maxOccurs="unbounded"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="typeRisqueSanitaire">
+		<xsd:sequence>
+			<xsd:element name="NatureRisque" type="tns:typeNatureRisque"/>
+			<xsd:element name="Statut" type="tns:typeStatutRisque"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="typeStatutDeplacementBovin">
+		<xsd:annotation>
+			<xsd:documentation>Statut déplacement de l'animal</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="IdentifiantOfficielBovin" type="tns:typeBovinPK"/>
+			<xsd:element name="Sexe" type="tns:typeSexe" minOccurs="0"/>
+			<xsd:element name="TypeRacial" type="ns2:TypeCodeRaceBovin" minOccurs="0"/>
+			<xsd:element name="DateNaissance" type="tns:typeDateAvecTemoinCompletude" minOccurs="0"/>
+			<xsd:element name="StatutSanitaire" type="tns:typeStatutSanitaire"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="typeStatutRefuse">
+		<xsd:annotation>
+			<xsd:documentation>Refus de fournir le statut d'un animal</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:choice>
+				<xsd:element name="NumeroTravailBovin" type="tns:typeBovinNumeroTravail"/>
+				<xsd:element name="IdentifiantOfficielBovin" type="tns:typeBovinPK"/>
+			</xsd:choice>
+			<xsd:element name="Erreur" type="tns:typeErreur"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="typeStatutSanitaire">
+		<xsd:annotation>
+			<xsd:documentation>Statut sanitaire de l'animal</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="ExploitationStatutSanitaire" type="tns:typeExploitationFrancaisePK" minOccurs="0"/>
+			<xsd:element name="AutorisationDeplacement" type="tns:typeAutorisationDeplacements"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="typeStatutSanitaireOfficiel">
+		<xsd:annotation>
+			<xsd:documentation>Statut sanitaire officiel de l'animal</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="CouleurASDA" type="tns:typeCouleurASDA"/>
+			<xsd:element name="MLRC" type="tns:typeMLRC" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="typeStatutSanitaireProfessionnel">
+		<xsd:annotation>
+			<xsd:documentation>Statut sanitaire professionnel associé à l'animal</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence maxOccurs="unbounded">
+			<xsd:element name="RisqueSanitaire" type="tns:typeRisqueSanitaire"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="typeStructure">
+		<xsd:sequence>
+			<xsd:element name="CodePays" type="ns1:TypeCodePays"/>
+			<xsd:element name="Identifiant">
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:string">
+						<xsd:minLength value="6"/>
+						<xsd:maxLength value="15"/>
+						<xsd:pattern value="([0-9A-Z])*"/>
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+			<xsd:element name="NumeroLot" type="tns:typeNumeroLot" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+</xsd:schema>
