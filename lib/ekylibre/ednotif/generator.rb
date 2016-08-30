@@ -1,16 +1,10 @@
 module Ekylibre
-  module Tele
-    module Idele
-      class Generator
-        def initialize
-          @resources_dir = File.dirname(__FILE__) + '/resources/'
-          @transcoding_dir = File.dirname(__FILE__) + '/transcoding/'
-          @in_dir = 'in/'
-          @out_dir = 'out/'
-        end
+  module Ednotif
+    class Generator
+      class << self
 
         def bos_taurus
-          csv_url = @resources_dir + 'codeTypeRacial.csv'
+          csv_url = ::Ekylibre::Ednotif.import_dir.join('codeTypeRacial.csv')
           transcoding_filename = 'bos_taurus.yml'
           transcoding_exception_filename = 'bos_taurus.exception.yml'
 
@@ -46,8 +40,8 @@ module Ekylibre
               end
             end
 
-            if File.exist?(@transcoding_dir + @out_dir + transcoding_exception_filename)
-              out_existing_exception = YAML.load_file(@transcoding_dir + @out_dir + transcoding_exception_filename)
+            if File.exist?(::Ekylibre::Ednotif.out_transcoding_dir.join(transcoding_exception_filename))
+              out_existing_exception = YAML.load_file(::Ekylibre::Ednotif.out_transcoding_dir.join(transcoding_exception_filename))
 
               out_matched_races.reverse_merge!(out_existing_exception)
 
@@ -85,8 +79,8 @@ module Ekylibre
               end
             end
 
-            if File.exist?(@transcoding_dir + @in_dir + transcoding_exception_filename)
-              in_existing_exception = YAML.load_file(@transcoding_dir + @in_dir + transcoding_exception_filename)
+            if File.exist?(::Ekylibre::Ednotif.in_transcoding_dir.join(transcoding_exception_filename))
+              in_existing_exception = YAML.load_file(::Ekylibre::Ednotif.in_transcoding_dir.join(transcoding_exception_filename))
 
               in_matched_races.reverse_merge!(in_existing_exception)
 
@@ -111,16 +105,16 @@ module Ekylibre
 
             ## RESULTS
             #
-            File.open(@transcoding_dir + @out_dir + transcoding_filename, 'w') { |f| f.write(out_matched_races.to_yaml) }
+            File.open(::Ekylibre::Ednotif.out_transcoding_dir.join(transcoding_filename), 'w') { |f| f.write(out_matched_races.to_yaml) }
 
-            File.open(@transcoding_dir + @in_dir + transcoding_filename, 'w') { |f| f.write(in_matched_races.to_yaml) }
+            File.open(::Ekylibre::Ednotif.in_transcoding_dir.join(transcoding_filename), 'w') { |f| f.write(in_matched_races.to_yaml) }
 
             unless out_exception_races.empty?
-              File.open(@transcoding_dir + @out_dir + transcoding_exception_filename, 'a+') { |f| f.write(out_exception_races.to_yaml) }
+              File.open(::Ekylibre::Ednotif.out_transcoding_dir.join(transcoding_exception_filename), 'a+') { |f| f.write(out_exception_races.to_yaml) }
             end
 
             unless in_exception_races.empty?
-              File.open(@transcoding_dir + @in_dir + transcoding_exception_filename, 'a+') { |f| f.write(in_exception_races.to_yaml) }
+              File.open(::Ekylibre::Ednotif.in_transcoding_dir.join(transcoding_exception_filename), 'a+') { |f| f.write(in_exception_races.to_yaml) }
             end
 
             print results
@@ -132,7 +126,7 @@ module Ekylibre
         end
 
         def sexes
-          xsd_url = @resources_dir + 'IpBNotif_v1.xsd'
+          xsd_url = ::Ekylibre::Ednotif.import_dir.join('IpBNotif_v1.xsd')
           transcoding_filename = 'sexes.yml'
           transcoding_exception_filename = 'sexes.exception.yml'
 
@@ -175,8 +169,8 @@ module Ekylibre
               end
             end
 
-            if File.exist?(@transcoding_dir + @out_dir + transcoding_exception_filename)
-              out_existing_exception = YAML.load_file(@transcoding_dir + @out_dir + transcoding_exception_filename)
+            if File.exist?(::Ekylibre::Ednotif.out_transcoding_dir.join(transcoding_exception_filename))
+              out_existing_exception = YAML.load_file(::Ekylibre::Ednotif.out_transcoding_dir.join(transcoding_exception_filename))
 
               out_matched_sexes.reverse_merge!(out_existing_exception)
 
@@ -219,8 +213,8 @@ module Ekylibre
               end
             end
 
-            if File.exist?(@transcoding_dir + @in_dir + transcoding_exception_filename)
-              in_existing_exception = YAML.load_file(@transcoding_dir + @in_dir + transcoding_exception_filename)
+            if File.exist?(::Ekylibre::Ednotif.in_transcoding_dir.join(transcoding_exception_filename))
+              in_existing_exception = YAML.load_file(::Ekylibre::Ednotif.in_transcoding_dir.join(transcoding_exception_filename))
 
               in_matched_sexes.reverse_merge!(in_existing_exception)
 
@@ -245,16 +239,16 @@ module Ekylibre
 
             ## RESULTS
             #
-            File.open(@transcoding_dir + @out_dir + transcoding_filename, 'w') { |f| f.write(out_matched_sexes.to_yaml) }
+            File.open(::Ekylibre::Ednotif.out_transcoding_dir.join(transcoding_filename), 'w') { |f| f.write(out_matched_sexes.to_yaml) }
 
-            File.open(@transcoding_dir + @in_dir + transcoding_filename, 'w') { |f| f.write(in_matched_sexes.to_yaml) }
+            File.open(::Ekylibre::Ednotif.in_transcoding_dir.join(transcoding_filename), 'w') { |f| f.write(in_matched_sexes.to_yaml) }
 
             unless out_exception_sexes.empty?
-              File.open(@transcoding_dir + @out_dir + transcoding_exception_filename, 'a+') { |f| f.write(out_exception_sexes.to_yaml) }
+              File.open(::Ekylibre::Ednotif.out_transcoding_dir.join(transcoding_exception_filename), 'a+') { |f| f.write(out_exception_sexes.to_yaml) }
             end
 
             unless in_exception_sexes.empty?
-              File.open(@transcoding_dir + @in_dir + transcoding_exception_filename, 'a+') { |f| f.write(in_exception_sexes.to_yaml) }
+              File.open(::Ekylibre::Ednotif.in_transcoding_dir.join(transcoding_exception_filename), 'a+') { |f| f.write(in_exception_sexes.to_yaml) }
             end
 
             print results
@@ -278,13 +272,13 @@ module Ekylibre
 
           ## RESULTS
           #
-          File.open(@transcoding_dir + @out_dir + transcoding_filename, 'w') { |f| f.write(nomen_countries.to_yaml) }
+          File.open(::Ekylibre::Ednotif.out_transcoding_dir.join(transcoding_filename), 'w') { |f| f.write(nomen_countries.to_yaml) }
 
-          File.open(@transcoding_dir + @in_dir + transcoding_filename, 'w') { |f| f.write(idele_countries.to_yaml) }
+          File.open(::Ekylibre::Ednotif.in_transcoding_dir.join(transcoding_filename), 'w') { |f| f.write(idele_countries.to_yaml) }
         end
 
         def mammalia_birth_conditions
-          xsd_url = @resources_dir + 'IpBNotif_v1.xsd'
+          xsd_url = ::Ekylibre::Ednotif.import_dir.join('IpBNotif_v1.xsd')
           transcoding_filename = 'mammalia_birth_conditions.yml'
           transcoding_exception_filename = 'mammalia_birth_conditions.exception.yml'
 
@@ -319,8 +313,8 @@ module Ekylibre
             ## OUT
             #
 
-            if File.exist?(@transcoding_dir + @out_dir + transcoding_exception_filename)
-              out_existing_exception = YAML.load_file(@transcoding_dir + @out_dir + transcoding_exception_filename)
+            if File.exist?(::Ekylibre::Ednotif.out_transcoding_dir.join(transcoding_exception_filename))
+              out_existing_exception = YAML.load_file(::Ekylibre::Ednotif.out_transcoding_dir.join(transcoding_exception_filename))
 
               out_matched_mammalia_birth_conditions.reverse_merge!(out_existing_exception)
 
@@ -355,8 +349,8 @@ module Ekylibre
             idele_mammalia_birth_conditions.each_key { |k| idele_mammalia_birth_conditions[k][:matched] = 0 }
             #
 
-            if File.exist?(@transcoding_dir + @in_dir + transcoding_exception_filename)
-              in_existing_exception = YAML.load_file(@transcoding_dir + @in_dir + transcoding_exception_filename)
+            if File.exist?(::Ekylibre::Ednotif.in_transcoding_dir.join(transcoding_exception_filename))
+              in_existing_exception = YAML.load_file(::Ekylibre::Ednotif.in_transcoding_dir.join(transcoding_exception_filename))
 
               in_matched_mammalia_birth_conditions.reverse_merge!(in_existing_exception)
 
@@ -391,19 +385,19 @@ module Ekylibre
             #
 
             unless out_matched_mammalia_birth_conditions.empty?
-              File.open(@transcoding_dir + @out_dir + transcoding_filename, 'w') { |f| f.write(out_matched_mammalia_birth_conditions.to_yaml) }
+              File.open(::Ekylibre::Ednotif.out_transcoding_dir.join(transcoding_filename), 'w') { |f| f.write(out_matched_mammalia_birth_conditions.to_yaml) }
             end
 
             unless in_matched_mammalia_birth_conditions.empty?
-              File.open(@transcoding_dir + @in_dir + transcoding_filename, 'w') { |f| f.write(in_matched_mammalia_birth_conditions.to_yaml) }
+              File.open(::Ekylibre::Ednotif.in_transcoding_dir.join(transcoding_filename), 'w') { |f| f.write(in_matched_mammalia_birth_conditions.to_yaml) }
             end
 
             unless out_exception_mammalia_birth_conditions.empty?
-              File.open(@transcoding_dir + @out_dir + transcoding_exception_filename, 'a+') { |f| f.write(out_exception_mammalia_birth_conditions.to_yaml) }
+              File.open(::Ekylibre::Ednotif.out_transcoding_dir.join(transcoding_exception_filename), 'a+') { |f| f.write(out_exception_mammalia_birth_conditions.to_yaml) }
             end
 
             unless in_exception_mammalia_birth_conditions.empty?
-              File.open(@transcoding_dir + @in_dir + transcoding_exception_filename, 'a+') { |f| f.write(in_exception_mammalia_birth_conditions.to_yaml) }
+              File.open(::Ekylibre::Ednotif.in_transcoding_dir.join(transcoding_exception_filename), 'a+') { |f| f.write(in_exception_mammalia_birth_conditions.to_yaml) }
             end
 
             print results
@@ -430,7 +424,7 @@ module Ekylibre
           nomen_entry_reason = {}
           idele_entry_reason = {}
 
-          xsd_url = @resources_dir + 'CauseEntree.XSD'
+          xsd_url = ::Ekylibre::Ednotif.import_dir.join('CauseEntree.XSD')
           transcoding_filename = 'entry_reason.yml'
           transcoding_exception_filename = 'entry_reason.exception.yml'
 
@@ -458,8 +452,8 @@ module Ekylibre
             ## OUT
             #
 
-            if File.exist?(@transcoding_dir + @out_dir + transcoding_exception_filename)
-              out_existing_exception = YAML.load_file(@transcoding_dir + @out_dir + transcoding_exception_filename)
+            if File.exist?(::Ekylibre::Ednotif.out_transcoding_dir.join(transcoding_exception_filename))
+              out_existing_exception = YAML.load_file(::Ekylibre::Ednotif.out_transcoding_dir.join(transcoding_exception_filename))
 
               out_matched_entry_reason.reverse_merge!(out_existing_exception)
 
@@ -494,8 +488,8 @@ module Ekylibre
             idele_entry_reason.each_key { |k| idele_entry_reason[k][:matched] = 0 }
             #
 
-            if File.exist?(@transcoding_dir + @in_dir + transcoding_exception_filename)
-              in_existing_exception = YAML.load_file(@transcoding_dir + @in_dir + transcoding_exception_filename)
+            if File.exist?(::Ekylibre::Ednotif.in_transcoding_dir.join(transcoding_exception_filename))
+              in_existing_exception = YAML.load_file(::Ekylibre::Ednotif.in_transcoding_dir.join(transcoding_exception_filename))
 
               in_matched_entry_reason.reverse_merge!(in_existing_exception)
 
@@ -522,19 +516,19 @@ module Ekylibre
             #
 
             unless out_matched_entry_reason.empty?
-              File.open(@transcoding_dir + @out_dir + transcoding_filename, 'w') { |f| f.write(out_matched_entry_reason.to_yaml) }
+              File.open(::Ekylibre::Ednotif.out_transcoding_dir.join(transcoding_filename), 'w') { |f| f.write(out_matched_entry_reason.to_yaml) }
             end
 
             unless in_matched_entry_reason.empty?
-              File.open(@transcoding_dir + @in_dir + transcoding_filename, 'w') { |f| f.write(in_matched_entry_reason.to_yaml) }
+              File.open(::Ekylibre::Ednotif.in_transcoding_dir.join(transcoding_filename), 'w') { |f| f.write(in_matched_entry_reason.to_yaml) }
             end
 
             unless out_exception_entry_reason.empty?
-              File.open(@transcoding_dir + @out_dir + transcoding_exception_filename, 'a+') { |f| f.write(out_exception_entry_reason.to_yaml) }
+              File.open(::Ekylibre::Ednotif.out_transcoding_dir.join(transcoding_exception_filename), 'a+') { |f| f.write(out_exception_entry_reason.to_yaml) }
             end
 
             unless in_exception_entry_reason.empty?
-              File.open(@transcoding_dir + @in_dir + transcoding_exception_filename, 'a+') { |f| f.write(in_exception_entry_reason.to_yaml) }
+              File.open(::Ekylibre::Ednotif.in_transcoding_dir.join(transcoding_exception_filename), 'a+') { |f| f.write(in_exception_entry_reason.to_yaml) }
             end
 
             print results
@@ -572,7 +566,7 @@ module Ekylibre
           nomen_exit_reason = {}
           idele_exit_reason = {}
 
-          xsd_url = @resources_dir + 'CauseSortie.XSD'
+          xsd_url = ::Ekylibre::Ednotif.import_dir.join('CauseSortie.XSD')
           transcoding_filename = 'exit_reason.yml'
           transcoding_exception_filename = 'exit_reason.exception.yml'
 
@@ -600,8 +594,8 @@ module Ekylibre
             ## OUT
             #
 
-            if File.exist?(@transcoding_dir + @out_dir + transcoding_exception_filename)
-              out_existing_exception = YAML.load_file(@transcoding_dir + @out_dir + transcoding_exception_filename)
+            if File.exist?(::Ekylibre::Ednotif.out_transcoding_dir.join(transcoding_exception_filename))
+              out_existing_exception = YAML.load_file(::Ekylibre::Ednotif.out_transcoding_dir.join(transcoding_exception_filename))
 
               out_matched_exit_reason.reverse_merge!(out_existing_exception)
 
@@ -636,8 +630,8 @@ module Ekylibre
             idele_exit_reason.each_key { |k| idele_exit_reason[k][:matched] = 0 }
             #
 
-            if File.exist?(@transcoding_dir + @in_dir + transcoding_exception_filename)
-              in_existing_exception = YAML.load_file(@transcoding_dir + @in_dir + transcoding_exception_filename)
+            if File.exist?(::Ekylibre::Ednotif.in_transcoding_dir.join(transcoding_exception_filename))
+              in_existing_exception = YAML.load_file(::Ekylibre::Ednotif.in_transcoding_dir.join(transcoding_exception_filename))
 
               in_matched_exit_reason.reverse_merge!(in_existing_exception)
 
@@ -664,19 +658,19 @@ module Ekylibre
             #
 
             unless out_matched_exit_reason.empty?
-              File.open(@transcoding_dir + @out_dir + transcoding_filename, 'w') { |f| f.write(out_matched_exit_reason.to_yaml) }
+              File.open(::Ekylibre::Ednotif.out_transcoding_dir.join(transcoding_filename), 'w') { |f| f.write(out_matched_exit_reason.to_yaml) }
             end
 
             unless in_matched_exit_reason.empty?
-              File.open(@transcoding_dir + @in_dir + transcoding_filename, 'w') { |f| f.write(in_matched_exit_reason.to_yaml) }
+              File.open(::Ekylibre::Ednotif.in_transcoding_dir.join(transcoding_filename), 'w') { |f| f.write(in_matched_exit_reason.to_yaml) }
             end
 
             unless out_exception_exit_reason.empty?
-              File.open(@transcoding_dir + @out_dir + transcoding_exception_filename, 'a+') { |f| f.write(out_exception_exit_reason.to_yaml) }
+              File.open(::Ekylibre::Ednotif.out_transcoding_dir.join(transcoding_exception_filename), 'a+') { |f| f.write(out_exception_exit_reason.to_yaml) }
             end
 
             unless in_exception_exit_reason.empty?
-              File.open(@transcoding_dir + @in_dir + transcoding_exception_filename, 'a+') { |f| f.write(in_exception_exit_reason.to_yaml) }
+              File.open(::Ekylibre::Ednotif.in_transcoding_dir.join(transcoding_exception_filename), 'a+') { |f| f.write(in_exception_exit_reason.to_yaml) }
             end
 
             print results
@@ -704,7 +698,7 @@ module Ekylibre
           nomen_temoin_completude = {}
           idele_temoin_completude = {}
 
-          xsd_url = @resources_dir + 'IpBNotif_v1.xsd'
+          xsd_url = ::Ekylibre::Ednotif.import_dir.join('IpBNotif_v1.xsd')
           transcoding_filename = 'temoin_completude.yml'
           transcoding_exception_filename = 'temoin_completude.exception.yml'
 
@@ -732,8 +726,8 @@ module Ekylibre
             ## OUT
             #
 
-            if File.exist?(@transcoding_dir + @out_dir + transcoding_exception_filename)
-              out_existing_exception = YAML.load_file(@transcoding_dir + @out_dir + transcoding_exception_filename)
+            if File.exist?(::Ekylibre::Ednotif.out_transcoding_dir.join(transcoding_exception_filename))
+              out_existing_exception = YAML.load_file(::Ekylibre::Ednotif.out_transcoding_dir.join(transcoding_exception_filename))
 
               out_matched_temoin_completude.reverse_merge!(out_existing_exception)
 
@@ -768,8 +762,8 @@ module Ekylibre
             idele_temoin_completude.each_key { |k| idele_temoin_completude[k][:matched] = 0 }
             #
 
-            if File.exist?(@transcoding_dir + @in_dir + transcoding_exception_filename)
-              in_existing_exception = YAML.load_file(@transcoding_dir + @in_dir + transcoding_exception_filename)
+            if File.exist?(::Ekylibre::Ednotif.in_transcoding_dir.join(transcoding_exception_filename))
+              in_existing_exception = YAML.load_file(::Ekylibre::Ednotif.in_transcoding_dir.join(transcoding_exception_filename))
 
               in_matched_temoin_completude.reverse_merge!(in_existing_exception)
 
@@ -796,19 +790,19 @@ module Ekylibre
             #
 
             unless out_matched_temoin_completude.empty?
-              File.open(@transcoding_dir + @out_dir + transcoding_filename, 'w') { |f| f.write(out_matched_temoin_completude.to_yaml) }
+              File.open(::Ekylibre::Ednotif.out_transcoding_dir.join(transcoding_filename), 'w') { |f| f.write(out_matched_temoin_completude.to_yaml) }
             end
 
             unless in_matched_temoin_completude.empty?
-              File.open(@transcoding_dir + @in_dir + transcoding_filename, 'w') { |f| f.write(in_matched_temoin_completude.to_yaml) }
+              File.open(::Ekylibre::Ednotif.in_transcoding_dir.join(transcoding_filename), 'w') { |f| f.write(in_matched_temoin_completude.to_yaml) }
             end
 
             unless out_exception_temoin_completude.empty?
-              File.open(@transcoding_dir + @out_dir + transcoding_exception_filename, 'a+') { |f| f.write(out_exception_temoin_completude.to_yaml) }
+              File.open(::Ekylibre::Ednotif.out_transcoding_dir.join(transcoding_exception_filename), 'a+') { |f| f.write(out_exception_temoin_completude.to_yaml) }
             end
 
             unless in_exception_temoin_completude.empty?
-              File.open(@transcoding_dir + @in_dir + transcoding_exception_filename, 'a+') { |f| f.write(in_exception_temoin_completude.to_yaml) }
+              File.open(::Ekylibre::Ednotif.in_transcoding_dir.join(transcoding_exception_filename), 'a+') { |f| f.write(in_exception_temoin_completude.to_yaml) }
             end
 
             print results
@@ -837,7 +831,7 @@ module Ekylibre
           nomen_temoin_fin_de_vie = {}
           idele_temoin_fin_de_vie = {}
 
-          xsd_url = @resources_dir + 'IpBNotif_v1.xsd'
+          xsd_url = ::Ekylibre::Ednotif.import_dir.join('IpBNotif_v1.xsd')
           transcoding_filename = 'temoin_fin_de_vie.yml'
           transcoding_exception_filename = 'temoin_fin_de_vie.exception.yml'
 
@@ -865,8 +859,8 @@ module Ekylibre
             ## OUT
             #
 
-            if File.exist?(@transcoding_dir + @out_dir + transcoding_exception_filename)
-              out_existing_exception = YAML.load_file(@transcoding_dir + @out_dir + transcoding_exception_filename)
+            if File.exist?(::Ekylibre::Ednotif.out_transcoding_dir.join(transcoding_exception_filename))
+              out_existing_exception = YAML.load_file(::Ekylibre::Ednotif.out_transcoding_dir.join(transcoding_exception_filename))
 
               out_matched_temoin_fin_de_vie.reverse_merge!(out_existing_exception)
 
@@ -901,8 +895,8 @@ module Ekylibre
             idele_temoin_fin_de_vie.each_key { |k| idele_temoin_fin_de_vie[k][:matched] = 0 }
             #
 
-            if File.exist?(@transcoding_dir + @in_dir + transcoding_exception_filename)
-              in_existing_exception = YAML.load_file(@transcoding_dir + @in_dir + transcoding_exception_filename)
+            if File.exist?(::Ekylibre::Ednotif.in_transcoding_dir.join(transcoding_exception_filename))
+              in_existing_exception = YAML.load_file(::Ekylibre::Ednotif.in_transcoding_dir.join(transcoding_exception_filename))
 
               in_matched_temoin_fin_de_vie.reverse_merge!(in_existing_exception)
 
@@ -929,19 +923,19 @@ module Ekylibre
             #
 
             unless out_matched_temoin_fin_de_vie.empty?
-              File.open(@transcoding_dir + @out_dir + transcoding_filename, 'w') { |f| f.write(out_matched_temoin_fin_de_vie.to_yaml) }
+              File.open(::Ekylibre::Ednotif.out_transcoding_dir.join(transcoding_filename), 'w') { |f| f.write(out_matched_temoin_fin_de_vie.to_yaml) }
             end
 
             unless in_matched_temoin_fin_de_vie.empty?
-              File.open(@transcoding_dir + @in_dir + transcoding_filename, 'w') { |f| f.write(in_matched_temoin_fin_de_vie.to_yaml) }
+              File.open(::Ekylibre::Ednotif.in_transcoding_dir.join(transcoding_filename), 'w') { |f| f.write(in_matched_temoin_fin_de_vie.to_yaml) }
             end
 
             unless out_exception_temoin_fin_de_vie.empty?
-              File.open(@transcoding_dir + @out_dir + transcoding_exception_filename, 'a+') { |f| f.write(out_exception_temoin_fin_de_vie.to_yaml) }
+              File.open(::Ekylibre::Ednotif.out_transcoding_dir.join(transcoding_exception_filename), 'a+') { |f| f.write(out_exception_temoin_fin_de_vie.to_yaml) }
             end
 
             unless in_exception_temoin_fin_de_vie.empty?
-              File.open(@transcoding_dir + @in_dir + transcoding_exception_filename, 'a+') { |f| f.write(in_exception_temoin_fin_de_vie.to_yaml) }
+              File.open(::Ekylibre::Ednotif.in_transcoding_dir.join(transcoding_exception_filename), 'a+') { |f| f.write(in_exception_temoin_fin_de_vie.to_yaml) }
             end
 
             print results
@@ -974,7 +968,7 @@ module Ekylibre
           nomen_cause_remplacement = {}
           idele_cause_remplacement = {}
 
-          xsd_url = @resources_dir + 'IpBNotif_v1.xsd'
+          xsd_url = ::Ekylibre::Ednotif.import_dir.join('IpBNotif_v1.xsd')
           transcoding_filename = 'cause_remplacement.yml'
           transcoding_exception_filename = 'cause_remplacement.exception.yml'
 
@@ -1002,8 +996,8 @@ module Ekylibre
             ## OUT
             #
 
-            if File.exist?(@transcoding_dir + @out_dir + transcoding_exception_filename)
-              out_existing_exception = YAML.load_file(@transcoding_dir + @out_dir + transcoding_exception_filename)
+            if File.exist?(::Ekylibre::Ednotif.out_transcoding_dir.join(transcoding_exception_filename))
+              out_existing_exception = YAML.load_file(::Ekylibre::Ednotif.out_transcoding_dir.join(transcoding_exception_filename))
 
               out_matched_cause_remplacement.reverse_merge!(out_existing_exception)
 
@@ -1038,8 +1032,8 @@ module Ekylibre
             idele_cause_remplacement.each_key { |k| idele_cause_remplacement[k][:matched] = 0 }
             #
 
-            if File.exist?(@transcoding_dir + @in_dir + transcoding_exception_filename)
-              in_existing_exception = YAML.load_file(@transcoding_dir + @in_dir + transcoding_exception_filename)
+            if File.exist?(::Ekylibre::Ednotif.in_transcoding_dir.join(transcoding_exception_filename))
+              in_existing_exception = YAML.load_file(::Ekylibre::Ednotif.in_transcoding_dir.join(transcoding_exception_filename))
 
               in_matched_cause_remplacement.reverse_merge!(in_existing_exception)
 
@@ -1066,19 +1060,19 @@ module Ekylibre
             #
 
             unless out_matched_cause_remplacement.empty?
-              File.open(@transcoding_dir + @out_dir + transcoding_filename, 'w') { |f| f.write(out_matched_cause_remplacement.to_yaml) }
+              File.open(::Ekylibre::Ednotif.out_transcoding_dir.join(transcoding_filename), 'w') { |f| f.write(out_matched_cause_remplacement.to_yaml) }
             end
 
             unless in_matched_cause_remplacement.empty?
-              File.open(@transcoding_dir + @in_dir + transcoding_filename, 'w') { |f| f.write(in_matched_cause_remplacement.to_yaml) }
+              File.open(::Ekylibre::Ednotif.in_transcoding_dir.join(transcoding_filename), 'w') { |f| f.write(in_matched_cause_remplacement.to_yaml) }
             end
 
             unless out_exception_cause_remplacement.empty?
-              File.open(@transcoding_dir + @out_dir + transcoding_exception_filename, 'a+') { |f| f.write(out_exception_cause_remplacement.to_yaml) }
+              File.open(::Ekylibre::Ednotif.out_transcoding_dir.join(transcoding_exception_filename), 'a+') { |f| f.write(out_exception_cause_remplacement.to_yaml) }
             end
 
             unless in_exception_cause_remplacement.empty?
-              File.open(@transcoding_dir + @in_dir + transcoding_exception_filename, 'a+') { |f| f.write(in_exception_cause_remplacement.to_yaml) }
+              File.open(::Ekylibre::Ednotif.in_transcoding_dir.join(transcoding_exception_filename), 'a+') { |f| f.write(in_exception_cause_remplacement.to_yaml) }
             end
 
             print results
@@ -1105,7 +1099,7 @@ module Ekylibre
           nomen_mode_insemination = {}
           idele_mode_insemination = {}
 
-          xsd_url = @resources_dir + 'IpBNotif_v1.xsd'
+          xsd_url = ::Ekylibre::Ednotif.import_dir.join('IpBNotif_v1.xsd')
           transcoding_filename = 'mode_insemination.yml'
           transcoding_exception_filename = 'mode_insemination.exception.yml'
 
@@ -1133,8 +1127,8 @@ module Ekylibre
             ## OUT
             #
 
-            if File.exist?(@transcoding_dir + @out_dir + transcoding_exception_filename)
-              out_existing_exception = YAML.load_file(@transcoding_dir + @out_dir + transcoding_exception_filename)
+            if File.exist?(::Ekylibre::Ednotif.out_transcoding_dir.join(transcoding_exception_filename))
+              out_existing_exception = YAML.load_file(::Ekylibre::Ednotif.out_transcoding_dir.join(transcoding_exception_filename))
 
               out_matched_mode_insemination.reverse_merge!(out_existing_exception)
 
@@ -1169,8 +1163,8 @@ module Ekylibre
             idele_mode_insemination.each_key { |k| idele_mode_insemination[k][:matched] = 0 }
             #
 
-            if File.exist?(@transcoding_dir + @in_dir + transcoding_exception_filename)
-              in_existing_exception = YAML.load_file(@transcoding_dir + @in_dir + transcoding_exception_filename)
+            if File.exist?(::Ekylibre::Ednotif.in_transcoding_dir.join(transcoding_exception_filename))
+              in_existing_exception = YAML.load_file(::Ekylibre::Ednotif.in_transcoding_dir.join(transcoding_exception_filename))
 
               in_matched_mode_insemination.reverse_merge!(in_existing_exception)
 
@@ -1197,19 +1191,19 @@ module Ekylibre
             #
 
             unless out_matched_mode_insemination.empty?
-              File.open(@transcoding_dir + @out_dir + transcoding_filename, 'w') { |f| f.write(out_matched_mode_insemination.to_yaml) }
+              File.open(::Ekylibre::Ednotif.out_transcoding_dir.join(transcoding_filename), 'w') { |f| f.write(out_matched_mode_insemination.to_yaml) }
             end
 
             unless in_matched_mode_insemination.empty?
-              File.open(@transcoding_dir + @in_dir + transcoding_filename, 'w') { |f| f.write(in_matched_mode_insemination.to_yaml) }
+              File.open(::Ekylibre::Ednotif.in_transcoding_dir.join(transcoding_filename), 'w') { |f| f.write(in_matched_mode_insemination.to_yaml) }
             end
 
             unless out_exception_mode_insemination.empty?
-              File.open(@transcoding_dir + @out_dir + transcoding_exception_filename, 'a+') { |f| f.write(out_exception_mode_insemination.to_yaml) }
+              File.open(::Ekylibre::Ednotif.out_transcoding_dir.join(transcoding_exception_filename), 'a+') { |f| f.write(out_exception_mode_insemination.to_yaml) }
             end
 
             unless in_exception_mode_insemination.empty?
-              File.open(@transcoding_dir + @in_dir + transcoding_exception_filename, 'a+') { |f| f.write(in_exception_mode_insemination.to_yaml) }
+              File.open(::Ekylibre::Ednotif.in_transcoding_dir.join(transcoding_exception_filename), 'a+') { |f| f.write(in_exception_mode_insemination.to_yaml) }
             end
 
             print results
@@ -1242,7 +1236,7 @@ module Ekylibre
           nomen_paillette_fractionnee = {}
           idele_paillette_fractionnee = {}
 
-          xsd_url = @resources_dir + 'IpBNotif_v1.xsd'
+          xsd_url = ::Ekylibre::Ednotif.import_dir.join('IpBNotif_v1.xsd')
           transcoding_filename = 'paillette_fractionnee.yml'
           transcoding_exception_filename = 'paillette_fractionnee.exception.yml'
 
@@ -1270,8 +1264,8 @@ module Ekylibre
             ## OUT
             #
 
-            if File.exist?(@transcoding_dir + @out_dir + transcoding_exception_filename)
-              out_existing_exception = YAML.load_file(@transcoding_dir + @out_dir + transcoding_exception_filename)
+            if File.exist?(::Ekylibre::Ednotif.out_transcoding_dir.join(transcoding_exception_filename))
+              out_existing_exception = YAML.load_file(::Ekylibre::Ednotif.out_transcoding_dir.join(transcoding_exception_filename))
 
               out_matched_paillette_fractionnee.reverse_merge!(out_existing_exception)
 
@@ -1306,8 +1300,8 @@ module Ekylibre
             idele_paillette_fractionnee.each_key { |k| idele_paillette_fractionnee[k][:matched] = 0 }
             #
 
-            if File.exist?(@transcoding_dir + @in_dir + transcoding_exception_filename)
-              in_existing_exception = YAML.load_file(@transcoding_dir + @in_dir + transcoding_exception_filename)
+            if File.exist?(::Ekylibre::Ednotif.in_transcoding_dir.join(transcoding_exception_filename))
+              in_existing_exception = YAML.load_file(::Ekylibre::Ednotif.in_transcoding_dir.join(transcoding_exception_filename))
 
               in_matched_paillette_fractionnee.reverse_merge!(in_existing_exception)
 
@@ -1334,19 +1328,19 @@ module Ekylibre
             #
 
             unless out_matched_paillette_fractionnee.empty?
-              File.open(@transcoding_dir + @out_dir + transcoding_filename, 'w') { |f| f.write(out_matched_paillette_fractionnee.to_yaml) }
+              File.open(::Ekylibre::Ednotif.out_transcoding_dir.join(transcoding_filename), 'w') { |f| f.write(out_matched_paillette_fractionnee.to_yaml) }
             end
 
             unless in_matched_paillette_fractionnee.empty?
-              File.open(@transcoding_dir + @in_dir + transcoding_filename, 'w') { |f| f.write(in_matched_paillette_fractionnee.to_yaml) }
+              File.open(::Ekylibre::Ednotif.in_transcoding_dir.join(transcoding_filename), 'w') { |f| f.write(in_matched_paillette_fractionnee.to_yaml) }
             end
 
             unless out_exception_paillette_fractionnee.empty?
-              File.open(@transcoding_dir + @out_dir + transcoding_exception_filename, 'a+') { |f| f.write(out_exception_paillette_fractionnee.to_yaml) }
+              File.open(::Ekylibre::Ednotif.out_transcoding_dir.join(transcoding_exception_filename), 'a+') { |f| f.write(out_exception_paillette_fractionnee.to_yaml) }
             end
 
             unless in_exception_paillette_fractionnee.empty?
-              File.open(@transcoding_dir + @in_dir + transcoding_exception_filename, 'a+') { |f| f.write(in_exception_paillette_fractionnee.to_yaml) }
+              File.open(::Ekylibre::Ednotif.in_transcoding_dir.join(transcoding_exception_filename), 'a+') { |f| f.write(in_exception_paillette_fractionnee.to_yaml) }
             end
 
             print results
@@ -1374,7 +1368,7 @@ module Ekylibre
           nomen_semence_sexee = {}
           idele_semence_sexee = {}
 
-          xsd_url = @resources_dir + 'IpBNotif_v1.xsd'
+          xsd_url = ::Ekylibre::Ednotif.import_dir.join('IpBNotif_v1.xsd')
           transcoding_filename = 'semence_sexee.yml'
           transcoding_exception_filename = 'semence_sexee.exception.yml'
 
@@ -1402,8 +1396,8 @@ module Ekylibre
             ## OUT
             #
 
-            if File.exist?(@transcoding_dir + @out_dir + transcoding_exception_filename)
-              out_existing_exception = YAML.load_file(@transcoding_dir + @out_dir + transcoding_exception_filename)
+            if File.exist?(::Ekylibre::Ednotif.out_transcoding_dir.join(transcoding_exception_filename))
+              out_existing_exception = YAML.load_file(::Ekylibre::Ednotif.out_transcoding_dir.join(transcoding_exception_filename))
 
               out_matched_semence_sexee.reverse_merge!(out_existing_exception)
 
@@ -1438,8 +1432,8 @@ module Ekylibre
             idele_semence_sexee.each_key { |k| idele_semence_sexee[k][:matched] = 0 }
             #
 
-            if File.exist?(@transcoding_dir + @in_dir + transcoding_exception_filename)
-              in_existing_exception = YAML.load_file(@transcoding_dir + @in_dir + transcoding_exception_filename)
+            if File.exist?(::Ekylibre::Ednotif.in_transcoding_dir.join(transcoding_exception_filename))
+              in_existing_exception = YAML.load_file(::Ekylibre::Ednotif.in_transcoding_dir.join(transcoding_exception_filename))
 
               in_matched_semence_sexee.reverse_merge!(in_existing_exception)
 
@@ -1466,19 +1460,19 @@ module Ekylibre
             #
 
             unless out_matched_semence_sexee.empty?
-              File.open(@transcoding_dir + @out_dir + transcoding_filename, 'w') { |f| f.write(out_matched_semence_sexee.to_yaml) }
+              File.open(::Ekylibre::Ednotif.out_transcoding_dir.join(transcoding_filename), 'w') { |f| f.write(out_matched_semence_sexee.to_yaml) }
             end
 
             unless in_matched_semence_sexee.empty?
-              File.open(@transcoding_dir + @in_dir + transcoding_filename, 'w') { |f| f.write(in_matched_semence_sexee.to_yaml) }
+              File.open(::Ekylibre::Ednotif.in_transcoding_dir.join(transcoding_filename), 'w') { |f| f.write(in_matched_semence_sexee.to_yaml) }
             end
 
             unless out_exception_semence_sexee.empty?
-              File.open(@transcoding_dir + @out_dir + transcoding_exception_filename, 'a+') { |f| f.write(out_exception_semence_sexee.to_yaml) }
+              File.open(::Ekylibre::Ednotif.out_transcoding_dir.join(transcoding_exception_filename), 'a+') { |f| f.write(out_exception_semence_sexee.to_yaml) }
             end
 
             unless in_exception_semence_sexee.empty?
-              File.open(@transcoding_dir + @in_dir + transcoding_exception_filename, 'a+') { |f| f.write(in_exception_semence_sexee.to_yaml) }
+              File.open(::Ekylibre::Ednotif.in_transcoding_dir.join(transcoding_exception_filename), 'a+') { |f| f.write(in_exception_semence_sexee.to_yaml) }
             end
 
             print results
@@ -1488,6 +1482,7 @@ module Ekylibre
             raise "Idele IpBNotif_v1.xsd is missing for transcoding table #{transcoding_filename} generation"
           end
         end
+
       end
     end
   end
