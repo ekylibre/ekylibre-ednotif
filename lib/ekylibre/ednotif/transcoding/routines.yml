@@ -1,0 +1,62 @@
+---
+- nomen_key: 
+  attribute: typeCauseRemplacement
+  node_path: "/xsd:schema/xsd:simpleType[1]"
+  schema_location: IpBNotif_v1.xsd
+- nomen_key: 
+  attribute: typeCodePaysFr
+  node_path: "/xsd:schema/xsd:simpleType[2]"
+  schema_location: IpBNotif_v1.xsd
+- nomen_key:
+  attribute: typeConditionNaissance
+  node_path: "/xsd:schema/xsd:simpleType[3]"
+  schema_location: IpBNotif_v1.xsd
+- nomen_key: sexes
+  attribute: typeSexe
+  node_path: "/xsd:schema/xsd:simpleType[8]"
+  schema_location: IpBNotif_v1.xsd
+  matching_type: \A(.{1}).*\z
+- nomen_key:
+  attribute: typeTemoinCompletude
+  node_path: "/xsd:schema/xsd:simpleType[9]"
+  schema_location: IpBNotif_v1.xsd
+- nomen_key: 
+  attribute: ModeInsemination
+  node_path: "/xsd:schema/xsd:element[27]/xsd:complexType/xsd:sequence/xsd:element[8]"
+  schema_location: IpBNotif_v1.xsd
+- nomen_key: 
+  attribute: PailletteFractionnee
+  node_path: "/xsd:schema/xsd:element[27]/xsd:complexType/xsd:sequence/xsd:element[10]"
+  schema_location: IpBNotif_v1.xsd
+- nomen_key: 
+  attribute: SemenceSexee
+  node_path: "/xsd:schema/xsd:element[27]/xsd:complexType/xsd:sequence/xsd:element[12]"
+  schema_location: IpBNotif_v1.xsd
+- nomen_key: 
+  attribute: TemoinFinDeVie
+  node_path: "/xsd:schema/xsd:complexType[9]/xsd:sequence/xsd:element[14]/xsd:complexType/xsd:sequence/xsd:element[2]"
+  schema_location: IpBNotif_v1.xsd
+- nomen_key: 
+  attribute: TypeCodePaysAnimal
+  node_path: "/xsd:schema/xsd:simpleType"
+  schema_location: CodePaysAnimal.XSD
+- nomen_key:
+  attribute: TypeCodePays
+  node_path: "/xsd:schema/xsd:simpleType"
+  schema_location: CodePays.XSD
+- nomen_key: 
+  attribute: CauseSortieType
+  node_path: "/xsd:schema/xsd:simpleType"
+  schema_location: CauseSortie.XSD
+- nomen_key: 
+  attribute: CauseEntreeType
+  node_path: "/xsd:schema/xsd:simpleType"
+  schema_location: CauseEntree.XSD
+- nomen_key: 
+  attribute: CategorieBovinIPGType
+  node_path: "/xsd:schema/xsd:simpleType"
+  schema_location: CategorieBovinIPG.XSD
+- nomen_key: 
+  attribute: TypeCodeRaceBovin
+  node_path: "/xsd:schema/xsd:simpleType"
+  schema_location: CodeRaceBovin.XSD

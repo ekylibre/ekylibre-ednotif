@@ -25,7 +25,15 @@ module Ekylibre
       end
 
       def schema_url
-        'http://idele.fr/XML/Schema/'
+        'http://idele.fr/XML/Schema/'.freeze
+      end
+
+      def transcoding_manifest
+        Ekylibre::Tenant.private_directory.join('plugins', 'ednotif', 'manifest.log')
+      end
+
+      def transcoding_routines
+        transcoding_dir.join('routines.yml')
       end
     end
   end

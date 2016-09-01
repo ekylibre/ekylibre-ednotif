@@ -3,7 +3,187 @@ module Ekylibre
     class Generator
       class << self
 
-        def bos_taurus
+        ##
+        # Generate a file "transcoding/routines.yml" with all values to transcode (xsd enumeration predicate.)
+        # nomen_key: The matching Nomen key to transcode. Empty on generation, it need to be filled manually to auto-transcode
+        # attribute: The xsd attribute
+        # node_path: the node path to get enumeration
+        # schema_location: The schema where the attribute is located.
+        ##
+        def generate_routines
+          pathname = ::Ekylibre::Ednotif.import_dir.join( 'IpBNotif_v1.xsd' )
+
+          return unless pathname.exist?
+
+          enumerables = []
+
+          file = pathname.open
+
+          doc = Nokogiri::XML(file)
+
+          l = -> (node) {
+            { nomen_key: nil, attribute: node.attributes['name'].text, node_path: node.path, schema_location: pathname.basename.to_s }.stringify_keys
+          }
+
+          #dump global enumeration
+          enumerables << doc.xpath('//xsd:simpleType[descendant::xsd:enumeration and @name]').collect(&l)
+
+
+          #dump scoped enumeration
+          enumerables << doc.xpath('//xsd:element[@name and xsd:simpleType[descendant::xsd:enumeration]]').collect(&l)
+
+          #external enumeration
+          schemas = doc.xpath('//xsd:import[@schemaLocation]/@schemaLocation').collect(&:text)
+
+          schemas.each do |schema|
+            pathname = ::Ekylibre::Ednotif.import_dir.join( schema )
+
+            next unless pathname.exist?
+
+            file = pathname.open
+
+            doc = Nokogiri::XML(file)
+
+            enumerables << doc.xpath('//xsd:simpleType[descendant::xsd:enumeration and @name]').collect(&l)
+
+          end
+
+          ::Ekylibre::Ednotif.transcoding_routines.write enumerables.flatten.to_yaml
+
+        end
+
+
+        ##
+        # Load the routines file, and for each routine, get Nomen values and Ednotif values (with "nomen_key" and "attribute" parameters). Writes transcoding tables.
+        ##
+        def build
+
+          nomenclatures = YAML.load_file(::Ekylibre::Ednotif.transcoding_routines)
+          nomenclatures.each do |nomenclature|
+            ednotif_values = []
+            internal_values = []
+
+            nomenclature.deep_symbolize_keys!
+
+            pathname = ::Ekylibre::Ednotif.import_dir.join( nomenclature[:schema_location] )
+
+            if pathname.exist? and nomenclature[:nomen_key]
+
+              file = pathname.open
+
+              doc = Nokogiri::XML(file)
+
+              ednotif_values = doc.xpath(nomenclature[:node_path]).xpath('./descendant::xsd:enumeration/@value').collect(&:text)
+
+              internal_values = Nomen[nomenclature[:nomen_key]].all
+
+            end
+
+            unless internal_values.empty? or ednotif_values.empty?
+
+              #OUT: From Nomen to Ednotif
+              dest_file = ::Ekylibre::Ednotif.out_transcoding_dir.join("#{nomenclature[:nomen_key].to_s}.yml")
+              exception_dest_file = ::Ekylibre::Ednotif.out_transcoding_dir.join("#{nomenclature[:nomen_key].to_s}.exception.yml")
+
+
+              generate_transcoding_table(nomenclature[:nomen_key], nomenclature[:attribute], internal_values, ednotif_values, dest_file, exception_dest_file, {matching_type: nomenclature[:matching_type], log: true})
+
+              #IN: From Ednotif to Nomen
+              dest_file = ::Ekylibre::Ednotif.in_transcoding_dir.join("#{nomenclature[:nomen_key].to_s}.yml")
+              exception_dest_file = ::Ekylibre::Ednotif.in_transcoding_dir.join("#{nomenclature[:nomen_key].to_s}.exception.yml")
+
+              generate_transcoding_table(nomenclature[:attribute], nomenclature[:nomen_key], ednotif_values, internal_values, dest_file, exception_dest_file, {matching_type: nomenclature[:matching_type], log: true})
+            end
+
+          end
+        end
+
+        private
+
+          ##
+          # Generates trancoding table for matched src set into dest set and writes it in dest_file. Matching type can be set.
+          # Generates exception transcoding table with unmatched src set.
+          # Fill manually exception transcoding table and rerun function to inject new trancoding in table.
+          # Logs in a "manifest.log" file.
+          # @param [String] src_key: Source identifier
+          # @param [String] dest_key: Destination identifier
+          # @param [Array] src: Source set of values
+          # @param [Array] dest: Destination set of values
+          # @param [File] dest_file: Destination file to write.
+          # @param [File] exception_dest_file: Exception file to write
+          # @param [Hash] options: log: Log written tables. matching_type: ("full_string" | "first_letter"): "full_string" (default) compares all value string. "first_letter" compares only the first letter.
+          ##
+          def generate_transcoding_table(src_key, dest_key, src = [], dest = [], dest_file, exception_dest_file, options)
+            options[:matching_type] ||= 'full_string'
+
+            src_set = src.clone
+
+            matching = {}
+
+            binding.pry
+
+            src.each do |item|
+
+              dest.each do |el|
+
+                # transform value with matching rule
+                search_string = el.squish.downcase.gsub(/é|è/, 'e').gsub(/à|â|ä/, 'a').gsub(/ç/,'c').gsub(/\(|\)|'/,'')
+                search_string = /#{options[:matching_type]}/.match(search_string)
+
+                item_string = item.squish.downcase.gsub(/é|è/, 'e').gsub(/à|â|ä/, 'a').gsub(/ç/,'c').gsub(/\(|\)|'/,'')
+                item_string = /#{options[:matching_type]}/.match(item_string)
+
+                if search_string && item_string[1] == search_string[1]
+
+                  # Saving matching
+                  matching[item] = el
+
+                  # Removes from working array
+                  src_set.delete item
+
+                end
+
+              end
+
+            end
+
+            # inject manual exception
+
+            if exception_dest_file.exist?
+              manual_fill = YAML.load_file(exception_dest_file).reject{|_, v| v.nil?}
+
+              matching.reverse_merge!(manual_fill)
+
+              # remove from unresolved set
+              manual_fill.each do |k, _|
+                src_set.delete k
+              end
+            end
+
+            if !!options[:log]
+
+              unless Ekylibre::Ednotif.transcoding_manifest.exist?
+                FileUtils.mkdir_p Ekylibre::Ednotif.transcoding_manifest.dirname
+              end
+
+              File.open(Ekylibre::Ednotif.transcoding_manifest, 'a+'){|f| f.write "#{src_key} to #{dest_key} : #{src.size - src_set.size}/#{src.size} \n"}
+            end
+
+
+            dest_file.open('w') { |f| f.write(matching.to_yaml) }
+            exception_dest_file.open('w') do |f|
+              h = src_set.inject({}) do |m, el|
+                m ||= {}
+                m[el] = nil
+                m
+              end
+              f.write h.to_yaml
+            end
+
+          end
+
+
+        def varieties
           csv_url = ::Ekylibre::Ednotif.import_dir.join('codeTypeRacial.csv')
           transcoding_filename = 'bos_taurus.yml'
           transcoding_exception_filename = 'bos_taurus.exception.yml'
@@ -125,1363 +305,6 @@ module Ekylibre
           end
         end
 
-        def sexes
-          xsd_url = ::Ekylibre::Ednotif.import_dir.join('IpBNotif_v1.xsd')
-          transcoding_filename = 'sexes.yml'
-          transcoding_exception_filename = 'sexes.exception.yml'
-
-          out_matched_sexes = {}
-          in_matched_sexes = {}
-          out_exception_sexes = {}
-          in_exception_sexes = {}
-          out_existing_exception = {}
-          in_existing_exception = {}
-          nomen_sexes = {}
-          idele_sexes = {}
-
-          if File.exist?(xsd_url)
-
-            doc = Nokogiri::XML(File.open(xsd_url))
-
-            values = doc.xpath('//xsd:simpleType[attribute::name="typeSexe"]/xsd:restriction/xsd:enumeration[attribute::value]')
-            values = values.xpath('attribute::value')
-
-            values.each do |v|
-              idele_sexes[v.to_s] = { matched: 0 }
-            end
-
-            print idele_sexes.inspect
-
-            Nomen::Sex.all.each do |s|
-              key = s[0].to_s.upcase
-              nomen_sexes[key] = { matched: 0, nomenclature: s }
-            end
-
-            print nomen_sexes.inspect
-
-            ## OUT
-            #
-
-            nomen_sexes.each do |k, v|
-              if idele_sexes.key?(k)
-                out_matched_sexes[v[:nomenclature]] = k
-                nomen_sexes[k][:matched] = 1
-              end
-            end
-
-            if File.exist?(::Ekylibre::Ednotif.out_transcoding_dir.join(transcoding_exception_filename))
-              out_existing_exception = YAML.load_file(::Ekylibre::Ednotif.out_transcoding_dir.join(transcoding_exception_filename))
-
-              out_matched_sexes.reverse_merge!(out_existing_exception)
-
-              print out_existing_exception.inspect
-
-              out_existing_exception.each do |e, _|
-                nomen_sexes.select { |_, v| v[:nomenclature] == e }.each do |k, _|
-                  nomen_sexes[k][:matched] = 1
-                end
-              end
-            end
-
-            results = "### Transcoding Results ###\n"
-
-            results += "**Matched Nomen sexes items: #{nomen_sexes.count { |_, v| v[:matched] == 1 }}/#{nomen_sexes.size} (#{out_existing_exception.size} manually)\n"
-
-            results += "**#{nomen_sexes.count { |_, v| (v[:matched]).zero? }} Missing Nomen Item Matching: \n"
-
-            nomen_sexes.select { |_, v| (v[:matched]).zero? }.each do |_, v|
-              results += "Nomenclature: #{v[:nomenclature]}\n"
-              out_exception_sexes[v[:nomenclature]] = nil
-            end
-
-            #
-            ##
-
-            ## IN
-            #
-
-            # Reset matched indicators
-            nomen_sexes.each_key { |k| nomen_sexes[k][:matched] = 0 }
-
-            idele_sexes.each_key { |k| idele_sexes[k][:matched] = 0 }
-            #
-
-            idele_sexes.each do |k, _v|
-              if nomen_sexes.key?(k)
-                in_matched_sexes[k] = nomen_sexes[k][:nomenclature]
-                idele_sexes[k][:matched] = 1
-              end
-            end
-
-            if File.exist?(::Ekylibre::Ednotif.in_transcoding_dir.join(transcoding_exception_filename))
-              in_existing_exception = YAML.load_file(::Ekylibre::Ednotif.in_transcoding_dir.join(transcoding_exception_filename))
-
-              in_matched_sexes.reverse_merge!(in_existing_exception)
-
-              in_existing_exception.each do |c, _|
-                idele_sexes.select { |_, v| v[:code] == c.to_s }.each do |k, _|
-                  idele_sexes[k][:matched] = 1
-                end
-              end
-            end
-
-            results += "**Matched Idele sexes: #{idele_sexes.count { |_, v| v[:matched] == 1 }}/#{idele_sexes.size} (#{in_existing_exception.size} manually)\n"
-
-            results += "**#{idele_sexes.count { |_, v| (v[:matched]).zero? }} Missing Idele sexes Matching: \n"
-
-            idele_sexes.select { |_, v| (v[:matched]).zero? }.each do |k, _|
-              results += "#{k}\n"
-              in_exception_sexes[k] = nil
-            end
-
-            #
-            ##
-
-            ## RESULTS
-            #
-            File.open(::Ekylibre::Ednotif.out_transcoding_dir.join(transcoding_filename), 'w') { |f| f.write(out_matched_sexes.to_yaml) }
-
-            File.open(::Ekylibre::Ednotif.in_transcoding_dir.join(transcoding_filename), 'w') { |f| f.write(in_matched_sexes.to_yaml) }
-
-            unless out_exception_sexes.empty?
-              File.open(::Ekylibre::Ednotif.out_transcoding_dir.join(transcoding_exception_filename), 'a+') { |f| f.write(out_exception_sexes.to_yaml) }
-            end
-
-            unless in_exception_sexes.empty?
-              File.open(::Ekylibre::Ednotif.in_transcoding_dir.join(transcoding_exception_filename), 'a+') { |f| f.write(in_exception_sexes.to_yaml) }
-            end
-
-            print results
-            print 'If exception is found, thanks to fill exception files before reloading that script'
-
-          else
-            raise "Idele IPBNotif_v1.xsd is missing for transcoding table #{transcoding_filename} generation"
-          end
-        end
-
-        def countries
-          transcoding_filename = 'countries.yml'
-
-          nomen_countries = {}
-          idele_countries = {}
-
-          Nomen::Country.all.each do |c|
-            nomen_countries[c] = c.to_s.upcase
-            idele_countries[c.to_s.upcase] = c
-          end
-
-          ## RESULTS
-          #
-          File.open(::Ekylibre::Ednotif.out_transcoding_dir.join(transcoding_filename), 'w') { |f| f.write(nomen_countries.to_yaml) }
-
-          File.open(::Ekylibre::Ednotif.in_transcoding_dir.join(transcoding_filename), 'w') { |f| f.write(idele_countries.to_yaml) }
-        end
-
-        def mammalia_birth_conditions
-          xsd_url = ::Ekylibre::Ednotif.import_dir.join('IpBNotif_v1.xsd')
-          transcoding_filename = 'mammalia_birth_conditions.yml'
-          transcoding_exception_filename = 'mammalia_birth_conditions.exception.yml'
-
-          out_matched_mammalia_birth_conditions = {}
-          in_matched_mammalia_birth_conditions = {}
-          out_exception_mammalia_birth_conditions = {}
-          in_exception_mammalia_birth_conditions = {}
-          out_existing_exception = {}
-          in_existing_exception = {}
-          nomen_mammalia_birth_conditions = {}
-          idele_mammalia_birth_conditions = {}
-
-          if File.exist?(xsd_url)
-
-            doc = Nokogiri::XML(File.open(xsd_url))
-
-            values = doc.xpath('//xsd:simpleType[attribute::name="typeConditionNaissance"]/xsd:restriction/xsd:enumeration[attribute::value]')
-            values = values.xpath('attribute::value')
-
-            values.each do |v|
-              idele_mammalia_birth_conditions[v.to_s] = { matched: 0 }
-            end
-
-            print idele_mammalia_birth_conditions.inspect
-
-            Nomen::MammaliaBirthCondition.all.each do |s|
-              nomen_mammalia_birth_conditions[s] = { matched: 0 }
-            end
-
-            print nomen_mammalia_birth_conditions.inspect
-
-            ## OUT
-            #
-
-            if File.exist?(::Ekylibre::Ednotif.out_transcoding_dir.join(transcoding_exception_filename))
-              out_existing_exception = YAML.load_file(::Ekylibre::Ednotif.out_transcoding_dir.join(transcoding_exception_filename))
-
-              out_matched_mammalia_birth_conditions.reverse_merge!(out_existing_exception)
-
-              print out_existing_exception.inspect
-
-              out_existing_exception.each do |e, _|
-                nomen_mammalia_birth_conditions.select { |k, _| k == e }.each do |k, _|
-                  nomen_mammalia_birth_conditions[k][:matched] = 1
-                end
-              end
-            end
-
-            results = "### Transcoding Results ###\n"
-
-            results += "**Matched Nomen Mammalia birth conditions items: #{nomen_mammalia_birth_conditions.count { |_, v| v[:matched] == 1 }}/#{nomen_mammalia_birth_conditions.size} (#{out_existing_exception.size} manually)\n"
-
-            results += "**#{nomen_mammalia_birth_conditions.count { |_, v| (v[:matched]).zero? }} Missing Nomen Item Matching: \n"
-
-            nomen_mammalia_birth_conditions.select { |_, v| (v[:matched]).zero? }.each do |k, _|
-              results += "Nomenclature: #{k}\n"
-              out_exception_mammalia_birth_conditions[k] = nil
-            end
-
-            #
-            ##
-            ## IN
-            #
-
-            # Reset matched indicators
-            nomen_mammalia_birth_conditions.each_key { |k| nomen_mammalia_birth_conditions[k][:matched] = 0 }
-
-            idele_mammalia_birth_conditions.each_key { |k| idele_mammalia_birth_conditions[k][:matched] = 0 }
-            #
-
-            if File.exist?(::Ekylibre::Ednotif.in_transcoding_dir.join(transcoding_exception_filename))
-              in_existing_exception = YAML.load_file(::Ekylibre::Ednotif.in_transcoding_dir.join(transcoding_exception_filename))
-
-              in_matched_mammalia_birth_conditions.reverse_merge!(in_existing_exception)
-
-              in_existing_exception.each do |c, _|
-                idele_mammalia_birth_conditions.select { |k, _| k == c.to_s }.each do |k, _|
-                  idele_mammalia_birth_conditions[k][:matched] = 1
-                end
-              end
-            end
-
-            results += "**Matched Idele mammalia_birth_conditions: #{idele_mammalia_birth_conditions.count { |_, v| v[:matched] == 1 }}/#{idele_mammalia_birth_conditions.size} (#{in_existing_exception.size} manually)\n"
-
-            results += "**#{idele_mammalia_birth_conditions.count { |_, v| (v[:matched]).zero? }} Missing Idele mammalia_birth_conditions Matching: \n"
-
-            idele_mammalia_birth_conditions.select { |_, v| (v[:matched]).zero? }.each do |k, _|
-              results += "#{k}\n"
-              in_exception_mammalia_birth_conditions[k] = nil
-            end
-
-            #
-            ##
-
-            # can't be autogenerated
-            # dumped from doc Conditions de naissance:
-            # 1: Sans aide
-            # 2: Avec aide facile
-            # 3: Avec recours à un tiers ou moyen mécanique
-            # 4: Césarienne
-            # 5: Embryotomie
-
-            ## RESULTS
-            #
-
-            unless out_matched_mammalia_birth_conditions.empty?
-              File.open(::Ekylibre::Ednotif.out_transcoding_dir.join(transcoding_filename), 'w') { |f| f.write(out_matched_mammalia_birth_conditions.to_yaml) }
-            end
-
-            unless in_matched_mammalia_birth_conditions.empty?
-              File.open(::Ekylibre::Ednotif.in_transcoding_dir.join(transcoding_filename), 'w') { |f| f.write(in_matched_mammalia_birth_conditions.to_yaml) }
-            end
-
-            unless out_exception_mammalia_birth_conditions.empty?
-              File.open(::Ekylibre::Ednotif.out_transcoding_dir.join(transcoding_exception_filename), 'a+') { |f| f.write(out_exception_mammalia_birth_conditions.to_yaml) }
-            end
-
-            unless in_exception_mammalia_birth_conditions.empty?
-              File.open(::Ekylibre::Ednotif.in_transcoding_dir.join(transcoding_exception_filename), 'a+') { |f| f.write(in_exception_mammalia_birth_conditions.to_yaml) }
-            end
-
-            print results
-            print 'If exception is found, thanks to fill exception files before reloading that script'
-
-          else
-            raise "Idele IPBNotif_v1.xsd is missing for transcoding table #{transcoding_filename} generation"
-          end
-        end
-
-        def entry_reason
-          # TODO: entry reason erp nomenclature
-
-          # dumped from doc
-          # A: Achat
-          # P: Prêt / Pension
-
-          out_matched_entry_reason = {}
-          in_matched_entry_reason = {}
-          out_exception_entry_reason = {}
-          in_exception_entry_reason = {}
-          out_existing_exception = {}
-          in_existing_exception = {}
-          nomen_entry_reason = {}
-          idele_entry_reason = {}
-
-          xsd_url = ::Ekylibre::Ednotif.import_dir.join('CauseEntree.XSD')
-          transcoding_filename = 'entry_reason.yml'
-          transcoding_exception_filename = 'entry_reason.exception.yml'
-
-          if File.exist?(xsd_url)
-
-            doc = Nokogiri::XML(File.open(xsd_url))
-
-            values = doc.xpath('//xsd:simpleType[attribute::name="CauseEntreeType"]/xsd:restriction/xsd:enumeration[attribute::value]')
-            values = values.xpath('attribute::value')
-
-            values.each do |v|
-              idele_entry_reason[v.to_s] = { matched: 0 }
-            end
-
-            print idele_entry_reason.inspect
-
-            # TODO
-            # Nomen::MammaliaBirthCondition.all.each do |s|
-
-            #  nomen_entry_reason[s] = {matched: 0}
-            # end
-
-            # print nomen_entry_reason.inspect
-
-            ## OUT
-            #
-
-            if File.exist?(::Ekylibre::Ednotif.out_transcoding_dir.join(transcoding_exception_filename))
-              out_existing_exception = YAML.load_file(::Ekylibre::Ednotif.out_transcoding_dir.join(transcoding_exception_filename))
-
-              out_matched_entry_reason.reverse_merge!(out_existing_exception)
-
-              print out_existing_exception.inspect
-
-              out_existing_exception.each do |e, _|
-                nomen_entry_reason.select { |k, _| k == e }.each do |k, _|
-                  nomen_entry_reason[k][:matched] = 1
-                end
-              end
-            end
-
-            results = "### Transcoding Results ###\n"
-
-            results += "**Matched Nomen Entry Reason items: #{nomen_entry_reason.count { |_, v| v[:matched] == 1 }}/#{nomen_entry_reason.size} (#{out_existing_exception.size} manually)\n"
-
-            results += "**#{nomen_entry_reason.count { |_, v| (v[:matched]).zero? }} Missing Nomen Item Matching: \n"
-
-            nomen_entry_reason.select { |_, v| (v[:matched]).zero? }.each do |k, _|
-              results += "Nomenclature: #{k}\n"
-              out_exception_entry_reason[k] = nil
-            end
-
-            #
-            ##
-            ## IN
-            #
-
-            # Reset matched indicators
-            nomen_entry_reason.each_key { |k| nomen_entry_reason[k][:matched] = 0 }
-
-            idele_entry_reason.each_key { |k| idele_entry_reason[k][:matched] = 0 }
-            #
-
-            if File.exist?(::Ekylibre::Ednotif.in_transcoding_dir.join(transcoding_exception_filename))
-              in_existing_exception = YAML.load_file(::Ekylibre::Ednotif.in_transcoding_dir.join(transcoding_exception_filename))
-
-              in_matched_entry_reason.reverse_merge!(in_existing_exception)
-
-              in_existing_exception.each do |c, _|
-                idele_entry_reason.select { |k, _| k == c.to_s }.each do |k, _|
-                  idele_entry_reason[k][:matched] = 1
-                end
-              end
-            end
-
-            results += "**Matched Idele entry_reason: #{idele_entry_reason.count { |_, v| v[:matched] == 1 }}/#{idele_entry_reason.size} (#{in_existing_exception.size} manually)\n"
-
-            results += "**#{idele_entry_reason.count { |_, v| (v[:matched]).zero? }} Missing Idele entry_reason Matching: \n"
-
-            idele_entry_reason.select { |_, v| (v[:matched]).zero? }.each do |k, _|
-              results += "#{k}\n"
-              in_exception_entry_reason[k] = nil
-            end
-
-            #
-            ##
-
-            ## RESULTS
-            #
-
-            unless out_matched_entry_reason.empty?
-              File.open(::Ekylibre::Ednotif.out_transcoding_dir.join(transcoding_filename), 'w') { |f| f.write(out_matched_entry_reason.to_yaml) }
-            end
-
-            unless in_matched_entry_reason.empty?
-              File.open(::Ekylibre::Ednotif.in_transcoding_dir.join(transcoding_filename), 'w') { |f| f.write(in_matched_entry_reason.to_yaml) }
-            end
-
-            unless out_exception_entry_reason.empty?
-              File.open(::Ekylibre::Ednotif.out_transcoding_dir.join(transcoding_exception_filename), 'a+') { |f| f.write(out_exception_entry_reason.to_yaml) }
-            end
-
-            unless in_exception_entry_reason.empty?
-              File.open(::Ekylibre::Ednotif.in_transcoding_dir.join(transcoding_exception_filename), 'a+') { |f| f.write(in_exception_entry_reason.to_yaml) }
-            end
-
-            print results
-            print 'If exception is found, thanks to fill exception files before reloading that script'
-
-          else
-            raise "Idele CauseEntree.xsd is missing for transcoding table #{transcoding_filename} generation"
-          end
-        end
-
-        def prod_code
-          # TODO: code atelier défini page 18
-        end
-
-        def cattle_categ_code
-          # TODO: Code categorie bovin défini page 19
-        end
-
-        def exit_reason
-          # TODO: exit reason erp nomenclature
-
-          # dumped from doc
-          # B: boucherie
-          # C: auto-consommation
-          # E: vente en élevage
-          # H: Prêt/Pension
-          # M: mort
-
-          out_matched_exit_reason = {}
-          in_matched_exit_reason = {}
-          out_exception_exit_reason = {}
-          in_exception_exit_reason = {}
-          out_existing_exception = {}
-          in_existing_exception = {}
-          nomen_exit_reason = {}
-          idele_exit_reason = {}
-
-          xsd_url = ::Ekylibre::Ednotif.import_dir.join('CauseSortie.XSD')
-          transcoding_filename = 'exit_reason.yml'
-          transcoding_exception_filename = 'exit_reason.exception.yml'
-
-          if File.exist?(xsd_url)
-
-            doc = Nokogiri::XML(File.open(xsd_url))
-
-            values = doc.xpath('//xsd:simpleType[attribute::name="CauseSortieType"]/xsd:restriction/xsd:enumeration[attribute::value]')
-            values = values.xpath('attribute::value')
-
-            values.each do |v|
-              idele_exit_reason[v.to_s] = { matched: 0 }
-            end
-
-            print idele_exit_reason.inspect
-
-            # TODO
-            # Nomen::MammaliaBirthCondition.all.each do |s|
-
-            #  nomen_exit_reason[s] = {matched: 0}
-            # end
-
-            # print nomen_exit_reason.inspect
-
-            ## OUT
-            #
-
-            if File.exist?(::Ekylibre::Ednotif.out_transcoding_dir.join(transcoding_exception_filename))
-              out_existing_exception = YAML.load_file(::Ekylibre::Ednotif.out_transcoding_dir.join(transcoding_exception_filename))
-
-              out_matched_exit_reason.reverse_merge!(out_existing_exception)
-
-              print out_existing_exception.inspect
-
-              out_existing_exception.each do |e, _|
-                nomen_exit_reason.select { |k, _| k == e }.each do |k, _|
-                  nomen_exit_reason[k][:matched] = 1
-                end
-              end
-            end
-
-            results = "### Transcoding Results ###\n"
-
-            results += "**Matched Nomen Exit Reason items: #{nomen_exit_reason.count { |_, v| v[:matched] == 1 }}/#{nomen_exit_reason.size} (#{out_existing_exception.size} manually)\n"
-
-            results += "**#{nomen_exit_reason.count { |_, v| (v[:matched]).zero? }} Missing Nomen Item Matching: \n"
-
-            nomen_exit_reason.select { |_, v| (v[:matched]).zero? }.each do |k, _|
-              results += "Nomenclature: #{k}\n"
-              out_exception_exit_reason[k] = nil
-            end
-
-            #
-            ##
-            ## IN
-            #
-
-            # Reset matched indicators
-            nomen_exit_reason.each_key { |k| nomen_exit_reason[k][:matched] = 0 }
-
-            idele_exit_reason.each_key { |k| idele_exit_reason[k][:matched] = 0 }
-            #
-
-            if File.exist?(::Ekylibre::Ednotif.in_transcoding_dir.join(transcoding_exception_filename))
-              in_existing_exception = YAML.load_file(::Ekylibre::Ednotif.in_transcoding_dir.join(transcoding_exception_filename))
-
-              in_matched_exit_reason.reverse_merge!(in_existing_exception)
-
-              in_existing_exception.each do |c, _|
-                idele_exit_reason.select { |k, _| k == c.to_s }.each do |k, _|
-                  idele_exit_reason[k][:matched] = 1
-                end
-              end
-            end
-
-            results += "**Matched Idele exit_reason: #{idele_exit_reason.count { |_, v| v[:matched] == 1 }}/#{idele_exit_reason.size} (#{in_existing_exception.size} manually)\n"
-
-            results += "**#{idele_exit_reason.count { |_, v| (v[:matched]).zero? }} Missing Idele exit_reason Matching: \n"
-
-            idele_exit_reason.select { |_, v| (v[:matched]).zero? }.each do |k, _|
-              results += "#{k}\n"
-              in_exception_exit_reason[k] = nil
-            end
-
-            #
-            ##
-
-            ## RESULTS
-            #
-
-            unless out_matched_exit_reason.empty?
-              File.open(::Ekylibre::Ednotif.out_transcoding_dir.join(transcoding_filename), 'w') { |f| f.write(out_matched_exit_reason.to_yaml) }
-            end
-
-            unless in_matched_exit_reason.empty?
-              File.open(::Ekylibre::Ednotif.in_transcoding_dir.join(transcoding_filename), 'w') { |f| f.write(in_matched_exit_reason.to_yaml) }
-            end
-
-            unless out_exception_exit_reason.empty?
-              File.open(::Ekylibre::Ednotif.out_transcoding_dir.join(transcoding_exception_filename), 'a+') { |f| f.write(out_exception_exit_reason.to_yaml) }
-            end
-
-            unless in_exception_exit_reason.empty?
-              File.open(::Ekylibre::Ednotif.in_transcoding_dir.join(transcoding_exception_filename), 'a+') { |f| f.write(in_exception_exit_reason.to_yaml) }
-            end
-
-            print results
-            print 'If exception is found, thanks to fill exception files before reloading that script'
-
-          else
-            raise "Idele CauseSortie.xsd is missing for transcoding table #{transcoding_filename} generation"
-          end
-        end
-
-        def temoin_completude
-          # TODO: temoin completude erp nomenclature
-
-          # dumped from doc
-          # 0 : Date complète
-          # 1 : Seul le mois et l’année sont à prendre en compte
-          # 2 : Seule l’année est à prendre en compte
-
-          out_matched_temoin_completude = {}
-          in_matched_temoin_completude = {}
-          out_exception_temoin_completude = {}
-          in_exception_temoin_completude = {}
-          out_existing_exception = {}
-          in_existing_exception = {}
-          nomen_temoin_completude = {}
-          idele_temoin_completude = {}
-
-          xsd_url = ::Ekylibre::Ednotif.import_dir.join('IpBNotif_v1.xsd')
-          transcoding_filename = 'temoin_completude.yml'
-          transcoding_exception_filename = 'temoin_completude.exception.yml'
-
-          if File.exist?(xsd_url)
-
-            doc = Nokogiri::XML(File.open(xsd_url))
-
-            values = doc.xpath('//xsd:simpleType[attribute::name="typeTemoinCompletude"]/xsd:restriction/xsd:enumeration[attribute::value]')
-            values = values.xpath('attribute::value')
-
-            values.each do |v|
-              idele_temoin_completude[v.to_s] = { matched: 0 }
-            end
-
-            print idele_temoin_completude.inspect
-
-            # TODO
-            # Nomen::MammaliaBirthCondition.all.each do |s|
-
-            #  nomen_temoin_completude[s] = {matched: 0}
-            # end
-
-            # print nomen_temoin_completude.inspect
-
-            ## OUT
-            #
-
-            if File.exist?(::Ekylibre::Ednotif.out_transcoding_dir.join(transcoding_exception_filename))
-              out_existing_exception = YAML.load_file(::Ekylibre::Ednotif.out_transcoding_dir.join(transcoding_exception_filename))
-
-              out_matched_temoin_completude.reverse_merge!(out_existing_exception)
-
-              print out_existing_exception.inspect
-
-              out_existing_exception.each do |e, _|
-                nomen_temoin_completude.select { |k, _| k == e }.each do |k, _|
-                  nomen_temoin_completude[k][:matched] = 1
-                end
-              end
-            end
-
-            results = "### Transcoding Results ###\n"
-
-            results += "**Matched Nomen Temoin completude items: #{nomen_temoin_completude.count { |_, v| v[:matched] == 1 }}/#{nomen_temoin_completude.size} (#{out_existing_exception.size} manually)\n"
-
-            results += "**#{nomen_temoin_completude.count { |_, v| (v[:matched]).zero? }} Missing Nomen Item Matching: \n"
-
-            nomen_temoin_completude.select { |_, v| (v[:matched]).zero? }.each do |k, _|
-              results += "Nomenclature: #{k}\n"
-              out_exception_temoin_completude[k] = nil
-            end
-
-            #
-            ##
-            ## IN
-            #
-
-            # Reset matched indicators
-            nomen_temoin_completude.each_key { |k| nomen_temoin_completude[k][:matched] = 0 }
-
-            idele_temoin_completude.each_key { |k| idele_temoin_completude[k][:matched] = 0 }
-            #
-
-            if File.exist?(::Ekylibre::Ednotif.in_transcoding_dir.join(transcoding_exception_filename))
-              in_existing_exception = YAML.load_file(::Ekylibre::Ednotif.in_transcoding_dir.join(transcoding_exception_filename))
-
-              in_matched_temoin_completude.reverse_merge!(in_existing_exception)
-
-              in_existing_exception.each do |c, _|
-                idele_temoin_completude.select { |k, _| k == c.to_s }.each do |k, _|
-                  idele_temoin_completude[k][:matched] = 1
-                end
-              end
-            end
-
-            results += "**Matched Idele temoin_completude: #{idele_temoin_completude.count { |_, v| v[:matched] == 1 }}/#{idele_temoin_completude.size} (#{in_existing_exception.size} manually)\n"
-
-            results += "**#{idele_temoin_completude.count { |_, v| (v[:matched]).zero? }} Missing Idele temoin_completude Matching: \n"
-
-            idele_temoin_completude.select { |_, v| (v[:matched]).zero? }.each do |k, _|
-              results += "#{k}\n"
-              in_exception_temoin_completude[k] = nil
-            end
-
-            #
-            ##
-
-            ## RESULTS
-            #
-
-            unless out_matched_temoin_completude.empty?
-              File.open(::Ekylibre::Ednotif.out_transcoding_dir.join(transcoding_filename), 'w') { |f| f.write(out_matched_temoin_completude.to_yaml) }
-            end
-
-            unless in_matched_temoin_completude.empty?
-              File.open(::Ekylibre::Ednotif.in_transcoding_dir.join(transcoding_filename), 'w') { |f| f.write(in_matched_temoin_completude.to_yaml) }
-            end
-
-            unless out_exception_temoin_completude.empty?
-              File.open(::Ekylibre::Ednotif.out_transcoding_dir.join(transcoding_exception_filename), 'a+') { |f| f.write(out_exception_temoin_completude.to_yaml) }
-            end
-
-            unless in_exception_temoin_completude.empty?
-              File.open(::Ekylibre::Ednotif.in_transcoding_dir.join(transcoding_exception_filename), 'a+') { |f| f.write(in_exception_temoin_completude.to_yaml) }
-            end
-
-            print results
-            print 'If exception is found, thanks to fill exception files before reloading that script'
-
-          else
-            raise "Idele IpBNotif_v1.xsd is missing for transcoding table #{transcoding_filename} generation"
-          end
-        end
-
-        def temoin_fin_de_vie
-          # TODO: temoin fin_de_vie erp nomenclature
-
-          # dumped from doc
-          # M: Mort
-          # A: Abattage
-          # E: Equarrissage
-          # C: Date calculée
-
-          out_matched_temoin_fin_de_vie = {}
-          in_matched_temoin_fin_de_vie = {}
-          out_exception_temoin_fin_de_vie = {}
-          in_exception_temoin_fin_de_vie = {}
-          out_existing_exception = {}
-          in_existing_exception = {}
-          nomen_temoin_fin_de_vie = {}
-          idele_temoin_fin_de_vie = {}
-
-          xsd_url = ::Ekylibre::Ednotif.import_dir.join('IpBNotif_v1.xsd')
-          transcoding_filename = 'temoin_fin_de_vie.yml'
-          transcoding_exception_filename = 'temoin_fin_de_vie.exception.yml'
-
-          if File.exist?(xsd_url)
-
-            doc = Nokogiri::XML(File.open(xsd_url))
-
-            values = doc.xpath('//xsd:element[attribute::name="TemoinFinDeVie"]/xsd:simpleType/xsd:restriction/xsd:enumeration[attribute::value]')
-            values = values.xpath('attribute::value')
-
-            values.each do |v|
-              idele_temoin_fin_de_vie[v.to_s] = { matched: 0 }
-            end
-
-            print idele_temoin_fin_de_vie.inspect
-
-            # TODO
-            # Nomen::MammaliaBirthCondition.all.each do |s|
-
-            #  nomen_temoin_fin_de_vie[s] = {matched: 0}
-            # end
-
-            # print nomen_temoin_fin_de_vie.inspect
-
-            ## OUT
-            #
-
-            if File.exist?(::Ekylibre::Ednotif.out_transcoding_dir.join(transcoding_exception_filename))
-              out_existing_exception = YAML.load_file(::Ekylibre::Ednotif.out_transcoding_dir.join(transcoding_exception_filename))
-
-              out_matched_temoin_fin_de_vie.reverse_merge!(out_existing_exception)
-
-              print out_existing_exception.inspect
-
-              out_existing_exception.each do |e, _|
-                nomen_temoin_fin_de_vie.select { |k, _| k == e }.each do |k, _|
-                  nomen_temoin_fin_de_vie[k][:matched] = 1
-                end
-              end
-            end
-
-            results = "### Transcoding Results ###\n"
-
-            results += "**Matched Nomen Temoin fin_de_vie items: #{nomen_temoin_fin_de_vie.count { |_, v| v[:matched] == 1 }}/#{nomen_temoin_fin_de_vie.size} (#{out_existing_exception.size} manually)\n"
-
-            results += "**#{nomen_temoin_fin_de_vie.count { |_, v| (v[:matched]).zero? }} Missing Nomen Item Matching: \n"
-
-            nomen_temoin_fin_de_vie.select { |_, v| (v[:matched]).zero? }.each do |k, _|
-              results += "Nomenclature: #{k}\n"
-              out_exception_temoin_fin_de_vie[k] = nil
-            end
-
-            #
-            ##
-            ## IN
-            #
-
-            # Reset matched indicators
-            nomen_temoin_fin_de_vie.each_key { |k| nomen_temoin_fin_de_vie[k][:matched] = 0 }
-
-            idele_temoin_fin_de_vie.each_key { |k| idele_temoin_fin_de_vie[k][:matched] = 0 }
-            #
-
-            if File.exist?(::Ekylibre::Ednotif.in_transcoding_dir.join(transcoding_exception_filename))
-              in_existing_exception = YAML.load_file(::Ekylibre::Ednotif.in_transcoding_dir.join(transcoding_exception_filename))
-
-              in_matched_temoin_fin_de_vie.reverse_merge!(in_existing_exception)
-
-              in_existing_exception.each do |c, _|
-                idele_temoin_fin_de_vie.select { |k, _| k == c.to_s }.each do |k, _|
-                  idele_temoin_fin_de_vie[k][:matched] = 1
-                end
-              end
-            end
-
-            results += "**Matched Idele temoin_fin_de_vie: #{idele_temoin_fin_de_vie.count { |_, v| v[:matched] == 1 }}/#{idele_temoin_fin_de_vie.size} (#{in_existing_exception.size} manually)\n"
-
-            results += "**#{idele_temoin_fin_de_vie.count { |_, v| (v[:matched]).zero? }} Missing Idele temoin_fin_de_vie Matching: \n"
-
-            idele_temoin_fin_de_vie.select { |_, v| (v[:matched]).zero? }.each do |k, _|
-              results += "#{k}\n"
-              in_exception_temoin_fin_de_vie[k] = nil
-            end
-
-            #
-            ##
-
-            ## RESULTS
-            #
-
-            unless out_matched_temoin_fin_de_vie.empty?
-              File.open(::Ekylibre::Ednotif.out_transcoding_dir.join(transcoding_filename), 'w') { |f| f.write(out_matched_temoin_fin_de_vie.to_yaml) }
-            end
-
-            unless in_matched_temoin_fin_de_vie.empty?
-              File.open(::Ekylibre::Ednotif.in_transcoding_dir.join(transcoding_filename), 'w') { |f| f.write(in_matched_temoin_fin_de_vie.to_yaml) }
-            end
-
-            unless out_exception_temoin_fin_de_vie.empty?
-              File.open(::Ekylibre::Ednotif.out_transcoding_dir.join(transcoding_exception_filename), 'a+') { |f| f.write(out_exception_temoin_fin_de_vie.to_yaml) }
-            end
-
-            unless in_exception_temoin_fin_de_vie.empty?
-              File.open(::Ekylibre::Ednotif.in_transcoding_dir.join(transcoding_exception_filename), 'a+') { |f| f.write(in_exception_temoin_fin_de_vie.to_yaml) }
-            end
-
-            print results
-            print 'If exception is found, thanks to fill exception files before reloading that script'
-
-          else
-            raise "Idele IpBNotif_v1.xsd is missing for transcoding table #{transcoding_filename} generation"
-          end
-        end
-
-        def cause_remplacement
-          # TODO: cause remplacement erp nomenclature
-
-          # dumped from doc
-          # C: Repère cassé
-          # E: Electronisation
-          # I: Repère illisible
-          # L: Repère électronique perdu
-          # P: Repère perdu
-          # X: Anomalie de commande
-          # Y: Anomalie de pose
-          # Z: Anomalie de fabrication
-
-          out_matched_cause_remplacement = {}
-          in_matched_cause_remplacement = {}
-          out_exception_cause_remplacement = {}
-          in_exception_cause_remplacement = {}
-          out_existing_exception = {}
-          in_existing_exception = {}
-          nomen_cause_remplacement = {}
-          idele_cause_remplacement = {}
-
-          xsd_url = ::Ekylibre::Ednotif.import_dir.join('IpBNotif_v1.xsd')
-          transcoding_filename = 'cause_remplacement.yml'
-          transcoding_exception_filename = 'cause_remplacement.exception.yml'
-
-          if File.exist?(xsd_url)
-
-            doc = Nokogiri::XML(File.open(xsd_url))
-
-            values = doc.xpath('//xsd:simpleType[attribute::name="typeCauseRemplacement"]/xsd:restriction/xsd:enumeration[attribute::value]')
-            values = values.xpath('attribute::value')
-
-            values.each do |v|
-              idele_cause_remplacement[v.to_s] = { matched: 0 }
-            end
-
-            print idele_cause_remplacement.inspect
-
-            # TODO
-            # Nomen::MammaliaBirthCondition.all.each do |s|
-
-            #  nomen_cause_remplacement[s] = {matched: 0}
-            # end
-
-            # print nomen_cause_remplacement.inspect
-
-            ## OUT
-            #
-
-            if File.exist?(::Ekylibre::Ednotif.out_transcoding_dir.join(transcoding_exception_filename))
-              out_existing_exception = YAML.load_file(::Ekylibre::Ednotif.out_transcoding_dir.join(transcoding_exception_filename))
-
-              out_matched_cause_remplacement.reverse_merge!(out_existing_exception)
-
-              print out_existing_exception.inspect
-
-              out_existing_exception.each do |e, _|
-                nomen_cause_remplacement.select { |k, _| k == e }.each do |k, _|
-                  nomen_cause_remplacement[k][:matched] = 1
-                end
-              end
-            end
-
-            results = "### Transcoding Results ###\n"
-
-            results += "**Matched Nomen cause remplacement items: #{nomen_cause_remplacement.count { |_, v| v[:matched] == 1 }}/#{nomen_cause_remplacement.size} (#{out_existing_exception.size} manually)\n"
-
-            results += "**#{nomen_cause_remplacement.count { |_, v| (v[:matched]).zero? }} Missing Nomen Item Matching: \n"
-
-            nomen_cause_remplacement.select { |_, v| (v[:matched]).zero? }.each do |k, _|
-              results += "Nomenclature: #{k}\n"
-              out_exception_cause_remplacement[k] = nil
-            end
-
-            #
-            ##
-            ## IN
-            #
-
-            # Reset matched indicators
-            nomen_cause_remplacement.each_key { |k| nomen_cause_remplacement[k][:matched] = 0 }
-
-            idele_cause_remplacement.each_key { |k| idele_cause_remplacement[k][:matched] = 0 }
-            #
-
-            if File.exist?(::Ekylibre::Ednotif.in_transcoding_dir.join(transcoding_exception_filename))
-              in_existing_exception = YAML.load_file(::Ekylibre::Ednotif.in_transcoding_dir.join(transcoding_exception_filename))
-
-              in_matched_cause_remplacement.reverse_merge!(in_existing_exception)
-
-              in_existing_exception.each do |c, _|
-                idele_cause_remplacement.select { |k, _| k == c.to_s }.each do |k, _|
-                  idele_cause_remplacement[k][:matched] = 1
-                end
-              end
-            end
-
-            results += "**Matched Idele cause_remplacement: #{idele_cause_remplacement.count { |_, v| v[:matched] == 1 }}/#{idele_cause_remplacement.size} (#{in_existing_exception.size} manually)\n"
-
-            results += "**#{idele_cause_remplacement.count { |_, v| (v[:matched]).zero? }} Missing Idele cause_remplacement Matching: \n"
-
-            idele_cause_remplacement.select { |_, v| (v[:matched]).zero? }.each do |k, _|
-              results += "#{k}\n"
-              in_exception_cause_remplacement[k] = nil
-            end
-
-            #
-            ##
-
-            ## RESULTS
-            #
-
-            unless out_matched_cause_remplacement.empty?
-              File.open(::Ekylibre::Ednotif.out_transcoding_dir.join(transcoding_filename), 'w') { |f| f.write(out_matched_cause_remplacement.to_yaml) }
-            end
-
-            unless in_matched_cause_remplacement.empty?
-              File.open(::Ekylibre::Ednotif.in_transcoding_dir.join(transcoding_filename), 'w') { |f| f.write(in_matched_cause_remplacement.to_yaml) }
-            end
-
-            unless out_exception_cause_remplacement.empty?
-              File.open(::Ekylibre::Ednotif.out_transcoding_dir.join(transcoding_exception_filename), 'a+') { |f| f.write(out_exception_cause_remplacement.to_yaml) }
-            end
-
-            unless in_exception_cause_remplacement.empty?
-              File.open(::Ekylibre::Ednotif.in_transcoding_dir.join(transcoding_exception_filename), 'a+') { |f| f.write(in_exception_cause_remplacement.to_yaml) }
-            end
-
-            print results
-            print 'If exception is found, thanks to fill exception files before reloading that script'
-
-          else
-            raise "Idele IpBNotif_v1.xsd is missing for transcoding table #{transcoding_filename} generation"
-          end
-        end
-
-        def mode_insemination
-          # TODO: mode insemination erp nomenclature
-
-          # dumped from doc
-          # F : Fraîche
-          # C : Congelé
-
-          out_matched_mode_insemination = {}
-          in_matched_mode_insemination = {}
-          out_exception_mode_insemination = {}
-          in_exception_mode_insemination = {}
-          out_existing_exception = {}
-          in_existing_exception = {}
-          nomen_mode_insemination = {}
-          idele_mode_insemination = {}
-
-          xsd_url = ::Ekylibre::Ednotif.import_dir.join('IpBNotif_v1.xsd')
-          transcoding_filename = 'mode_insemination.yml'
-          transcoding_exception_filename = 'mode_insemination.exception.yml'
-
-          if File.exist?(xsd_url)
-
-            doc = Nokogiri::XML(File.open(xsd_url))
-
-            values = doc.xpath('//element[attribute::name="ModeInsemination"]/xsd:simpleType/xsd:restriction/xsd:enumeration[attribute::value]')
-            values = values.xpath('attribute::value')
-
-            values.each do |v|
-              idele_mode_insemination[v.to_s] = { matched: 0 }
-            end
-
-            print idele_mode_insemination.inspect
-
-            # TODO
-            # Nomen::MammaliaBirthCondition.all.each do |s|
-
-            #  nomen_mode_insemination[s] = {matched: 0}
-            # end
-
-            # print nomen_mode_insemination.inspect
-
-            ## OUT
-            #
-
-            if File.exist?(::Ekylibre::Ednotif.out_transcoding_dir.join(transcoding_exception_filename))
-              out_existing_exception = YAML.load_file(::Ekylibre::Ednotif.out_transcoding_dir.join(transcoding_exception_filename))
-
-              out_matched_mode_insemination.reverse_merge!(out_existing_exception)
-
-              print out_existing_exception.inspect
-
-              out_existing_exception.each do |e, _|
-                nomen_mode_insemination.select { |k, _| k == e }.each do |k, _|
-                  nomen_mode_insemination[k][:matched] = 1
-                end
-              end
-            end
-
-            results = "### Transcoding Results ###\n"
-
-            results += "**Matched Nomen mode insemination items: #{nomen_mode_insemination.count { |_, v| v[:matched] == 1 }}/#{nomen_mode_insemination.size} (#{out_existing_exception.size} manually)\n"
-
-            results += "**#{nomen_mode_insemination.count { |_, v| (v[:matched]).zero? }} Missing Nomen Item Matching: \n"
-
-            nomen_mode_insemination.select { |_, v| (v[:matched]).zero? }.each do |k, _|
-              results += "Nomenclature: #{k}\n"
-              out_exception_mode_insemination[k] = nil
-            end
-
-            #
-            ##
-            ## IN
-            #
-
-            # Reset matched indicators
-            nomen_mode_insemination.each_key { |k| nomen_mode_insemination[k][:matched] = 0 }
-
-            idele_mode_insemination.each_key { |k| idele_mode_insemination[k][:matched] = 0 }
-            #
-
-            if File.exist?(::Ekylibre::Ednotif.in_transcoding_dir.join(transcoding_exception_filename))
-              in_existing_exception = YAML.load_file(::Ekylibre::Ednotif.in_transcoding_dir.join(transcoding_exception_filename))
-
-              in_matched_mode_insemination.reverse_merge!(in_existing_exception)
-
-              in_existing_exception.each do |c, _|
-                idele_mode_insemination.select { |k, _| k == c.to_s }.each do |k, _|
-                  idele_mode_insemination[k][:matched] = 1
-                end
-              end
-            end
-
-            results += "**Matched Idele mode_insemination: #{idele_mode_insemination.count { |_, v| v[:matched] == 1 }}/#{idele_mode_insemination.size} (#{in_existing_exception.size} manually)\n"
-
-            results += "**#{idele_mode_insemination.count { |_, v| (v[:matched]).zero? }} Missing Idele mode_insemination Matching: \n"
-
-            idele_mode_insemination.select { |_, v| (v[:matched]).zero? }.each do |k, _|
-              results += "#{k}\n"
-              in_exception_mode_insemination[k] = nil
-            end
-
-            #
-            ##
-
-            ## RESULTS
-            #
-
-            unless out_matched_mode_insemination.empty?
-              File.open(::Ekylibre::Ednotif.out_transcoding_dir.join(transcoding_filename), 'w') { |f| f.write(out_matched_mode_insemination.to_yaml) }
-            end
-
-            unless in_matched_mode_insemination.empty?
-              File.open(::Ekylibre::Ednotif.in_transcoding_dir.join(transcoding_filename), 'w') { |f| f.write(in_matched_mode_insemination.to_yaml) }
-            end
-
-            unless out_exception_mode_insemination.empty?
-              File.open(::Ekylibre::Ednotif.out_transcoding_dir.join(transcoding_exception_filename), 'a+') { |f| f.write(out_exception_mode_insemination.to_yaml) }
-            end
-
-            unless in_exception_mode_insemination.empty?
-              File.open(::Ekylibre::Ednotif.in_transcoding_dir.join(transcoding_exception_filename), 'a+') { |f| f.write(in_exception_mode_insemination.to_yaml) }
-            end
-
-            print results
-            print 'If exception is found, thanks to fill exception files before reloading that script'
-
-          else
-            raise "Idele IpBNotif_v1.xsd is missing for transcoding table #{transcoding_filename} generation"
-          end
-        end
-
-        def paillette_fractionnee
-          # TODO: paillette fractionnee erp nomenclature
-
-          # dumped from doc
-          # 1 : Paillette non fractionnée
-          # 2 : Paillette fractionnée
-          # B : double dose (bis)
-          # D : Demi paillette
-          # M : Morceau de paillette
-          # P : Paillette entière
-          # Q : Quart de paillette
-          # T : Tiers de paillette
-
-          out_matched_paillette_fractionnee = {}
-          in_matched_paillette_fractionnee = {}
-          out_exception_paillette_fractionnee = {}
-          in_exception_paillette_fractionnee = {}
-          out_existing_exception = {}
-          in_existing_exception = {}
-          nomen_paillette_fractionnee = {}
-          idele_paillette_fractionnee = {}
-
-          xsd_url = ::Ekylibre::Ednotif.import_dir.join('IpBNotif_v1.xsd')
-          transcoding_filename = 'paillette_fractionnee.yml'
-          transcoding_exception_filename = 'paillette_fractionnee.exception.yml'
-
-          if File.exist?(xsd_url)
-
-            doc = Nokogiri::XML(File.open(xsd_url))
-
-            values = doc.xpath('//element[attribute::name="PailletteFractionnee"]/xsd:simpleType/xsd:restriction/xsd:enumeration[attribute::value]')
-            values = values.xpath('attribute::value')
-
-            values.each do |v|
-              idele_paillette_fractionnee[v.to_s] = { matched: 0 }
-            end
-
-            print idele_paillette_fractionnee.inspect
-
-            # TODO
-            # Nomen::MammaliaBirthCondition.all.each do |s|
-
-            #  nomen_paillette_fractionnee[s] = {matched: 0}
-            # end
-
-            # print nomen_paillette_fractionnee.inspect
-
-            ## OUT
-            #
-
-            if File.exist?(::Ekylibre::Ednotif.out_transcoding_dir.join(transcoding_exception_filename))
-              out_existing_exception = YAML.load_file(::Ekylibre::Ednotif.out_transcoding_dir.join(transcoding_exception_filename))
-
-              out_matched_paillette_fractionnee.reverse_merge!(out_existing_exception)
-
-              print out_existing_exception.inspect
-
-              out_existing_exception.each do |e, _|
-                nomen_paillette_fractionnee.select { |k, _| k == e }.each do |k, _|
-                  nomen_paillette_fractionnee[k][:matched] = 1
-                end
-              end
-            end
-
-            results = "### Transcoding Results ###\n"
-
-            results += "**Matched Nomen Paillette fractionnee items: #{nomen_paillette_fractionnee.count { |_, v| v[:matched] == 1 }}/#{nomen_paillette_fractionnee.size} (#{out_existing_exception.size} manually)\n"
-
-            results += "**#{nomen_paillette_fractionnee.count { |_, v| (v[:matched]).zero? }} Missing Nomen Item Matching: \n"
-
-            nomen_paillette_fractionnee.select { |_, v| (v[:matched]).zero? }.each do |k, _|
-              results += "Nomenclature: #{k}\n"
-              out_exception_paillette_fractionnee[k] = nil
-            end
-
-            #
-            ##
-            ## IN
-            #
-
-            # Reset matched indicators
-            nomen_paillette_fractionnee.each_key { |k| nomen_paillette_fractionnee[k][:matched] = 0 }
-
-            idele_paillette_fractionnee.each_key { |k| idele_paillette_fractionnee[k][:matched] = 0 }
-            #
-
-            if File.exist?(::Ekylibre::Ednotif.in_transcoding_dir.join(transcoding_exception_filename))
-              in_existing_exception = YAML.load_file(::Ekylibre::Ednotif.in_transcoding_dir.join(transcoding_exception_filename))
-
-              in_matched_paillette_fractionnee.reverse_merge!(in_existing_exception)
-
-              in_existing_exception.each do |c, _|
-                idele_paillette_fractionnee.select { |k, _| k == c.to_s }.each do |k, _|
-                  idele_paillette_fractionnee[k][:matched] = 1
-                end
-              end
-            end
-
-            results += "**Matched Idele paillette_fractionnee: #{idele_paillette_fractionnee.count { |_, v| v[:matched] == 1 }}/#{idele_paillette_fractionnee.size} (#{in_existing_exception.size} manually)\n"
-
-            results += "**#{idele_paillette_fractionnee.count { |_, v| (v[:matched]).zero? }} Missing Idele paillette_fractionnee Matching: \n"
-
-            idele_paillette_fractionnee.select { |_, v| (v[:matched]).zero? }.each do |k, _|
-              results += "#{k}\n"
-              in_exception_paillette_fractionnee[k] = nil
-            end
-
-            #
-            ##
-
-            ## RESULTS
-            #
-
-            unless out_matched_paillette_fractionnee.empty?
-              File.open(::Ekylibre::Ednotif.out_transcoding_dir.join(transcoding_filename), 'w') { |f| f.write(out_matched_paillette_fractionnee.to_yaml) }
-            end
-
-            unless in_matched_paillette_fractionnee.empty?
-              File.open(::Ekylibre::Ednotif.in_transcoding_dir.join(transcoding_filename), 'w') { |f| f.write(in_matched_paillette_fractionnee.to_yaml) }
-            end
-
-            unless out_exception_paillette_fractionnee.empty?
-              File.open(::Ekylibre::Ednotif.out_transcoding_dir.join(transcoding_exception_filename), 'a+') { |f| f.write(out_exception_paillette_fractionnee.to_yaml) }
-            end
-
-            unless in_exception_paillette_fractionnee.empty?
-              File.open(::Ekylibre::Ednotif.in_transcoding_dir.join(transcoding_exception_filename), 'a+') { |f| f.write(in_exception_paillette_fractionnee.to_yaml) }
-            end
-
-            print results
-            print 'If exception is found, thanks to fill exception files before reloading that script'
-
-          else
-            raise "Idele IpBNotif_v1.xsd is missing for transcoding table #{transcoding_filename} generation"
-          end
-        end
-
-        def semence_sexee
-          # TODO: semence sexee erp nomenclature
-
-          # dumped from doc
-          # 0 : non sexée
-          # 1 : sexée mâle
-          # 2 : sexée femelle
-
-          out_matched_semence_sexee = {}
-          in_matched_semence_sexee = {}
-          out_exception_semence_sexee = {}
-          in_exception_semence_sexee = {}
-          out_existing_exception = {}
-          in_existing_exception = {}
-          nomen_semence_sexee = {}
-          idele_semence_sexee = {}
-
-          xsd_url = ::Ekylibre::Ednotif.import_dir.join('IpBNotif_v1.xsd')
-          transcoding_filename = 'semence_sexee.yml'
-          transcoding_exception_filename = 'semence_sexee.exception.yml'
-
-          if File.exist?(xsd_url)
-
-            doc = Nokogiri::XML(File.open(xsd_url))
-
-            values = doc.xpath('//element[attribute::name="SemenceSexee"]/xsd:simpleType/xsd:restriction/xsd:enumeration[attribute::value]')
-            values = values.xpath('attribute::value')
-
-            values.each do |v|
-              idele_semence_sexee[v.to_s] = { matched: 0 }
-            end
-
-            print idele_semence_sexee.inspect
-
-            # TODO
-            # Nomen::MammaliaBirthCondition.all.each do |s|
-
-            #  nomen_semence_sexee[s] = {matched: 0}
-            # end
-
-            # print nomen_semence_sexee.inspect
-
-            ## OUT
-            #
-
-            if File.exist?(::Ekylibre::Ednotif.out_transcoding_dir.join(transcoding_exception_filename))
-              out_existing_exception = YAML.load_file(::Ekylibre::Ednotif.out_transcoding_dir.join(transcoding_exception_filename))
-
-              out_matched_semence_sexee.reverse_merge!(out_existing_exception)
-
-              print out_existing_exception.inspect
-
-              out_existing_exception.each do |e, _|
-                nomen_semence_sexee.select { |k, _| k == e }.each do |k, _|
-                  nomen_semence_sexee[k][:matched] = 1
-                end
-              end
-            end
-
-            results = "### Transcoding Results ###\n"
-
-            results += "**Matched Nomen Semence Sexee items: #{nomen_semence_sexee.count { |_, v| v[:matched] == 1 }}/#{nomen_semence_sexee.size} (#{out_existing_exception.size} manually)\n"
-
-            results += "**#{nomen_semence_sexee.count { |_, v| (v[:matched]).zero? }} Missing Nomen Item Matching: \n"
-
-            nomen_semence_sexee.select { |_, v| (v[:matched]).zero? }.each do |k, _|
-              results += "Nomenclature: #{k}\n"
-              out_exception_semence_sexee[k] = nil
-            end
-
-            #
-            ##
-            ## IN
-            #
-
-            # Reset matched indicators
-            nomen_semence_sexee.each_key { |k| nomen_semence_sexee[k][:matched] = 0 }
-
-            idele_semence_sexee.each_key { |k| idele_semence_sexee[k][:matched] = 0 }
-            #
-
-            if File.exist?(::Ekylibre::Ednotif.in_transcoding_dir.join(transcoding_exception_filename))
-              in_existing_exception = YAML.load_file(::Ekylibre::Ednotif.in_transcoding_dir.join(transcoding_exception_filename))
-
-              in_matched_semence_sexee.reverse_merge!(in_existing_exception)
-
-              in_existing_exception.each do |c, _|
-                idele_semence_sexee.select { |k, _| k == c.to_s }.each do |k, _|
-                  idele_semence_sexee[k][:matched] = 1
-                end
-              end
-            end
-
-            results += "**Matched Idele semence_sexee: #{idele_semence_sexee.count { |_, v| v[:matched] == 1 }}/#{idele_semence_sexee.size} (#{in_existing_exception.size} manually)\n"
-
-            results += "**#{idele_semence_sexee.count { |_, v| (v[:matched]).zero? }} Missing Idele semence_sexee Matching: \n"
-
-            idele_semence_sexee.select { |_, v| (v[:matched]).zero? }.each do |k, _|
-              results += "#{k}\n"
-              in_exception_semence_sexee[k] = nil
-            end
-
-            #
-            ##
-
-            ## RESULTS
-            #
-
-            unless out_matched_semence_sexee.empty?
-              File.open(::Ekylibre::Ednotif.out_transcoding_dir.join(transcoding_filename), 'w') { |f| f.write(out_matched_semence_sexee.to_yaml) }
-            end
-
-            unless in_matched_semence_sexee.empty?
-              File.open(::Ekylibre::Ednotif.in_transcoding_dir.join(transcoding_filename), 'w') { |f| f.write(in_matched_semence_sexee.to_yaml) }
-            end
-
-            unless out_exception_semence_sexee.empty?
-              File.open(::Ekylibre::Ednotif.out_transcoding_dir.join(transcoding_exception_filename), 'a+') { |f| f.write(out_exception_semence_sexee.to_yaml) }
-            end
-
-            unless in_exception_semence_sexee.empty?
-              File.open(::Ekylibre::Ednotif.in_transcoding_dir.join(transcoding_exception_filename), 'a+') { |f| f.write(in_exception_semence_sexee.to_yaml) }
-            end
-
-            print results
-            print 'If exception is found, thanks to fill exception files before reloading that script'
-
-          else
-            raise "Idele IpBNotif_v1.xsd is missing for transcoding table #{transcoding_filename} generation"
-          end
-        end
 
       end
     end
