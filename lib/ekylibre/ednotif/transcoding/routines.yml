@@ -7,15 +7,18 @@
   attribute: typeCodePaysFr
   node_path: "/xsd:schema/xsd:simpleType[2]"
   schema_location: IpBNotif_v1.xsd
-- nomen_key:
+- nomen_key: mammalia_birth_conditions
   attribute: typeConditionNaissance
   node_path: "/xsd:schema/xsd:simpleType[3]"
   schema_location: IpBNotif_v1.xsd
+  from_matching_rule: \A(.*)\z
+  to_matching_rule: \A(.*)\z
 - nomen_key: sexes
   attribute: typeSexe
   node_path: "/xsd:schema/xsd:simpleType[8]"
   schema_location: IpBNotif_v1.xsd
-  matching_type: \A(.{1}).*\z
+  from_matching_rule: \A(.{1}).*\z
+  to_matching_rule: \A(.{1}).*\z
 - nomen_key:
   attribute: typeTemoinCompletude
   node_path: "/xsd:schema/xsd:simpleType[9]"
@@ -56,7 +59,11 @@
   attribute: CategorieBovinIPGType
   node_path: "/xsd:schema/xsd:simpleType"
   schema_location: CategorieBovinIPG.XSD
-- nomen_key: 
+- nomen_key: varieties-bos_taurus
   attribute: TypeCodeRaceBovin
   node_path: "/xsd:schema/xsd:simpleType"
+  value_set: './descendant::xsd:enumeration/@value'
+  matching_set: './descendant::xsd:enumeration/xsd:annotation/xsd:documentation/text()'
+  from_matching_rule: \Abos_taurus_(.*)\z
+  to_matching_rule: \A(.*)\z
   schema_location: CodeRaceBovin.XSD
