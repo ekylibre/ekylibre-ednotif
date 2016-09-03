@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<S:Envelope xmlns:S="http://schemas.xmlsoap.org/soap/envelope/">
+   <S:Body>
+      <ns3:tkGetUrlResponse xmlns="http://www.fiea.org/types/" xmlns:ns2="http://www.moa.org/types/" xmlns:ns3="http://www.fiea.org/tk/">
+         <ns3:ReponseStandard>
+            <Resultat>true</Resultat>
+         </ns3:ReponseStandard>
+         <ns3:ReponseSpecifique>
+            <ns3:InfosServiceMetierRegional>
+               <UrlGuichet>https://wwwdev.cmre.fr/wsguichet/WsGuichet</UrlGuichet>
+               <WsdlGuichet>https://wwwdev.cmre.fr/wsguichet/WsGuichet?wsdl</WsdlGuichet>
+               <UrlMetier>http://zoe.cmre.fr/wsIpBNotif/wsIpBNotif</UrlMetier>
+               <WsdlMetier>http://zoe.cmre.fr/wsIpBNotif/wsIpBNotif?wsdl</WsdlMetier>
+            </ns3:InfosServiceMetierRegional>
+         </ns3:ReponseSpecifique>
+      </ns3:tkGetUrlResponse>
+   </S:Body>
+</S:Envelope>

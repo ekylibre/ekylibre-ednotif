@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<S:Envelope xmlns:S="http://schemas.xmlsoap.org/soap/envelope/">
+   <S:Body>
+      <ns2:Fault xmlns:ns2="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ns3="http://www.w3.org/2003/05/soap-envelope">
+         <faultcode>ns2:Server</faultcode>
+         <faultstring>Lors de la demande de log : Le jeton fourni n'est pas valide</faultstring>
+      </ns2:Fault>
+   </S:Body>
+</S:Envelope>

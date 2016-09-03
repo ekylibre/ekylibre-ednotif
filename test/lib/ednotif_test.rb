@@ -1,116 +1,88 @@
 # encoding: utf-8
 require 'test_helper'
+require 'savon/mock/spec_helper'
 
 class Ekylibre::EdnotifTest < ActiveSupport::TestCase
-  setup do
-    args = { directory_wsdl: 'http://zoe.cmre.fr:80/wsannuaire/WsAnnuaire?wsdl',
-             company_code: 'E010',
-             # geo: '',
-             app_name: 'Ekylibre',
-             ednotif_service_name: 'IpBNotif',
-             ednotif_site_service_code: '9',
-             ednotif_site_version_code: '9',
-             ednotif_site_version: '1.00',
-             user_id: 'ekylibrt33d',
-             user_password: 'hf4y3c6tY' }
+  include Savon::SpecHelper
 
-    @tr = ::Tele::Idele::Ednotif.new args
+  setup do
+    savon.mock!
   end
 
-  #   test 'manually retrieving urls from Reswel' do
-  #     @tr.get_urls
-  #
-  #     assert_not_empty(@tr.instance_variable_get('@business_wsdl'))
-  #     assert_not_empty(@tr.instance_variable_get('@customs_wsdl'))
-  #
-  #   end
+  def fixture_files_path
+    Rails.root.join('plugins','ednotif','test','fixture-files')
+  end
 
-  #   test 'raising missing wsdl exception while retrieving urls from Reswel' do
-  #
-  #
-  #     args = { directory_wsdl: 'http://zoe.cmre.fr:80/wsannuaire/WsAnnuaire?wsdl',
-  #                company_code: 'E999', #Hacked company code for throwing exception
-  #                geo: '',
-  #                app_name: 'Ekylibre',
-  #                ednotif_service_name: 'IpBNotif',
-  #                ednotif_site_service_code: '9',
-  #                ednotif_site_version_code: '9',
-  #                ednotif_site_version: '1.00',
-  #                user_id: 'ekylibrt33d',
-  #                user_password: 'hf4y3c6tY'
-  #       }
-  #
-  #     tr2 = ::Tele::Idele::Ednotif.new args
-  #
-  #     exception = assert_raise(::Tele::Idele::EdnotifError::ParsingError){ tr2.get_urls }
-  #     assert_equal('Missing WSDL urls in xml from Reswel get url', exception.message)
-  #
-  #   end
-  #
-  #   test 'raising soap fault exception while retrieving urls from Reswel' do
-  #
-  #     args = { directory_wsdl: 'http://zoe.cmre.fr:80/wsannuaire/WsAnnuaire?wsdl',
-  #                company_code: '', #Hacked company code for throwing exception
-  #                geo: '',
-  #                app_name: 'Ekylibre',
-  #                ednotif_service_name: 'IpBNotif',
-  #                ednotif_site_service_code: '9',
-  #                ednotif_site_version_code: '9',
-  #                ednotif_site_version: '1.00',
-  #                user_id: 'ekylibrt33d',
-  #                user_password: 'hf4y3c6tY'
-  #       }
-  #
-  #     tr2 = ::Tele::Idele::Ednotif.new args
-  #
-  #     exception = assert_raise(::Tele::Idele::EdnotifError::SOAPError){ tr2.get_urls }
-  #     assert_equal("cvc-datatype-valid.1.2.1: '' is not a valid value for 'NMTOKEN'.", exception.message)
-  #
-  #   end
+  teardown do
+    savon.unmock!
+  end
 
-  #   test 'manually retrieving token from Reswel' do
-  #
-  #     @tr.instance_variable_set( '@customs_wsdl', 'https://zoe.cmre.fr/wsguichet/WsGuichet?wsdl' )
-  #     @tr.get_token
-  #     assert_not_empty(@tr.instance_variable_get('@token'))
-  #
-  #   end
-  #
-  #   test 'raising soap fault exception while retrieving token from Reswel' do
-  #
-  #     args = { directory_wsdl: 'http://zoe.cmre.fr:80/wsannuaire/WsAnnuaire?wsdl',
-  #              company_code: 'E010',
-  #              # geo: '',
-  #              app_name: 'Ekylibre',
-  #              ednotif_service_name: 'IpBNotif',
-  #              ednotif_site_service_code: '9',
-  #              ednotif_site_version_code: '9',
-  #              ednotif_site_version: '1.00',
-  #              user_id: 'fakeUserIdTest', #Hacked user id for throwing exception
-  #              user_password: 'hf4y3c6tY'
-  #     }
-  #
-  #     tr2 = ::Tele::Idele::Ednotif.new args
-  #
-  #     tr2.instance_variable_set( '@customs_wsdl', 'https://zoe.cmre.fr/wsguichet/WsGuichet?wsdl' )
-  #
-  #     exception = assert_raise(::Tele::Idele::EdnotifError::ParsingError){ tr2.get_token }
-  #     assert_equal('Aucune personne trouvée correspondant à (login) = (fakeUserIdTest)', exception.message)
-  #
-  #   end
-  #
-  #   test 'automatic authentication to Reswel' do
-  #
-  #     authenticated = @tr.authenticate
-  #
-  #     assert(authenticated)
-  #     assert_not_empty(@tr.instance_variable_get('@business_wsdl'))
-  #     assert_not_empty(@tr.instance_variable_get('@customs_wsdl'))
-  #     assert_not_empty(@tr.instance_variable_get('@token'))
-  #
-  #   end
+  test 'get urls' do
 
-  #
+    # mock
+    message = {
+        'tk:ProfilDemandeur': {
+            'typ:Entreprise': 'E010',
+            'typ:Application': 'Ekylibre'
+        },
+        'tk:VersionPK': {
+            'typ:NumeroVersion': 1.00,
+            'typ:CodeSiteVersion': 9,
+            'typ:NomService': 'IpBNotif',
+            'typ:CodeSiteService': 9
+        }
+    }
+
+    fixture = fixture_file('ws_annuaire_service/success_response_with_urls.xml').read
+    savon.expects(:tk_get_url).with(message: message).returns(fixture)
+
+
+    # call the service
+    client = Savon.client(wsdl: Ekylibre::Ednotif.import_dir.join('WsAnnuaire.xml'))
+    response = client.call(:tk_get_url, message: message)
+
+    assert response.success?
+
+    assert_equal 'true', response.xpath('//ns3:ReponseStandard/xmlns:Resultat').text
+
+    assert_not_empty response.xpath('//xmlns:UrlGuichet').text
+    assert_not_empty response.xpath('//xmlns:WsdlGuichet').text
+    assert_not_empty response.xpath('//xmlns:UrlMetier').text
+    assert_not_empty response.xpath('//xmlns:WsdlMetier').text
+
+  end
+
+
+  test 'get token' do
+
+    # mock
+    message = {
+        'tk:Identification': {
+            'typ:UserId': 'ekylibrt33d',
+            'typ:Password': 'hf4y3c6tY',
+            'typ:Profil': {
+                'typ:Entreprise': 'E010',
+                'typ:Application': 'Ekylibre'
+            }
+        }
+    }
+
+    fixture = fixture_file('ws_guichet_service/success_response_with_token.xml').read
+    savon.expects(:tk_create_identification).with(message: message).returns(fixture)
+
+
+    # call the service
+    client = Savon.client(wsdl: Ekylibre::Ednotif.import_dir.join('WsGuichet.xml'))
+    response = client.call(:tk_create_identification, message: message)
+
+    assert response.success?
+
+    assert_equal 'true', response.xpath('//ns3:ReponseStandard/xmlns:Resultat').text
+
+    assert_not_empty response.xpath('//ns3:Jeton').text
+
+  end
+
   #   test 'raising exception animal already entered while creating cattle entrance on Ednotif' do
   #
   #     authenticated = @tr.authenticate

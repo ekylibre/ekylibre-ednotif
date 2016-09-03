@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<S:Envelope xmlns:S="http://schemas.xmlsoap.org/soap/envelope/">
+   <S:Body>
+      <ns3:tkCreateIdentificationResponse xmlns="http://www.fiea.org/types/" xmlns:ns2="http://www.moa.org/types/" xmlns:ns3="http://www.fiea.org/tk/">
+         <ns3:ReponseStandard>
+            <Resultat>true</Resultat>
+         </ns3:ReponseStandard>
+         <ns3:Jeton>2c068560-85e7-4bf5-be36-1c822f48fcb3</ns3:Jeton>
+      </ns3:tkCreateIdentificationResponse>
+   </S:Body>
+</S:Envelope>
