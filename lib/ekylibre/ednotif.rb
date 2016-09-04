@@ -40,6 +40,14 @@ module Ekylibre
       def transcoding_routines
         transcoding_dir.join('routines.yml')
       end
+
+      def base64_zip_to_xml(message)
+        xml = nil
+        Zip::File.open_buffer(::Base64.decode64(message)) do |f|
+          xml = Nokogiri::XML f.first.get_input_stream.read
+        end
+        xml
+      end
     end
 
     ACTIONS = {
