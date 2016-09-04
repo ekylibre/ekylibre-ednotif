@@ -17,6 +17,9 @@ class Ekylibre::EdnotifTest < ActiveSupport::TestCase
     savon.unmock!
   end
 
+  ################### OPTIMISTIC TESTING #######################
+
+  #### WSANNUAIRE ####
   test 'get urls' do
 
     # mock
@@ -33,12 +36,19 @@ class Ekylibre::EdnotifTest < ActiveSupport::TestCase
         }
     }
 
-    fixture = fixture_file('ws_annuaire_service/success_response_with_urls.xml').read
+    fixture = fixture_file('ws_annuaire_service/OK-tk_get_url-get_urls.xml').read
     savon.expects(:tk_get_url).with(message: message).returns(fixture)
 
 
+    options = {
+        namespace_identifier: 'tk',
+        namespaces: {
+            'xmlns:typ': 'http://www.fiea.org/types/'
+        }
+    }
+
     # call the service
-    client = Savon.client(wsdl: Ekylibre::Ednotif.import_dir.join('WsAnnuaire.xml'))
+    client = Savon.client(options.merge(wsdl: Ekylibre::Ednotif.import_dir.join('WsAnnuaire.xml')))
     response = client.call(:tk_get_url, message: message)
 
     assert response.success?
@@ -52,7 +62,7 @@ class Ekylibre::EdnotifTest < ActiveSupport::TestCase
 
   end
 
-
+  #### WSGUICHET ####
   test 'get token' do
 
     # mock
@@ -67,12 +77,19 @@ class Ekylibre::EdnotifTest < ActiveSupport::TestCase
         }
     }
 
-    fixture = fixture_file('ws_guichet_service/success_response_with_token.xml').read
+    fixture = fixture_file('ws_guichet_service/OK-tk_create_identification-get_token.xml').read
     savon.expects(:tk_create_identification).with(message: message).returns(fixture)
 
 
+    options = {
+        namespace_identifier: 'tk',
+        namespaces: {
+            'xmlns:typ': 'http://www.fiea.org/types/'
+        }
+    }
+
     # call the service
-    client = Savon.client(wsdl: Ekylibre::Ednotif.import_dir.join('WsGuichet.xml'))
+    client = Savon.client(options.merge(wsdl: Ekylibre::Ednotif.import_dir.join('WsGuichet.xml')))
     response = client.call(:tk_create_identification, message: message)
 
     assert response.success?
@@ -82,6 +99,164 @@ class Ekylibre::EdnotifTest < ActiveSupport::TestCase
     assert_not_empty response.xpath('//ns3:Jeton').text
 
   end
+
+  #### WSIPBNOTIF ####
+
+  test 'get list' do
+
+    # mock
+    message = {
+        'sch:JetonAuthentification': '924ffe40-547f-458e-a06e-f5c9145ed795',
+        'sch:Exploitation': {
+            'sch:CodePays': 'FR',
+            'sch:NumeroExploitation': '01999999'
+        },
+        'sch:DateDebut': '2016-01-01',
+        'sch:StockBoucles': 0
+    }
+
+    fixture = fixture_file('ws_ipbnotif_service/OK-ip_b_get_inventaire-get_list.xml').read
+
+    savon.expects(:ip_b_get_inventaire).with(message: message).returns(fixture)
+
+    options = {
+        namespace_identifier: 'sch',
+        namespaces: {
+            'xmlns:sch': 'http://www.idele.fr/XML/Schema/'
+        }
+    }
+
+    # call the service
+    client = Savon.client(options.merge(wsdl: Ekylibre::Ednotif.import_dir.join('WsIpBNotif.xml')))
+
+    response = client.call(:ip_b_get_inventaire, message: message)
+
+    assert_equal 'true', response.xpath('//tns:ReponseStandard/tnsfiea:Resultat').text
+    assert_not_empty response.xpath('//tns:NbBovins').text
+    assert_not_empty response.xpath('//tns:MessageZip').text
+
+  end
+
+
+  ################### EXCEPTION HANDLING #######################
+
+  #### WSANNUAIRE ####
+  test 'SOAP fault on get urls' do
+
+    # mock
+    message = {
+        'tk:ProfilDemandeur': {
+            'typ:break': 'E010', # UNKNOWN TAG
+            'typ:Application': 'Ekylibre'
+        },
+        'tk:VersionPK': {
+            'typ:NumeroVersion': 1.00,
+            'typ:CodeSiteVersion': 9,
+            'typ:NomService': 'IpBNotif',
+            'typ:CodeSiteService': 9
+        }
+    }
+
+    fixture = fixture_file('ws_annuaire_service/KO-tk_get_urls-malformed_request.xml').read
+
+    response = { code: 500, headers: {}, body: fixture }
+
+    savon.expects(:tk_get_url).with(message: message).returns(response)
+
+
+    options = {
+        namespace_identifier: 'tk',
+        namespaces: {
+            'xmlns:typ': 'http://www.fiea.org/types/'
+        }
+    }
+
+    # call the service
+    client = Savon.client(options.merge(wsdl: Ekylibre::Ednotif.import_dir.join('WsAnnuaire.xml')))
+
+    exception = assert_raise(Savon::SOAPFault){ client.call(:tk_get_url, message: message) }
+
+    assert_equal( %{(ns2:Client) cvc-complex-type.2.4.a: Invalid content was found starting with element 'typ:break'. One of '{"http://www.fiea.org/types/":Entreprise, "http://www.fiea.org/types/":Zone, "http://www.fiea.org/types/":Application}' is expected.}, exception.message)
+
+  end
+
+  #### WSGUICHET ####
+
+  test 'KO response on get token' do
+
+    # mock
+    message = {
+        'tk:Identification': {
+            'typ:UserId': 'INVALID', #INVALID userId
+            'typ:Password': 'hf4y3c6tY',
+            'typ:Profil': {
+                'typ:Entreprise': 'E010',
+                'typ:Application': 'Ekylibre'
+            }
+        }
+    }
+
+    fixture = fixture_file('ws_guichet_service/KO-tk_create_Identification-user_doesnt_exist.xml').read
+    savon.expects(:tk_create_identification).with(message: message).returns(fixture)
+
+
+    options = {
+        namespace_identifier: 'tk',
+        namespaces: {
+            'xmlns:typ': 'http://www.fiea.org/types/'
+        }
+    }
+
+    # call the service
+    client = Savon.client(options.merge(wsdl: Ekylibre::Ednotif.import_dir.join('WsGuichet.xml')))
+    response = client.call(:tk_create_identification, message: message)
+
+    assert response.success?
+
+    assert_equal 'false', response.xpath('//ns3:ReponseStandard/xmlns:Resultat').text
+
+    assert_equal 'NTk001', response.xpath('//xmlns:Anomalie/xmlns:Code').text
+
+  end
+
+  #### WSIPBNOTIF ####
+
+  test 'SOAP fault invalid token' do
+
+      # mock
+      message = {
+          'sch:JetonAuthentification': 'XXXXX', #invalid token
+          'sch:Exploitation': {
+              'sch:CodePays': 'FR',
+              'sch:NumeroExploitation': '01999999'
+          },
+          'sch:DateDebut': '2016-01-01',
+          'sch:StockBoucles': 0
+      }
+
+      fixture = fixture_file('ws_ipbnotif_service/KO-ip_b_get_inventaire-invalid_token.xml').read
+
+      response = { code: 500, headers: {}, body: fixture }
+
+      savon.expects(:ip_b_get_inventaire).with(message: message).returns(response)
+
+
+      options = {
+          namespace_identifier: 'tk',
+          namespaces: {
+              'xmlns:typ': 'http://www.fiea.org/types/'
+          }
+      }
+
+      # call the service
+      client = Savon.client(options.merge(wsdl: Ekylibre::Ednotif.import_dir.join('WsIpBNotif.xml')))
+
+      exception = assert_raise(Savon::SOAPFault){ client.call(:ip_b_get_inventaire, message: message) }
+
+      assert_equal( %{(ns2:Server) Lors de la demande de log : Le jeton fourni n'est pas valide}, exception.message)
+
+    end
+
 
   #   test 'raising exception animal already entered while creating cattle entrance on Ednotif' do
   #

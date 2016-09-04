@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<S:Envelope xmlns:S="http://schemas.xmlsoap.org/soap/envelope/">
+   <S:Body>
+      <ns3:tkCreateIdentificationResponse xmlns="http://www.fiea.org/types/" xmlns:ns2="http://www.moa.org/types/" xmlns:ns3="http://www.fiea.org/tk/">
+         <ns3:ReponseStandard>
+            <Resultat>false</Resultat>
+            <Anomalie>
+               <Code>NTk001</Code>
+               <Severite>1</Severite>
+               <Message>Aucune personne trouvée correspondant à (login) = (INVALID)</Message>
+            </Anomalie>
+         </ns3:ReponseStandard>
+      </ns3:tkCreateIdentificationResponse>
+   </S:Body>
+</S:Envelope>

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<tns:IpBGetInventaireResponse xsi:schemaLocation="http://www.idele.fr/XML/Schema/" xmlns:tnsfiea="http://www.fiea.org/types/" xmlns:tns="http://www.idele.fr/XML/Schema/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<tns:ReponseStandard>
+		<tnsfiea:Resultat>true</tnsfiea:Resultat>
+	</tns:ReponseStandard>
+	<tns:ReponseSpecifique>
+		<tns:NbBovins>3</tns:NbBovins>
+		<tns:MessageZip>UjBsR09EbGhjZ0dTQUxNQUFBUUNBRU1tQ1p0dU1GUXhEUzhi</tns:MessageZip>
+	</tns:ReponseSpecifique>
+</tns:IpBGetInventaireResponse>
