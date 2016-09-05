@@ -41,6 +41,7 @@ module Ekylibre
         transcoding_dir.join('routines.yml')
       end
 
+      # return a Nokogiri document
       def base64_zip_to_xml(message)
         xml = nil
         Zip::File.open_buffer(::Base64.decode64(message)) do |f|
@@ -73,7 +74,7 @@ module Ekylibre
           if self.is_a? Intervention and nature == 'record'
             actions.each do |action|
               next unless  ACTIONS.key? action
-              ::Ekylibre::Ednotif::ServiceCaller.send ACTIONS[:action], self
+              ::Ekylibre::Ednotif::Dispatcher.send ACTIONS[:action], self
             end
           elsif self.is_a? Purchase
 
