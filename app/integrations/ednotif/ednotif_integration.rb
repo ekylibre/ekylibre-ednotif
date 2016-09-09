@@ -47,82 +47,38 @@ module Ednotif
           namespace_identifier: 'sch',
           namespaces: {
               'xmlns:sch': 'http://www.idele.fr/XML/Schema/'
-          }
+          },
+          strip_namespaces: true,
+          convert_tags_to: lambda { |tag| tag.snakecase.to_sym },
+          advanced_typecasting: true
       })
 
       #soap call
       call_savon(:ip_b_get_inventaire, options, message) do |r|
         r.success do
 
-          # find any business error
-          if response.xpath('//tns:ReponseStandard/tnsfiea:Resultat').text == 'false'
-            code = response.xpath('//tns:ReponseStandard/tnsfiea:Anomalie/tnsfiea:Code').text
+          nested = r.body[r.body.keys.first]
 
-            #TODO improve this
-            error_codes = YAML.load_file(Ekylibre::Ednotif.in_transcoding_dir.join('error_codes.yml'))
+          # reject namespaces definition
+          nested.reject! { |k, _| k =~ /\A@.*\z/ }
 
-            return r.error error_codes[code] if code.present? and error_codes.key?(code)
+          doc = Ekylibre::Ednotif::InTranscoder.convert(nested)
 
-            # fallback to return message
-            return r.error response.xpath('//tns:ReponseStandard/tnsfiea:Anomalie/tnsfiea:Message').text
+          if doc[:standard_response][:result]
+            # because \n special chars are escaped by default, but it must be considered during base64 decoding.
+            embedded_xml = Ekylibre::Ednotif.base64_zip_to_xml doc[:particular_response][:embedded_document].gsub(/\\n/,"\n")
+            hashed = parser.parse(embedded_xml.to_xml)
+
+            # :message_ip_b_notif_get_inventaire
+            nested = hashed[hashed.keys.first].reject{ |k, _| k =~ /\A@.*\z/ }
+
+            doc = Ekylibre::Ednotif::InTranscoder.convert(nested)
+          else
+            r.error YamlNomen[:incoming][:error_codes][doc[:standard_response][:code]]
           end
 
-          doc = Ekylibre::Ednotif.base64_zip_to_xml response.xpath('//tns:MessageZip').text
-
-          return r.error 'MessageZip not found' if doc.nil?
-
-          # get message and transcode
-          res = {
-              generation_datetime: doc.xpath('//tns:DateHeureGeneration').text,
-              country_code: doc.xpath('//tns:Exploitation/tns:CodePays').text,
-              farm_number: doc.xpath('//tns:Exploitation/tns:NumeroExploitation').text,
-              start_date: Date.parse(doc.xpath('//tns:DateDebut').text),
-              end_date: Date.parse(doc.xpath('//tns:DateFin').text),
-              stock: doc.xpath('//tns:StockBoucles').text,
-              herd: []
-          }
-
-          res[:herd] = doc.xpath('//tns:Bovin').collect do |node|
-            hash = {}
-            identity = node.xpath('./tns:IdentiteBovin')
-            unless identity.nil?
-              hash[:country_code] = identity.xpath('./tns:Bovin/tns:CodePays').text
-              hash[:identification_number] = identity.xpath('./tns:Bovin/tns:NumeroNational').text
-              hash[:sex] = identity.xpath('./tns:Sexe').text
-              hash[:race_code] = identity.xpath('./tns:TypeRacial').text
-              hash[:birth_date] = Date.parse(identity.xpath('./tns:DateNaissance/tns:Date').text)
-              hash[:witness] = identity.xpath('./tns:DateNaissance/tns:TemoinCompletude').text
-              hash[:work_number] = identity.xpath('./tns:NumeroTravail').text
-              hash[:name] = identity.xpath('./tns:NomBovin').text
-              hash[:cpb_filiation] = identity.xpath('./tns:StatutFilie').text
-              hash[:mother] = {
-                  country_code: identity.xpath('./tns:MerePorteuse/tns:Bovin/tns:CodePays').text,
-                  identification_number: identity.xpath('./tns:MerePorteuse/tns:Bovin/tns:NumeroNational').text,
-                  race_code: identity.xpath('./tns:MerePorteuse/tns:TypeRacial').text
-              }
-              hash[:father] = {
-                  country_code: identity.xpath('./tns:PereIPG/tns:Bovin/tns:CodePays').text,
-                  identification_number: identity.xpath('./tns:PereIPG/tns:Bovin/tns:NumeroNational').text,
-                  race_code: identity.xpath('./tns:PereIPG/tns:TypeRacial').text
-              }
-              hash[:parturition_first_date] = identity.xpath('./tns:DatePremierVelage').text
-              hash[:birth_farm] = {
-                  country_code: identity.xpath('./tns:ExploitationNaissance/tns:CodePays').text,
-                  farm_number: identity.xpath('./tns:ExploitationNaissance/tns:NumeroExploitation').text
-              }
-              hash[:source_country_code] =  identity.xpath('./tns:CodePaysOrigine').text
-              hash[:source_indentification_number] =  identity.xpath('./tns:NumeroOrigine').text
-              hash[:end_of_life] =  {
-                  end_of_life_date: identity.xpath('./tns:DateFinDeVie').text,
-                  end_of_life_witness: identity.xpath('./tns:TemoinFinDeVie').text
-              }
-            end
-
-            ###TO BE CONTINUED###
-          end
-
-          # result =
-          # response.xpath('//tns:MessageZip').text
+          # hash format
+          doc
 
         end
       end
