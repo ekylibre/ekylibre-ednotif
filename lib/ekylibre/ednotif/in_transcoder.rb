@@ -243,9 +243,8 @@ module Ekylibre
         end
 
         def code_pays(fragment)
-          #really?
           {
-              country_code: fragment
+              country_code: YamlNomen[:incoming][:countries][fragment]
           }
         end
 
