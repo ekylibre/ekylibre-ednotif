@@ -65,11 +65,12 @@ module Ednotif
           doc = Ekylibre::Ednotif::InTranscoder.convert(nested)
 
           if doc[:standard_response][:result]
+            parser = Nori.new strip_namespaces: true, convert_tags_to: lambda { |tag| tag.snakecase.to_sym }, advanced_typecasting: true
             # because \n special chars are escaped by default, but it must be considered during base64 decoding.
             embedded_xml = Ekylibre::Ednotif.base64_zip_to_xml doc[:particular_response][:embedded_document].gsub(/\\n/,"\n")
             hashed = parser.parse(embedded_xml.to_xml)
 
-            # :message_ip_b_notif_get_inventaire
+            # :message_ip_b_notif_get_inventaire + reject @namespaces definitions
             nested = hashed[hashed.keys.first].reject{ |k, _| k =~ /\A@.*\z/ }
 
             doc = Ekylibre::Ednotif::InTranscoder.convert(nested)
