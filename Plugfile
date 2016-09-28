@@ -2,3 +2,14 @@ author "Nicolas Procureur <nprocureur@ekylibre.com>, Brice Texier <brice@ekylibr
 
 name "ednotif"
 version "0.1"
+
+
+add_routes do
+  namespace :backend do
+    resources :ednotif_loggers, concerns: [:list] do
+        collection do
+            get :list_calls
+        end
+    end
+  end
+end

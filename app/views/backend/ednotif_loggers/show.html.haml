@@ -1,0 +1,8 @@
+= main_informations do
+  = attributes_list do |l|
+    - l.attribute :operation_name
+    - l.attribute :state
+
+= cobbles do |c|
+  - c.cobble(:calls) do
+    = cobble_list :calls
