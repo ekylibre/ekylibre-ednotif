@@ -68,8 +68,8 @@ class Ekylibre::EdnotifTest < ActiveSupport::TestCase
     # mock
     message = {
         'tk:Identification': {
-            'typ:UserId': 'ekylibrt33d',
-            'typ:Password': 'hf4y3c6tY',
+            'typ:UserId': 'ekilibre01d',
+            'typ:Password': 'hUvcA2y5s',
             'typ:Profil': {
                 'typ:Entreprise': 'E010',
                 'typ:Application': 'Ekylibre'
@@ -188,7 +188,7 @@ class Ekylibre::EdnotifTest < ActiveSupport::TestCase
     message = {
         'tk:Identification': {
             'typ:UserId': 'INVALID', #INVALID userId
-            'typ:Password': 'hf4y3c6tY',
+            'typ:Password': 'hUvcA2y5s',
             'typ:Profil': {
                 'typ:Entreprise': 'E010',
                 'typ:Application': 'Ekylibre'
