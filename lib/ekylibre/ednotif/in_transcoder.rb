@@ -180,6 +180,7 @@ module Ekylibre
               entry_reason: YamlNomen[:incoming][:entry_reason][fragment]
           }
         end
+
         def date_sortie(fragment)
           {
               exit_date: fragment
@@ -318,6 +319,36 @@ module Ekylibre
         def message_zip(fragment)
           {
               embedded_document: fragment
+          }
+        end
+
+        def url_guichet(fragment)
+          {
+              authentication_url: fragment
+          }
+        end
+
+        def url_metier(fragment)
+          {
+              business_url: fragment
+          }
+        end
+
+        def wsdl_guichet(fragment)
+          {
+              authentication_wsdl: fragment
+          }
+        end
+
+        def wsdl_metier(fragment)
+          {
+              business_wsdl: fragment
+          }
+        end
+
+        def jeton(fragment)
+          {
+              token: fragment
           }
         end
 
