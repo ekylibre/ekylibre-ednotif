@@ -1,5 +1,5 @@
 ---
-NTk001: "Aucune personne trouvée correspondant à (login) = (INVALID)"
+NTk001: 'failed_connection'
 9IpBI001: "Donnée incorrecte ou absente : code d’identification de l’animal"
 9IpBI002: "Donnée incorrecte : Code d’identification de l’exploitation de naissance"
 9IpBI023: "Donnée incorrecte ou absente : cause mouvement"
