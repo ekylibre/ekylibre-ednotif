@@ -1,0 +1,4 @@
+eng:
+  notifications:
+    messages:
+      failed_connection: "La connexion avec L'Idele a échouée. Les identifiants sont invalides."

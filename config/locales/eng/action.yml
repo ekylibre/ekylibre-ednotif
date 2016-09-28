@@ -1,0 +1,4 @@
+eng:
+  notifications:
+    messages:
+      failed_connection: 'Connection failed with Idele for given credentials'
