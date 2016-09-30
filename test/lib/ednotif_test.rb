@@ -49,16 +49,19 @@ class Ekylibre::EdnotifTest < ActiveSupport::TestCase
 
     # call the service
     client = Savon.client(options.merge(wsdl: Ekylibre::Ednotif.import_dir.join('WsAnnuaire.xml')))
-    response = client.call(:tk_get_url, message: message)
+    response = client.call :tk_get_url, message: message
 
     assert response.success?
 
-    assert_equal 'true', response.xpath('//ns3:ReponseStandard/xmlns:Resultat').text
+    nested = response.body[:tk_get_url_response].reject { |k, _| k =~ /\A@.*\z/ }
+    doc = Ekylibre::Ednotif::InTranscoder.convert nested
 
-    assert_not_empty response.xpath('//xmlns:UrlGuichet').text
-    assert_not_empty response.xpath('//xmlns:WsdlGuichet').text
-    assert_not_empty response.xpath('//xmlns:UrlMetier').text
-    assert_not_empty response.xpath('//xmlns:WsdlMetier').text
+    assert_not_empty doc
+
+    assert doc[:standard_response][:result]
+    assert doc.key? :particular_response
+    assert doc[:particular_response].key? :business_wsdl
+    assert doc[:particular_response].key? :authentication_wsdl
 
   end
 
