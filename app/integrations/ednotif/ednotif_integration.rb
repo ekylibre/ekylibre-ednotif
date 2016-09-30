@@ -4,6 +4,7 @@ module Ednotif
         globals: {
             strip_namespaces: true,
             convert_response_tags_to: lambda { |tag| tag.snakecase.to_sym },
+            raise_errors: false
         },
         locals: {
             advanced_typecasting: true
@@ -31,43 +32,23 @@ module Ednotif
     # @param [date] end_date: Date fin de période de présence des bovins
     # @param [Object] stock: Indique si le stock de boucles doit être retourné
     def get_list(parameters = {})
-      # get hash with ekylibre data
+      parameters = parameters.deep_symbolize_keys!
 
       parameters[:options] ||= {}
       parameters[:message] ||= {}
 
-      # integration = fetch
 
-      fail 'Missing WSDL' unless parameters[:options].key?(:wsdl)
-
-      # fail 'Missing token' unless options.key?(:token)
-
-      # typeExploitationFrancaisePK
-      # fail 'invalid cattling number' unless dataset[:farm_number] =~ /[0-9]{8}/
-
-      #
-      # message = {
-      #     'sch:JetonAuthentification': '924ffe40-547f-458e-a06e-f5c9145ed795',
-      #     'sch:Exploitation': {
-      #         'sch:CodePays': 'FR',
-      #         'sch:NumeroExploitation': dataset[:farm_number]
-      #     },
-      #     'sch:DateDebut': dataset[:start_date],
-      #     'sch:StockBoucles': dataset[:get_stock] ? 1 : 0
-      # }
-
-      parameters[:options].reverse_merge!(::Ednotif.default_options).merge!({
-                                                                                namespace_identifier: 'sch',
-                                                                                namespaces: {
-                                                                                    'xmlns:sch': 'http://www.idele.fr/XML/Schema/'
-                                                                                }
+      # we need to handle namespaces because business wsdl seems a bit buggy
+      parameters[:options] = ::Ednotif.default_options.deep_merge(parameters[:options]).deep_merge(
+          globals:{
+                                                                                namespace_identifier: 'edn',
+              namespace: 'http://www.idele.fr/XML/Schema/'
                                                                             })
 
       message = Ekylibre::Ednotif::OutTranscoder.convert parameters[:message]
 
       call_savon(:ip_b_get_inventaire, parameters[:options], message) do |r|
         r.success do
-
           nested = r.body[r.body.keys.first]
 
           # reject namespaces definition
@@ -86,13 +67,17 @@ module Ednotif
 
             doc = Ekylibre::Ednotif::InTranscoder.convert(nested)
           else
-            r.error YamlNomen[:incoming][:error_codes][doc[:standard_response][:issue][:code]]
+            error_code = YamlNomen[:incoming][:error_codes][doc[:standard_response][:issue][:code]]
+            r.client_error error_code
+            error_code
           end
-
-          # hash format
           doc
-
         end
+
+        r.server_error do
+          r.body[:fault][:faultstring] if r.body.key?(:fault) && r.body[:fault].key?(:faultcode) && r.body[:fault].key?(:faultstring)
+        end
+
       end
     end
 
@@ -107,17 +92,15 @@ module Ednotif
     # force: To force authentication process even if a token is already registered
     def self.authenticate_and_do(logger = nil, force = false, &block)
       integration ||= fetch
-      binding.pry
 
-
-      # unless integration.parameters['token'] || force
-
+      # TODO: Now, consume the entire process
+      # we can optimize this by reusing saved wsdl but we always need to fallback to directory because we can rely on auth and business wsdls
       get_urls.execute(logger) do |c|
         c.success do |response|
           integration ||= fetch
 
           # TODO change this
-          logger.state :success
+          logger.state = :success
           logger.save!
 
           integration.parameters['authentication_wsdl'] = response[:particular_response][:authentication_wsdl]
@@ -127,20 +110,20 @@ module Ednotif
             auth_c.success do |auth_response|
               integration ||= fetch
 
-              binding.pry
               integration.parameters['token'] = auth_response[:token]
               integration.save!
 
               yield block if block_given?
             end
 
-            auth_c.error :failed_connection do
-              integration ||= fetch
+            # auth_c.error :failed_connection do
+            #   logger.state = :failed_connection
+            #   logger.save!
+            # end
 
-              logger.state :error
+            auth_c.error do |auth_response|
+              logger.state = auth_response
               logger.save!
-
-              integration.creator.notify 'failed_connection', {}, {target: auth_c, level: :error}
             end
 
           end
@@ -148,11 +131,14 @@ module Ednotif
 
         # could occurs if enterprise code is wrong
         c.error :missing_wsdl do
-          #retry ?
+          logger.state = :missing_wsdl
+          logger.save!
         end
 
-        c.error do
-          #retry ?
+        #errors
+        c.error do |response|
+          logger.state = response
+          logger.save!
         end
       end
 
@@ -162,7 +148,7 @@ module Ednotif
     def authenticate(parameters = {})
       integration = fetch
 
-      options = ::Ednotif.default_options.merge(
+      options = ::Ednotif.default_options.deep_merge(
           globals: {
               namespace_identifier: 'tk',
               namespaces: {
@@ -171,7 +157,6 @@ module Ednotif
               wsdl: parameters['wsdl']
           }
       )
-      binding.pry
 
       message = {
           'tk:Identification': {
@@ -189,17 +174,18 @@ module Ednotif
           nested = r.body[:tk_create_identification_response].reject { |k, _| k =~ /\A@.*\z/ }
           doc = Ekylibre::Ednotif::InTranscoder.convert(nested)
 
-          binding.pry
           if doc[:standard_response][:result]
             doc
           else
-            r.error YamlNomen[:incoming][:error_codes][doc[:standard_response][:issue][:code]]
+            error_code = YamlNomen[:incoming][:error_codes][doc[:standard_response][:issue][:code]]
+            r.client_error error_code
+            error_code
           end
 
         end
 
-        r.error do
-          binding.pry
+        r.server_error do
+          r.body[:fault][:faultstring] if r.body.key?(:fault) && r.body[:fault].key?(:faultcode) && r.body[:fault].key?(:faultstring)
         end
       end
 
@@ -209,7 +195,7 @@ module Ednotif
       # retrieve integration unless it is already supplied (on check_connection step)
       integration ||= fetch
 
-      options = ::Ednotif.default_options.merge(
+      options = ::Ednotif.default_options.deep_merge(
           globals: {
               namespace_identifier: 'tk',
               namespaces: {
@@ -234,16 +220,20 @@ module Ednotif
         r.success do
           nested = r.body[:tk_get_url_response].reject { |k, _| k =~ /\A@.*\z/ }
           doc = Ekylibre::Ednotif::InTranscoder.convert(nested)
-          binding.pry
           if doc[:standard_response][:result]
             unless doc.key?(:particular_response) && doc[:particular_response][:business_wsdl] && doc[:particular_response][:authentication_wsdl]
               r.error :missing_wsdl
             end
               doc
           else
-            r.error YamlNomen[:incoming][:error_codes][doc[:standard_response][:issue][:code]]
+            error_code = YamlNomen[:incoming][:error_codes][doc[:standard_response][:issue][:code]]
+            r.client_error error_code
+            error_code
           end
+        end
 
+        r.server_error do
+          r.body[:fault][:faultstring] if r.body.key?(:fault) && r.body[:fault].key?(:faultcode) && r.body[:fault].key?(:faultstring)
         end
       end
     end
