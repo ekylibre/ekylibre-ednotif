@@ -9,13 +9,15 @@ module Backend
       @ednotif_logger = EdnotifLogger.find(params[:id])
     end
 
-    list do |t|
+    list order: { created_at: :desc } do |t|
+      t.column :created_at
       t.column :operation_name, url: true
       t.column :state
     end
 
 
-    list(:calls, conditions: { source_id: 'params[:id]'.c }, order: { created_at: :asc }) do |t|
+    list(:calls, conditions: { source_id: 'params[:id]'.c }, order: { created_at: :desc }) do |t|
+      t.column :created_at
       t.column :name
       t.column :state
       t.column :arguments
