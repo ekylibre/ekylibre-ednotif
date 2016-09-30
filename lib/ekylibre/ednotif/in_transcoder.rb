@@ -148,13 +148,32 @@ module Ekylibre
 
           if fragment.is_a? Array
             {
-                buckles: fragment.collect do |animal|
-                  convert animal
+                buckles_serie: fragment.collect do |serie|
+                  convert serie
                 end
             }
           end
         end
 
+        def boucles(fragment)
+          # an array on multiple records, an hash otherwise
+
+          fragment = [fragment] if fragment.is_a? Hash
+
+          if fragment.is_a? Array
+            {
+                buckles: fragment.collect do |buckle|
+                  convert buckle
+                end
+            }
+          end
+        end
+
+        def fin_de_vie(fragment)
+          {
+              end_of_life: convert(fragment)
+          }
+        end
 
         # Terminals
         def date_heure_generation(fragment)
@@ -205,6 +224,12 @@ module Ekylibre
           }
         end
 
+        def date_premier_velage(fragment)
+          {
+              first_calving_date: fragment
+          }
+        end
+
         def temoin_completude(fragment)
           {
               witness: YamlNomen[:incoming][:witness][fragment]
@@ -249,9 +274,21 @@ module Ekylibre
           }
         end
 
+        def code_pays_origine(fragment)
+          {
+              origin_country_code: YamlNomen[:incoming][:countries][fragment]
+          }
+        end
+
         def numero_national(fragment)
           {
               identification_number: fragment
+          }
+        end
+
+        def numero_origine(fragment)
+          {
+              origin_identification_number: fragment
           }
         end
 
@@ -288,6 +325,18 @@ module Ekylibre
         def attente_validation_bdni(fragment)
           {
               waiting_validation: fragment
+          }
+        end
+
+        def date_fin_de_vie(fragment)
+          {
+              end_of_life_date: fragment
+          }
+        end
+
+        def temoin_fin_de_vie(fragment)
+          {
+              end_of_life_witness: YamlNomen[:incoming][:witness][fragment]
           }
         end
 
@@ -354,7 +403,7 @@ module Ekylibre
 
         def convert(message)
           message.each_with_object({}) do |(k, v), h|
-            h.merge! send k, v
+            h.merge!(send(k, v)||{})
           end
         end
 
