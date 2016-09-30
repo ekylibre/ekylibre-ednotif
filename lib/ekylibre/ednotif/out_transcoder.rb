@@ -19,7 +19,7 @@ module Ekylibre
 
         def filiation(fragment)
           {
-              'sch:Filiation': convert(fragment)
+              'edn:Filiation': convert(fragment)
           }
         end
 
@@ -37,37 +37,37 @@ module Ekylibre
 
         def farm(fragment)
           {
-              'sch:Exploitation': convert(fragment)
+              'edn:Exploitation': convert(fragment)
           }
         end
 
         def birth_farm(fragment)
           {
-              'sch:ExploitationNaissance': convert(fragment)
+              'edn:ExploitationNaissance': convert(fragment)
           }
         end
 
         def animal(fragment)
           {
-              'sch:Bovin': convert(fragment)
+              'edn:Bovin': convert(fragment)
           }
         end
 
         def weight(fragment)
           {
-              'sch:Poids': convert(fragment)
+              'edn:Poids': convert(fragment)
           }
         end
 
         def mother(fragment)
           {
-              'sch:MerePorteuse': convert(fragment)
+              'edn:MerePorteuse': convert(fragment)
           }
         end
 
         def father(fragment)
           {
-              'sch:PereIPG': convert(fragment)
+              'edn:PereIPG': convert(fragment)
           }
         end
 
@@ -75,61 +75,61 @@ module Ekylibre
 
         def passport_request(fragment)
           {
-              'sch:DemandePasseport': fragment
+              'edn:DemandePasseport': fragment
           }
         end
 
         def work_code(fragment)
           {
-              'sch:CodeAtelier': YamlNomen[:outgoing][:work_code][fragment]
+              'edn:CodeAtelier': YamlNomen[:outgoing][:work_code][fragment]
           }
         end
 
         def birth_weight(fragment)
           {
-              'sch:PoidsNaissance': fragment
+              'edn:PoidsNaissance': fragment
           }
         end
 
         def weighed_weight(fragment)
           {
-              'sch:PoidsPese': fragment
+              'edn:PoidsPese': fragment
           }
         end
 
         def chest_size(fragment)
           {
-              'sch:TourPoitrine': fragment
+              'edn:TourPoitrine': fragment
           }
         end
 
         def transplantation(fragment)
           {
-              'sch:TransplantationEmbryonnaire': fragment
+              'edn:TransplantationEmbryonnaire': fragment
           }
         end
 
         def abortion(fragment)
           {
-              'sch:Avortement': fragment
+              'edn:Avortement': fragment
           }
         end
 
         def birth_condition(fragment)
           {
-              'sch:ConditionNaissance': YamlNomen[:outgoing][:mammalia_birth_conditions][fragment]
+              'edn:ConditionNaissance': YamlNomen[:outgoing][:mammalia_birth_conditions][fragment]
           }
         end
 
         def twin(fragment)
           {
-              'sch:Jumeau': fragment
+              'edn:Jumeau': fragment
           }
         end
 
         def token(fragment)
           {
-              'sch:JetonAuthentification': fragment
+              'edn:JetonAuthentification': fragment
           }
         end
 
@@ -183,68 +183,74 @@ module Ekylibre
 
         def country_code(fragment)
           {
-              'sch:CodePays': YamlNomen[:outgoing][:countries][fragment]
+              'edn:CodePays': YamlNomen[:outgoing][:countries][fragment]
           }
         end
 
         def identification_number(fragment)
           {
-              'sch:NumeroNational': fragment
+              'edn:NumeroNational': fragment
           }
         end
 
         def sex(fragment)
           {
-              'sch:Sexe': YamlNomen[:outgoing][:sexes][fragment]
+              'edn:Sexe': YamlNomen[:outgoing][:sexes][fragment]
           }
         end
 
         def race_code(fragment)
           {
-              'sch:TypeRacial': YamlNomen[:outgoing]['varieties-bos_taurus'][fragment]
+              'edn:TypeRacial': YamlNomen[:outgoing]['varieties-bos_taurus'][fragment]
           }
         end
 
         def birth_date(fragment)
           # as a DateTime object
           {
-              'sch:DateNaissance': fragment.to_s
+              'edn:DateNaissance': fragment.to_s
           }
         end
 
         def work_number(fragment)
           {
-              'sch:NumeroTravail': fragment
+              'edn:NumeroTravail': fragment
           }
         end
 
         def name(fragment)
           {
-              'sch:NomBovin': fragment
+              'edn:NomBovin': fragment
           }
         end
 
         def farm_number(fragment)
           {
-              'sch:NumeroExploitation': fragment
-          }
+              'edn:NumeroExploitation': fragment[2..10]
+          }.reverse_merge(country_code(fragment[0..1].downcase))
         end
 
         def start_date(fragment)
           {
-              'sch:DateDebut': fragment.to_s
+              'edn:DateDebut': fragment.to_s
+          }
+        end
+
+        def end_date(fragment)
+          {
+              'edn:DateFin': fragment.to_s
           }
         end
 
         def stock(fragment)
           {
-              'sch:StockBoucles': fragment
+              'edn:StockBoucles': true & fragment ? 1 : 0
           }
         end
 
         def convert(message)
           message.each_with_object({}) do |(k, v), h|
-            h.merge! send k, v
+            h.merge!(send(k, v).reject{ |_,v| v.blank? })
           end
         end
 
