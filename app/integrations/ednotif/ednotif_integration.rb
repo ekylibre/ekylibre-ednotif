@@ -20,17 +20,57 @@ module Ednotif
     end
 
     calls :get_list
+    calls :create_cattle_entrance
     calls :get_urls
     calls :authenticate
 
+    def create_cattle_entrance(parameters = {})
+      parameters = parameters.deep_symbolize_keys!
+
+      parameters[:options] ||= {}
+      parameters[:message] ||= {}
+
+
+      # we need to handle namespaces because business wsdl seems a bit buggy
+      parameters[:options] = ::Ednotif.default_options.deep_merge(parameters[:options]).deep_merge(
+          globals:{
+              namespace_identifier: 'edn',
+              namespace: 'http://www.idele.fr/XML/Schema/'
+          })
+
+      binding.pry
+
+      message = Ekylibre::Ednotif::OutTranscoder.new parameters[:message]
+
+      return message unless message.valid?
+
+      call_savon(:ip_b_create_entree, parameters[:options], message) do |r|
+        r.success do
+          nested = r.body[r.body.keys.first]
+          binding.pry
+          # reject namespaces definition
+          nested.reject! { |k, _| k =~ /\A@.*\z/ }
+
+          doc = Ekylibre::Ednotif::InTranscoder.convert(nested)
+
+          if doc[:standard_response][:result]
+            doc
+          else
+            error_code = YamlNomen[:incoming][:error_codes][doc[:standard_response][:issue][:code]]
+            r.client_error error_code
+            error_code
+          end
+        end
+
+        r.server_error do
+          r.body[:fault][:faultstring] if r.body.key?(:fault) && r.body[:fault].key?(:faultstring)
+        end
+
+      end
+    end
+
     ##
     # get_list: fournir l’inventaire des bovins d’une exploitation entre deux dates. L’inventaire peut être complété par la liste des boucles disponibles.
-    # @param [string] token: token from reswel, length: 50
-    # @param [string] farm_country_code: Toujours 'FR'. length: 2
-    # @param [string] farm_number: Numéro d'exploitation française. length: 8
-    # @param [date] start_date: Date début de période de présence des bovins
-    # @param [date] end_date: Date fin de période de présence des bovins
-    # @param [Object] stock: Indique si le stock de boucles doit être retourné
     def get_list(parameters = {})
       parameters = parameters.deep_symbolize_keys!
 
@@ -45,7 +85,9 @@ module Ednotif
               namespace: 'http://www.idele.fr/XML/Schema/'
                                                                             })
 
-      message = Ekylibre::Ednotif::OutTranscoder.convert parameters[:message]
+      message = Ekylibre::Ednotif::OutTranscoder.new parameters[:message]
+
+      return message unless message.valid?
 
       call_savon(:ip_b_get_inventaire, parameters[:options], message) do |r|
         r.success do
@@ -75,7 +117,7 @@ module Ednotif
         end
 
         r.server_error do
-          r.body[:fault][:faultstring] if r.body.key?(:fault) && r.body[:fault].key?(:faultcode) && r.body[:fault].key?(:faultstring)
+          r.body[:fault][:faultstring] if r.body.key?(:fault) && r.body[:fault].key?(:faultstring)
         end
 
       end
@@ -185,7 +227,7 @@ module Ednotif
         end
 
         r.server_error do
-          r.body[:fault][:faultstring] if r.body.key?(:fault) && r.body[:fault].key?(:faultcode) && r.body[:fault].key?(:faultstring)
+          r.body[:fault][:faultstring] if r.body.key?(:fault) && r.body[:fault].key?(:faultstring)
         end
       end
 
@@ -233,7 +275,7 @@ module Ednotif
         end
 
         r.server_error do
-          r.body[:fault][:faultstring] if r.body.key?(:fault) && r.body[:fault].key?(:faultcode) && r.body[:fault].key?(:faultstring)
+          r.body[:fault][:faultstring] if r.body.key?(:fault) && r.body[:fault].key?(:faultstring)
         end
       end
     end
