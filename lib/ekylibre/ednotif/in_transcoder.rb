@@ -322,7 +322,7 @@ module Ekylibre
           }
         end
 
-        def attente_validation_bdni(fragment)
+        def attente_validation_bd_ni(fragment)
           {
               waiting_validation: fragment
           }
