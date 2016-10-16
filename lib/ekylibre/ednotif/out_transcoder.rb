@@ -218,7 +218,7 @@ module Ekylibre
           # return :invalid_identification_number unless fragment =~ /[A-Za-z0-9]{10,12}/
           return :invalid_identification_number unless fragment =~ /[A-Za-z]{2}[0-9]{10}/
           {
-              'edn:NumeroNational': fragment
+              'edn:NumeroNational': fragment[2..11]
           }.reverse_merge(country_code(fragment[0..1].downcase))
         end
 
@@ -237,11 +237,15 @@ module Ekylibre
         end
 
         def birth_date(fragment)
-          return :invalid_birth_date unless fragment.class.to_s == 'Date'
-          # as a DateTime object
-          {
-              'edn:DateNaissance': fragment.to_s
-          }
+          begin
+            {
+                'edn:DateNaissance': Date.parse(fragment)
+            }
+          rescue
+            # as a DateTime object
+            return :invalid_birth_date
+          end
+
         end
 
         def work_number(fragment)
@@ -274,17 +278,27 @@ module Ekylibre
         end
 
         def start_date(fragment)
-          return :invalid_start_date unless fragment.class.to_s == 'Date'
-          {
-              'edn:DateDebut': fragment.to_s
-          }
+          begin
+            {
+                'edn:DateDebut': Date.parse(fragment)
+            }
+          rescue
+            return :invalid_start_date
+
+          end
+
         end
 
         def end_date(fragment)
-          return :invalid_end_date unless fragment.class.to_s == 'Date'
-          {
-              'edn:DateFin': fragment.to_s
-          }
+          begin
+            {
+                'edn:DateFin': Date.parse(fragment)
+            }
+          rescue
+            return :invalid_end_date
+
+          end
+
         end
 
         def stock(fragment)
@@ -294,10 +308,15 @@ module Ekylibre
         end
 
         def entry_date(fragment)
-          return :invalid_entry_date unless fragment.class.to_s == 'Date'
-          {
-              'edn:DateEntree': fragment.to_s
-          }
+          begin
+            {
+                'edn:DateEntree': Date.parse(fragment)
+            }
+          rescue
+            return :invalid_entry_date
+
+          end
+
         end
 
         def entry_reason(fragment)
@@ -310,6 +329,7 @@ module Ekylibre
       end
 
       attr_reader :errors
+      attr_reader :message
 
       def initialize(message)
         @errors = {}
