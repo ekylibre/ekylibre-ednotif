@@ -38,16 +38,20 @@ module Ednotif
               namespace: 'http://www.idele.fr/XML/Schema/'
           })
 
-      binding.pry
+      transcoder = Ekylibre::Ednotif::OutTranscoder.new parameters[:message]
 
-      message = Ekylibre::Ednotif::OutTranscoder.new parameters[:message]
+      unless transcoder.valid?
+        r = ActionIntegration::Response.new(code: '500', body: transcoder.errors)
+        r.error do
+          r.error :transcoding_error
+          transcoder.errors
+        end
+        return r
+      end
 
-      return message unless message.valid?
-
-      call_savon(:ip_b_create_entree, parameters[:options], message) do |r|
+      call_savon(:ip_b_create_entree, parameters[:options], transcoder.message) do |r|
         r.success do
           nested = r.body[r.body.keys.first]
-          binding.pry
           # reject namespaces definition
           nested.reject! { |k, _| k =~ /\A@.*\z/ }
 
@@ -85,11 +89,18 @@ module Ednotif
               namespace: 'http://www.idele.fr/XML/Schema/'
                                                                             })
 
-      message = Ekylibre::Ednotif::OutTranscoder.new parameters[:message]
+      transcoder = Ekylibre::Ednotif::OutTranscoder.new parameters[:message]
 
-      return message unless message.valid?
+      unless transcoder.valid?
+        r = ActionIntegration::Response.new(code: '500', body: transcoder.errors)
+        r.error do
+          r.error :transcoding_error
+          transcoder.errors
+        end
+        return r
+      end
 
-      call_savon(:ip_b_get_inventaire, parameters[:options], message) do |r|
+      call_savon(:ip_b_get_inventaire, parameters[:options], transcoder.message) do |r|
         r.success do
           nested = r.body[r.body.keys.first]
 

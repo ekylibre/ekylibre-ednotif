@@ -45,26 +45,39 @@ module Ednotif
             cattle_categ_code: dataset[:cattle_categ_code]
         }
 
-        call = Ednotif::EdnotifIntegration.create_cattle_entrance(options: options, message: message)
-
         binding.pry
+
+        p = proc do |_, v|
+          v.delete_if(&p) if v.respond_to? :delete_if
+          v.nil? || v.respond_to?(:'empty?') && v.empty?
+        end
+        message.delete_if(&p)
+
+
+        call = Ednotif::EdnotifIntegration.create_cattle_entrance(options: options, message: message)
 
         call.execute(logger) do |op_c|
           op_c.success do |op_response|
             binding.pry
+            op_response
             #TODO
           end
-          # else
-          # handling errors
-          #   errors = []
-          #   binding.pry
-          #
-          #   call.each do |k, v|
-          #     errors << [k.tl, v]
-          #   end
-          #   logger.state = errors.to_s
-          #   logger.save!
-          # end
+          # if transcoding error occurs on OutTranscoder
+          op_c.error :transcoding_error do |op_response|
+            errors = []
+
+            op_response.each do |k, v|
+              errors << [k.tl, v]
+            end
+
+            logger.state = errors.to_s
+            logger.save!
+          end
+
+          op_c.error do |op_response|
+            logger.state = op_response
+            logger.save!
+          end
 
         end
       end
