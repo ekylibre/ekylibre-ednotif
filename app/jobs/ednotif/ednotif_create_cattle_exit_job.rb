@@ -1,9 +1,9 @@
 module Ednotif
-  class EdnotifCreateCattleEntranceJob < ActiveJob::Base
+  class EdnotifCreateCattleExitJob < ActiveJob::Base
     queue_as :default
 
     def perform(*args)
-      operation_name = :create_cattle_entrance.freeze
+      operation_name = :create_cattle_exit.freeze
       logger = EdnotifLogger.create!(operation_name: operation_name)
 
       dataset = args.extract_options!
@@ -33,16 +33,14 @@ module Ednotif
             {
                identification_number: dataset[:identification_number]
             },
-            entry_date: dataset[:entry_date],
-            entry_reason: dataset[:entry_reason],
-            origin_farm: {
+            exit_date: dataset[:exit_date],
+            exit_reason: dataset[:exit_reason],
+            destination_farm: {
                 farm: {
-                    farm_number: dataset[:origin_farm_number]
+                    farm_number: dataset[:dest_farm_number]
                 },
-                origin_owner_name: dataset[:origin_owner_name]
-            },
-            prod_code: dataset[:prod_code],
-            cattle_categ_code: dataset[:cattle_categ_code]
+                owner_name: dataset[:dest_owner_name]
+            }
         }
 
         p = proc do |_, v|
@@ -52,7 +50,7 @@ module Ednotif
         message.delete_if(&p)
 
 
-        call = Ednotif::EdnotifIntegration.create_cattle_entrance(options: options, message: message)
+        call = Ednotif::EdnotifIntegration.create_cattle_exit(options: options, message: message)
 
         call.execute(logger) do |op_c|
           op_c.success do |op_response|

@@ -53,6 +53,12 @@ module Ekylibre
           }
         end
 
+        def destination_farm(fragment)
+          {
+              'edn:ExploitationDestination': convert(fragment)
+          }
+        end
+
         def animal(fragment)
           {
               'edn:Bovin': convert(fragment)
@@ -277,6 +283,13 @@ module Ekylibre
           }
         end
 
+        def owner_name(fragment)
+          return :invalid_owner_name unless fragment.present?
+          {
+              'edn:NomExploitation': fragment
+          }
+        end
+
         def start_date(fragment)
           begin
             {
@@ -323,6 +336,24 @@ module Ekylibre
           return :invalid_entry_reason if YamlNomen[:outgoing][:entry_reason][fragment].nil?
           {
               'edn:CauseEntree': YamlNomen[:outgoing][:entry_reason][fragment]
+          }
+        end
+
+
+        def exit_date(fragment)
+          begin
+            {
+                'edn:DateSortie': Date.parse(fragment)
+            }
+          rescue
+            return :invalid_exit_date
+          end
+        end
+
+        def exit_reason(fragment)
+          return :invalid_exit_reason if YamlNomen[:outgoing][:exit_reason][fragment].nil?
+          {
+              'edn:CauseSortie': YamlNomen[:outgoing][:exit_reason][fragment]
           }
         end
 

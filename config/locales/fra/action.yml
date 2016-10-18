@@ -6,6 +6,7 @@ eng:
     invalid_farm_number: "Le numéro d'exploitation est invalide"
     invalid_origin_farm_number: "Le numéro d'exploitation de provenance est invalide"
     invalid_origin_owner_name: "Le nom de l'exploitation de provenance est invalide"
+    invalid_owner_name: "Le nom de l'exploitation est invalide"
     invalid_country_code: "Le code pays est invalide"
     invalid_start_date: "Le date de début est invalide"
     invalid_end_date: "Le date de fin est invalide"

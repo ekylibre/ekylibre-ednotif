@@ -21,6 +21,7 @@ module Ednotif
 
     calls :get_list
     calls :create_cattle_entrance
+    calls :create_cattle_exit
     calls :get_urls
     calls :authenticate
 
@@ -33,7 +34,7 @@ module Ednotif
 
       # we need to handle namespaces because business wsdl seems a bit buggy
       parameters[:options] = ::Ednotif.default_options.deep_merge(parameters[:options]).deep_merge(
-          globals:{
+          globals: {
               namespace_identifier: 'edn',
               namespace: 'http://www.idele.fr/XML/Schema/'
           })
@@ -73,6 +74,54 @@ module Ednotif
       end
     end
 
+    def create_cattle_exit(parameters = {})
+      parameters = parameters.deep_symbolize_keys!
+
+      parameters[:options] ||= {}
+      parameters[:message] ||= {}
+
+      # we need to handle namespaces because business wsdl seems a bit buggy
+      parameters[:options] = ::Ednotif.default_options.deep_merge(parameters[:options]).deep_merge(
+          globals: {
+              namespace_identifier: 'edn',
+              namespace: 'http://www.idele.fr/XML/Schema/'
+          })
+
+      transcoder = Ekylibre::Ednotif::OutTranscoder.new parameters[:message]
+
+      unless transcoder.valid?
+        r = ActionIntegration::Response.new(code: '500', body: transcoder.errors)
+        r.error do
+          r.error :transcoding_error
+          transcoder.errors
+        end
+        return r
+      end
+
+      call_savon(:ip_b_create_sortie, parameters[:options], transcoder.message) do |r|
+        r.success do
+          nested = r.body[r.body.keys.first]
+          # reject namespaces definition
+          nested.reject! { |k, _| k =~ /\A@.*\z/ }
+
+          doc = Ekylibre::Ednotif::InTranscoder.convert(nested)
+
+          if doc[:standard_response][:result]
+            doc
+          else
+            error_code = YamlNomen[:incoming][:error_codes][doc[:standard_response][:issue][:code]]
+            r.client_error error_code
+            error_code
+          end
+        end
+
+        r.server_error do
+          r.body[:fault][:faultstring] if r.body.key?(:fault) && r.body[:fault].key?(:faultstring)
+        end
+
+      end
+    end
+
     ##
     # get_list: fournir l’inventaire des bovins d’une exploitation entre deux dates. L’inventaire peut être complété par la liste des boucles disponibles.
     def get_list(parameters = {})
@@ -84,10 +133,10 @@ module Ednotif
 
       # we need to handle namespaces because business wsdl seems a bit buggy
       parameters[:options] = ::Ednotif.default_options.deep_merge(parameters[:options]).deep_merge(
-          globals:{
-                                                                                namespace_identifier: 'edn',
+          globals: {
+              namespace_identifier: 'edn',
               namespace: 'http://www.idele.fr/XML/Schema/'
-                                                                            })
+          })
 
       transcoder = Ekylibre::Ednotif::OutTranscoder.new parameters[:message]
 
@@ -277,7 +326,7 @@ module Ednotif
             unless doc.key?(:particular_response) && doc[:particular_response][:business_wsdl] && doc[:particular_response][:authentication_wsdl]
               r.error :missing_wsdl
             end
-              doc
+            doc
           else
             error_code = YamlNomen[:incoming][:error_codes][doc[:standard_response][:issue][:code]]
             r.client_error error_code
