@@ -57,6 +57,23 @@ module Ednotif
             binding.pry
             op_response
             #TODO
+=begin
+            {:standard_response=>{:result=>true},
+            :particular_response=>
+                {:identity=>
+                     {:country_code=>"fr",
+                      :identification_number=>"0107003537",
+                      :sex=>"female",
+                      :race_code=>"bos_taurus_montbeliarde",
+                      :birth_date=>{:date=>Fri, 21 Sep 2007, :witness=>"full_date"},
+                :work_number=>"3537",
+                :name=>"CALIFORNIE",
+                :mother=>{:country_code=>"fr", :identification_number=>"0102002659", :race_code=>"bos_taurus_montbeliarde"},
+                :father=>{:country_code=>"fr", :identification_number=>"0199068825", :race_code=>"bos_taurus_montbeliarde"},
+                :farm_number=>"01157053"},
+                :entry_mouvement=>{:entry_date=>Thu, 18 Oct 2007, :entry_reason=>"purchase"},
+                :exit_mouvement=>{:exit_date=>Wed, 19 Oct 2016, :exit_reason=>"sale"}}}
+=end
           end
           # if transcoding error occurs on OutTranscoder
           op_c.error :transcoding_error do |op_response|

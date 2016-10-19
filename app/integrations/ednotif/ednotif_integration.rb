@@ -22,6 +22,7 @@ module Ednotif
     calls :get_list
     calls :create_cattle_entrance
     calls :create_cattle_exit
+    calls :create_cattle_new_birth
     calls :get_urls
     calls :authenticate
 
@@ -51,6 +52,55 @@ module Ednotif
       end
 
       call_savon(:ip_b_create_entree, parameters[:options], transcoder.message) do |r|
+        r.success do
+          nested = r.body[r.body.keys.first]
+          # reject namespaces definition
+          nested.reject! { |k, _| k =~ /\A@.*\z/ }
+
+          doc = Ekylibre::Ednotif::InTranscoder.convert(nested)
+
+          if doc[:standard_response][:result]
+            doc
+          else
+            error_code = YamlNomen[:incoming][:error_codes][doc[:standard_response][:issue][:code]]
+            r.client_error error_code
+            error_code
+          end
+        end
+
+        r.server_error do
+          r.body[:fault][:faultstring] if r.body.key?(:fault) && r.body[:fault].key?(:faultstring)
+        end
+
+      end
+    end
+
+    def create_cattle_new_birth(parameters = {})
+      parameters = parameters.deep_symbolize_keys!
+
+      parameters[:options] ||= {}
+      parameters[:message] ||= {}
+
+
+      # we need to handle namespaces because business wsdl seems a bit buggy
+      parameters[:options] = ::Ednotif.default_options.deep_merge(parameters[:options]).deep_merge(
+          globals: {
+              namespace_identifier: 'edn',
+              namespace: 'http://www.idele.fr/XML/Schema/'
+          })
+
+      transcoder = Ekylibre::Ednotif::OutTranscoder.new parameters[:message]
+
+      unless transcoder.valid?
+        r = ActionIntegration::Response.new(code: '500', body: transcoder.errors)
+        r.error do
+          r.error :transcoding_error
+          transcoder.errors
+        end
+        return r
+      end
+
+      call_savon(:ip_b_create_new_birth, parameters[:options], transcoder.message) do |r|
         r.success do
           nested = r.body[r.body.keys.first]
           # reject namespaces definition
