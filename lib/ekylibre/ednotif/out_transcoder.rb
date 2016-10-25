@@ -222,10 +222,17 @@ module Ekylibre
 
         def identification_number(fragment)
           # return :invalid_identification_number unless fragment =~ /[A-Za-z0-9]{10,12}/
-          return :invalid_identification_number unless fragment =~ /[A-Za-z]{2}[0-9]{10}/
-          {
-              'edn:NumeroNational': fragment[2..11]
-          }.reverse_merge(country_code(fragment[0..1].downcase))
+          if fragment =~ /[A-Za-z]{2}[0-9]{10}/
+            {
+                'edn:NumeroNational': fragment[2..11]
+            }.reverse_merge(country_code(fragment[0..1].downcase))
+          elsif fragment =~ /[0-9]{10}/
+            {
+                'edn:NumeroNational': fragment
+            }
+          else
+            return :invalid_identification_number
+          end
         end
 
         def sex(fragment)
