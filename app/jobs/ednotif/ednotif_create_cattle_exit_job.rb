@@ -62,6 +62,35 @@ module Ednotif
                 if record and animal[:exit_mouvement] and animal[:exit_mouvement].key? :exit_date
                   record.read!(:exit_date, animal[:exit_mouvement][:exit_date], at: animal[:exit_mouvement][:exit_date], force: true) unless animal[:exit_mouvement][:exit_date].nil?
                   record.read!(:exit_reason, animal[:exit_mouvement][:exit_reason], at: animal[:exit_mouvement][:exit_date], force: true) unless animal[:exit_mouvement][:exit_reason].nil?
+
+
+                  # fallbacks
+                  identity[:birth_date] ||= {}
+                  identity[:mother] ||= {}
+                  identity[:father] ||= {}
+                  identity[:sex] ||= :female
+
+                  {
+                      healthy: true,
+                      witness: identity[:birth_date][:witness],
+                      cpb_filiation_status: identity[:cpb_filiation_status],
+                      birth_date: identity[:birth_date][:date],
+                      birth_farm_number: identity[:farm_number],
+                      first_calving_date: identity[:first_calving_date],
+                      origin_country_code: identity[:origin_country_code],
+                      origin_identification_number: identity[:origin_identification_number],
+                      end_of_life_witness: identity[:end_of_life_witness],
+                      country_code: identity[:country_code],
+                      mother_country_code: identity[:mother][:country_code],
+                      mother_identification_number: identity[:mother][:identification_number],
+                      mother_race_code: identity[:mother][:race_code],
+                      father_country_code: identity[:father][:country_code],
+                      father_identification_number: identity[:father][:identification_number],
+                      father_race_code: identity[:father][:race_code]
+                  }.each do |k, v|
+                    record.read!(k, v, at: record.born_at, force: true) unless v.nil?
+                  end
+
                 end
 
               rescue => e
