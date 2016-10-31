@@ -13,7 +13,6 @@ module Ednotif
       dataset[:farm_number] = 'FR01999999'
 
 
-
       Ednotif::EdnotifIntegration.authenticate_and_do logger do
         integration ||= Ednotif::EdnotifIntegration.fetch
 
@@ -30,9 +29,10 @@ module Ednotif
                 farm_number: dataset[:farm_number]
             },
             animal:
-            {
-               identification_number: dataset[:identification_number]
-            },
+                {
+                    country_code: dataset[:country_code],
+                    identification_number: dataset[:identification_number]
+                },
             entry_date: dataset[:entry_date],
             entry_reason: dataset[:entry_reason],
             origin_farm: {
@@ -52,13 +52,54 @@ module Ednotif
         message.delete_if(&p)
 
 
-        call = Ednotif::EdnotifIntegration.create_cattle_entrance(options: options, message: message)
-
-        call.execute(logger) do |op_c|
+        Ednotif::EdnotifIntegration.create_cattle_entrance(options: options, message: message).execute(logger) do |op_c|
           op_c.success do |op_response|
-            binding.pry
-            op_response
-            #TODO
+            ActiveRecord::Base.transaction do
+              begin
+                animal = op_response[:particular_response]
+                animal = animal[:validated_entry] || {}
+                identity = animal[:identity]
+
+                record = Animal.find_by(identification_number: identity[:identification_number])
+
+                if record and animal[:entry_mouvement] and animal[:entry_mouvement].key? :entry_date
+                  record.read!(:entry_date, animal[:entry_mouvement][:entry_date], at: animal[:entry_mouvement][:entry_date], force: true) unless animal[:entry_mouvement][:entry_date].nil?
+                  record.read!(:entry_reason, animal[:entry_mouvement][:entry_reason], at: animal[:entry_mouvement][:entry_date], force: true) unless animal[:entry_mouvement][:entry_reason].nil?
+
+                  # fallbacks
+                  identity[:birth_date] ||= {}
+                  identity[:mother] ||= {}
+                  identity[:father] ||= {}
+                  identity[:sex] ||= :female
+
+                  {
+                      healthy: true,
+                      witness: identity[:birth_date][:witness],
+                      cpb_filiation_status: identity[:cpb_filiation_status],
+                      birth_date: identity[:birth_date][:date],
+                      birth_farm_number: identity[:farm_number],
+                      first_calving_date: identity[:first_calving_date],
+                      origin_country_code: identity[:origin_country_code],
+                      origin_identification_number: identity[:origin_identification_number],
+                      end_of_life_witness: identity[:end_of_life_witness],
+                      country_code: identity[:country_code],
+                      mother_country_code: identity[:mother][:country_code],
+                      mother_identification_number: identity[:mother][:identification_number],
+                      mother_race_code: identity[:mother][:race_code],
+                      father_country_code: identity[:father][:country_code],
+                      father_identification_number: identity[:father][:identification_number],
+                      father_race_code: identity[:father][:race_code]
+                  }.each do |k, v|
+                    record.read!(k, v, at: record.born_at, force: true) unless v.nil?
+                  end
+                end
+
+              rescue => e
+                #TODO: format errors
+                logger.state = [identity[:identification_number], e.record.errors.messages].to_s if e.respond_to?(:record)
+                logger.save!
+              end
+            end
           end
           # if transcoding error occurs on OutTranscoder
           op_c.error :transcoding_error do |op_response|
