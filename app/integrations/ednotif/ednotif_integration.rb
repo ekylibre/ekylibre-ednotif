@@ -353,7 +353,7 @@ module Ednotif
               namespaces: {
                   'xmlns:typ': 'http://www.fiea.org/types/'
               },
-              wsdl: ::Ednotif::TEST_DIRECTORY_WSDL
+              wsdl: %w(dummy test demo demo-elevage).include?(Ekylibre::Tenant.current) ? ::Ednotif::TEST_DIRECTORY_WSDL : ::Ednotif::DIRECTORY_WSDL
           })
 
       message = {
