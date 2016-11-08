@@ -3,6 +3,8 @@ author "Nicolas Procureur <nprocureur@ekylibre.com>, Brice Texier <brice@ekylibr
 name "ednotif"
 version "0.1"
 
+add_toolbar_addon 'backend/animals/get_inventory_toolbar', to: 'backend/animals#index'
+#add_cobble_addon 'backend/shared/declaration', to: 'backend/parcels#show'
 
 add_routes do
   namespace :backend do
