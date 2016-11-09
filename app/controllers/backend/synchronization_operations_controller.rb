@@ -1,12 +1,12 @@
 module Backend
-  class EdnotifLoggersController < Backend::BaseController
+  class SynchronizationOperationsController < Backend::BaseController
     # manage_restfully
 
     def index
     end
 
     def show
-      @ednotif_logger = EdnotifLogger.find(params[:id])
+      @synchronization_operation = SynchronizationOperation.find(params[:id])
     end
 
     list order: { created_at: :desc } do |t|

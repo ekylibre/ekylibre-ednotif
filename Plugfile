@@ -8,10 +8,21 @@ add_toolbar_addon 'backend/animals/get_inventory_toolbar', to: 'backend/animals#
 
 add_routes do
   namespace :backend do
-    resources :ednotif_loggers, concerns: [:list] do
+    resources :synchronization_operations, concerns: [:list] do
         collection do
             get :list_calls
         end
+    end
+  end
+end
+
+extend_navigation do
+  part :production do
+    group :animal_management do
+      item :synchronization_operation do
+        page "backend/synchronization_operations#index"
+        page "backend/synchronization_operations#show"
+      end
     end
   end
 end
