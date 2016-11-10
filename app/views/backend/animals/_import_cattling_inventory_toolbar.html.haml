@@ -1,0 +1,18 @@
+= t.new icon: false, label: :import_cattling_inventory.tl, data: { toggle: 'modal' , target: '#import-cattling-inventory'}, href:''
+
+:ruby
+  inventory = SynchronizationOperation.operation(:get_inventory).first
+
+= modal :import_cattling_inventory do
+  .modal-body
+    = are_you_sure_you_want_to(:import_cattling_inventory)
+    %br
+    = :last_import.tl + ": " + inventory.created_at.l if inventory.present?
+  .modal-footer
+    .row
+      .col-md-8.col-md-offset-4.right
+        .col-md-3
+          = button_tag :cancel.ta, data: { dismiss: 'modal' }, class: 'btn btn-default'
+        .col-md-5
+          = button_to :import_cattling_inventory.tl, { action: :import_cattling_inventory, controller: :synchronization_operations }, remote: true, method: :post, class: 'btn-primary btn'
+
