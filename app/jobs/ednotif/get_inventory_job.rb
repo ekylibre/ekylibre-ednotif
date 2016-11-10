@@ -1,29 +1,37 @@
 module Ednotif
-  class EdnotifGetListJob < ActiveJob::Base
+  class GetInventoryJob < ActiveJob::Base
     queue_as :default
 
     def perform(*args)
-      operation_name = :get_list.freeze
-      logger = EdnotifLogger.create!(operation_name: operation_name)
+      operation_name = :get_inventory.freeze
+      logger = SynchronizationOperation.create!(operation_name: operation_name, state: :in_progress)
 
       dataset = args.extract_options!
 
-      # TODO: re-enable after testing
-      # dataset[:farm_number] = Identifier.where(nature: :cattling_number).first[:value]
-      dataset[:farm_number] = 'FR01999999'
-
       dataset[:start_date] ||= Date.today
       dataset[:get_stock] ||= false
+      dataset[:country_code] ||= 'FR'
 
 
       Ednotif::EdnotifIntegration.authenticate_and_do logger do
-        integration ||= Ednotif::EdnotifIntegration.fetch
+        begin
+          integration ||= Ednotif::EdnotifIntegration.fetch!
+        rescue ServiceNotIntegrated, IntegrationParameterEmpty => e
+          logger.state = :errored
+          logger.save!
+        end
 
         options = {
             globals: {
                 wsdl: integration.parameters['business_wsdl']
             }
         }
+
+        dataset[:farm_number] ||= integration.parameters['cattling_number']
+        if dataset[:farm_number] =~ /[0-9]{8}/ and dataset[:country_code]
+          dataset[:farm_number] = [dataset[:country_code], dataset[:farm_number]].join
+        end
+
 
         # remember to observe xsd sequences.
         message = {
@@ -43,10 +51,8 @@ module Ednotif
         end
         message.delete_if(&p)
 
-        Ednotif::EdnotifIntegration.get_list(options: options, message: message).execute(logger) do |op_c|
+        Ednotif::EdnotifIntegration.get_inventory(options: options, message: message).execute(logger) do |op_c|
           op_c.success do |op_response|
-            # r = Identifier.where(nature: :cattling_number, value: op_response[:farm][:farm_number])
-            # fail 'Missing Identifier' unless r.present?
 
             op_response.fetch(:animals, []).each do |animal|
               identity = animal[:identity]
@@ -134,8 +140,8 @@ module Ednotif
 
                 rescue => e
                   #TODO: format errors
-                  binding.pry
-                  logger.state = [identity[:identification_number], e.record.errors.messages].to_s if e.respond_to?(:record)
+                  logger.state = :errored
+                  logger.status = [identity[:identification_number], e.record.errors.messages].to_s if e.respond_to?(:record)
                   logger.save!
                 end
               end
