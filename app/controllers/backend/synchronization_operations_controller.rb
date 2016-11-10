@@ -13,6 +13,7 @@ module Backend
       t.column :created_at
       t.column :operation_name, url: true
       t.column :state
+      t.column :status
     end
 
 
@@ -21,6 +22,14 @@ module Backend
       t.column :name
       t.column :state
       t.column :arguments
+    end
+
+
+    ### operations
+    def import_cattling_inventory(options = {})
+      current_user.notify I18n.t(:synchronization_operation_in_progress, operation_name: :get_inventory, scope: [:notifications, :messages])
+      Ekylibre::Hook.publish :get_inventory, options
+      head :ok
     end
   end
 end
