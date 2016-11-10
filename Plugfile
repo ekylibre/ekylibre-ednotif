@@ -3,7 +3,7 @@ author "Nicolas Procureur <nprocureur@ekylibre.com>, Brice Texier <brice@ekylibr
 name "ednotif"
 version "0.1"
 
-add_toolbar_addon 'backend/animals/get_inventory_toolbar', to: 'backend/animals#index'
+add_toolbar_addon 'backend/animals/import_cattling_inventory_toolbar', to: 'backend/animals#index'
 #add_cobble_addon 'backend/shared/declaration', to: 'backend/parcels#show'
 
 add_routes do
@@ -11,6 +11,7 @@ add_routes do
     resources :synchronization_operations, concerns: [:list] do
         collection do
             get :list_calls
+            post :import_cattling_inventory
         end
     end
   end

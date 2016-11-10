@@ -1,4 +1,12 @@
 eng:
+  actions:
+    backend/synchronization_operations:
+      index: "Synchronization operations"
+      show: "Synchronization operation"
+  labels:
+    are_you_sure_you_want_to_import_cattling_inventory: "Are you sure you want to import cattling inventory ?"
+    import_cattling_inventory: 'Import cattling inventory'
+    last_import: 'Last import'
   notifications:
     messages:
       failed_connection: 'Connection failed with Idele for given credentials'
