@@ -14,12 +14,13 @@ module Ednotif
 
   class EdnotifIntegration < ActionIntegration::Base
     auth :check do
+      parameter :cattling_number
       parameter :enterprise
       parameter :login
       parameter :password
     end
 
-    calls :get_list
+    calls :get_inventory
     calls :create_cattle_entrance
     calls :create_cattle_exit
     calls :create_cattle_new_birth
@@ -173,8 +174,8 @@ module Ednotif
     end
 
     ##
-    # get_list: fournir l’inventaire des bovins d’une exploitation entre deux dates. L’inventaire peut être complété par la liste des boucles disponibles.
-    def get_list(parameters = {})
+    # get_inventory: fournir l’inventaire des bovins d’une exploitation entre deux dates. L’inventaire peut être complété par la liste des boucles disponibles.
+    def get_inventory(parameters = {})
       parameters = parameters.deep_symbolize_keys!
 
       parameters[:options] ||= {}
@@ -252,7 +253,8 @@ module Ednotif
           integration ||= fetch
 
           # TODO change this
-          logger.state = :success
+          logger.state = :finished
+          logger.status = :success
           logger.save!
 
           integration.parameters['authentication_wsdl'] = response[:particular_response][:authentication_wsdl]
@@ -269,12 +271,13 @@ module Ednotif
             end
 
             # auth_c.error :failed_connection do
-            #   logger.state = :failed_connection
+            #   logger.status = :failed_connection
             #   logger.save!
             # end
 
             auth_c.error do |auth_response|
-              logger.state = auth_response
+              logger.state = :errored
+              logger.status = auth_response
               logger.save!
             end
 
@@ -283,13 +286,15 @@ module Ednotif
 
         # could occurs if enterprise code is wrong
         c.error :missing_wsdl do
-          logger.state = :missing_wsdl
+          logger.state = :errored
+          logger.status = :missing_wsdl
           logger.save!
         end
 
         #errors
         c.error do |response|
-          logger.state = response
+          logger.state = :errored
+          logger.status = response
           logger.save!
         end
       end
