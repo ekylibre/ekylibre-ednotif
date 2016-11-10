@@ -4,7 +4,7 @@ module Ednotif
 
     def perform(*args)
       operation_name = :create_cattle_exit.freeze
-      logger = EdnotifLogger.create!(operation_name: operation_name)
+      logger = SynchronizationOperation.create!(operation_name: operation_name, state: :in_progress)
 
       dataset = args.extract_options!
 
@@ -95,7 +95,8 @@ module Ednotif
 
               rescue => e
                 #TODO: format errors
-                logger.state = [identity[:identification_number], e.record.errors.messages].to_s if e.respond_to?(:record)
+                logger.state = :errored
+                logger.status = [identity[:identification_number], e.record.errors.messages].to_s if e.respond_to?(:record)
                 logger.save!
               end
             end
@@ -108,12 +109,14 @@ module Ednotif
               errors << [k.tl, v]
             end
 
-            logger.state = errors.to_s
+            logger.state = :errored
+            logger.status = errors.to_s
             logger.save!
           end
 
           op_c.error do |op_response|
-            logger.state = op_response
+            logger.state = :errored
+            logger.status = op_response
             logger.save!
           end
 
