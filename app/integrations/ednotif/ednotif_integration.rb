@@ -12,6 +12,9 @@ module Ednotif
     }
   end
 
+  class ServiceError < StandardError; end
+
+
   class EdnotifIntegration < ActionIntegration::Base
     auth :check do
       parameter :cattling_number
@@ -219,12 +222,12 @@ module Ednotif
             nested = hashed[hashed.keys.first].reject { |k, _| k =~ /\A@.*\z/ }
 
             doc = Ekylibre::Ednotif::InTranscoder.convert(nested)
+            doc
           else
             error_code = YamlNomen[:incoming][:error_codes][doc[:standard_response][:issue][:code]]
             r.client_error error_code
             error_code
           end
-          doc
         end
 
         r.server_error do
@@ -252,11 +255,6 @@ module Ednotif
         c.success do |response|
           integration ||= fetch
 
-          # TODO change this
-          logger.state = :finished
-          logger.status = :success
-          logger.save!
-
           integration.parameters['authentication_wsdl'] = response[:particular_response][:authentication_wsdl]
           integration.parameters['business_wsdl'] = response[:particular_response][:business_wsdl]
 
@@ -270,36 +268,16 @@ module Ednotif
               yield block if block_given?
             end
 
-            # auth_c.error :failed_connection do
-            #   logger.status = :failed_connection
-            #   logger.save!
-            # end
-
-            auth_c.error do |auth_response|
-              logger.state = :errored
-              logger.status = auth_response
-              logger.save!
+            auth_c.error do |response|
+              fail Ednotif::ServiceError, response
             end
-
           end
         end
 
-        # could occurs if enterprise code is wrong
-        c.error :missing_wsdl do
-          logger.state = :errored
-          logger.status = :missing_wsdl
-          logger.save!
-        end
-
-        #errors
         c.error do |response|
-          logger.state = :errored
-          logger.status = response
-          logger.save!
+          fail Ednotif::ServiceError, response
         end
       end
-
-      # end
     end
 
     def authenticate(parameters = {})
@@ -380,8 +358,10 @@ module Ednotif
           if doc[:standard_response][:result]
             unless doc.key?(:particular_response) && doc[:particular_response][:business_wsdl] && doc[:particular_response][:authentication_wsdl]
               r.error :missing_wsdl
+              :missing_wsdl
+            else
+              doc
             end
-            doc
           else
             error_code = YamlNomen[:incoming][:error_codes][doc[:standard_response][:issue][:code]]
             r.client_error error_code
