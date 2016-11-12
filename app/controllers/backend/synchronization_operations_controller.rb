@@ -13,7 +13,7 @@ module Backend
       t.column :created_at
       t.column :operation_name, url: true
       t.column :state
-      t.column :status
+      t.column :human_message
     end
 
 
@@ -27,8 +27,7 @@ module Backend
 
     ### operations
     def import_cattling_inventory(options = {})
-      current_user.notify :synchronization_operation_in_progress, operation_name: "enumerize.synchronization_operation.operation_name.#{:get_inventory}".t
-      Ekylibre::Hook.publish :get_inventory, options
+      SynchronizationOperation.run(:get_inventory, options)
     end
   end
 end

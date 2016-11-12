@@ -3,7 +3,7 @@
 :ruby
   inventory = SynchronizationOperation.operation(:get_inventory).first
 
-= modal :import_cattling_inventory_modal, title: :import_cattling_inventory  do
+= modal :import_cattling_inventory_modal, title: :import_cattling_inventory.tl  do
   .modal-body
     = are_you_sure_you_want_to(:import_cattling_inventory)
     %br
