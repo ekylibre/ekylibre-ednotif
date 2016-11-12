@@ -9,4 +9,5 @@ eng:
     last_import: 'Last import'
   notifications:
     messages:
+      missing_wsdl: 'WSDL are missing'
       failed_connection: 'Connection failed with Idele for given credentials'

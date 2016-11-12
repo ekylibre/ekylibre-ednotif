@@ -5,6 +5,7 @@ fra:
       show: "Synchronisation"
   notifications:
     messages:
+      missing_wsdl: 'Les WSDL sont manquants'
       failed_connection: "La connexion avec L'Idele a échouée. Les identifiants sont invalides."
   labels:
     are_you_sure_you_want_to_import_cattling_inventory: "Êtes-vous sûr de vouloir importer l'inventaire du cheptel ?"
