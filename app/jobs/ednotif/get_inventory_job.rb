@@ -69,8 +69,8 @@ module Ednotif
                       name: identity[:name],
                       variety: variety,
                       initial_population: 1.0,
-                      initial_born_at: (identity[:birth_date] ? identity[:birth_date][:date] : nil),
-                      initial_dead_at: (identity[:end_of_life] ? identity[:end_of_life][:end_of_life_date] : nil),
+                      born_at: (identity[:birth_date] ? identity[:birth_date][:date] : nil),
+                      dead_at: (identity[:end_of_life] ? identity[:end_of_life][:end_of_life_date] : nil),
                       owner: Entity.of_company,
                   }
 
