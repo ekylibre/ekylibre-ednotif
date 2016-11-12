@@ -1,9 +1,9 @@
-= t.new icon: false, label: :import_cattling_inventory.tl, data: { toggle: 'modal' , target: '#import-cattling-inventory'}, href:''
+= t.new icon: false, label: :import_cattling_inventory.tl, data: { toggle: 'modal' , target: '#import-cattling-inventory-modal', import_btn: true, disable_with: I18n.t(:synchronization_operation_in_progress, operation_name: "enumerize.synchronization_operation.operation_name.#{:get_inventory}".t, scope: [:notifications, :messages])}, href:''
 
 :ruby
   inventory = SynchronizationOperation.operation(:get_inventory).first
 
-= modal :import_cattling_inventory do
+= modal :import_cattling_inventory_modal, title: :import_cattling_inventory  do
   .modal-body
     = are_you_sure_you_want_to(:import_cattling_inventory)
     %br
@@ -14,5 +14,5 @@
         .col-md-3
           = button_tag :cancel.ta, data: { dismiss: 'modal' }, class: 'btn btn-default'
         .col-md-5
-          = button_to :import_cattling_inventory.tl, { action: :import_cattling_inventory, controller: :synchronization_operations }, remote: true, method: :post, class: 'btn-primary btn'
+          = button_to :import_cattling_inventory.tl, { action: :import_cattling_inventory, controller: :synchronization_operations }, remote: true, method: :post, class: 'primary', data: {disable_with: :please_wait.tl}
 

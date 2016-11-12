@@ -27,9 +27,8 @@ module Backend
 
     ### operations
     def import_cattling_inventory(options = {})
-      current_user.notify I18n.t(:synchronization_operation_in_progress, operation_name: :get_inventory, scope: [:notifications, :messages])
+      current_user.notify :synchronization_operation_in_progress, operation_name: "enumerize.synchronization_operation.operation_name.#{:get_inventory}".t
       Ekylibre::Hook.publish :get_inventory, options
-      head :ok
     end
   end
 end
