@@ -149,14 +149,12 @@ module Ednotif
                   identity[:father] ||= {}
 
                   if animal and identity[:mother][:identification_number] and mother = Animal.find_by(identification_number: identity[:mother][:identification_number])
-                    animal.initial_mother = mother
+                    animal.links.create!(nature: :mother, linked: mother)
                   end
 
                   if animal and identity[:father][:identification_number] and father = Animal.find_by(identification_number: identity[:father][:identification_number])
-                    animal.initial_father = father
+                    animal.links.create!(nature: :father, linked: father)
                   end
-
-                  animal.save!
 
                 end
 
