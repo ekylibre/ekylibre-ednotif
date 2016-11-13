@@ -3,10 +3,19 @@ eng:
     backend/synchronization_operations:
       index: "Synchronization operations"
       show: "Synchronization operation"
+  integrations:
+    ednotif:
+      parameters:
+        cattling_number: 'Cattling number'
+        enterprise: 'EDE enterprise code'
+        login: 'Login'
+        password: 'Password'
   labels:
     are_you_sure_you_want_to_import_cattling_inventory: "Are you sure you want to import cattling inventory ?"
     import_cattling_inventory: 'Import cattling inventory'
     last_import: 'Last import'
+    ednotif_short_description: 'Connect to Ednotif webservice'
+    ednotif_long_description: "Connect to Idele's webservice for bovine movements (notification)"
   notifications:
     messages:
       missing_wsdl: 'WSDL are missing'
