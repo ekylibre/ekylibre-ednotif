@@ -5,7 +5,7 @@ autoload :Ednotif, 'ednotif'
 # end
 
 Ekylibre::Hook.subscribe :get_inventory do |data|
-  Ednotif::GetInventoryJob.perform_now(data)
+  Ednotif::GetInventoryJob.perform_later(data)
 end
 
 # Loads transcoding tables
