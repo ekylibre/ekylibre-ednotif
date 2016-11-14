@@ -17,7 +17,7 @@ fra:
   labels:
     are_you_sure_you_want_to_import_cattling_inventory: "Êtes-vous sûr de vouloir importer l'inventaire du cheptel ?"
     ednotif_short_description: "Le service de notification des bovins de l'Idele"
-    ednotif_long_description: "Connectez-vous au service web fourni par l'Idele et télédéclarer vos mouvements bovins (notifications)"
+    ednotif_long_description: "Connectez-vous au service web fourni par l'Idele et télédéclarez vos mouvements bovins (notifications)"
     import_cattling_inventory: "Importer l'inventaire du cheptel"
     invalid_farm_number: "Le numéro d'exploitation est invalide"
     invalid_origin_farm_number: "Le numéro d'exploitation de provenance est invalide"
