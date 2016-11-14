@@ -67,7 +67,6 @@ module Ednotif
                       work_number: identity[:work_number].present? ? identity[:work_number] : identity[:identification_number][-4..-1],
                       name: identity[:name],
                       variety: variety,
-                      initial_population: 1.0,
                       born_at: (identity[:birth_date] ? identity[:birth_date][:date] : nil),
                       dead_at: (identity[:end_of_life] ? identity[:end_of_life][:end_of_life_date] : nil),
                       owner: Entity.of_company,
@@ -81,10 +80,10 @@ module Ednotif
 
 
                   #TODO enhance
-                  attrs[:initial_born_at] = animal[:mouvements].collect { |mvt| mvt[:entry][:entry_date] }.first if attrs[:initial_born_at].blank? and animal.try(:[], :mouvements).collect { |mvt| mvt.try(:[], :entry).try(:[], :entry_date) }.compact.present?
+                  attrs[:born_at] = animal[:mouvements].collect { |mvt| mvt[:entry][:entry_date] }.first if attrs[:born_at].blank? and animal.try(:[], :mouvements).collect { |mvt| mvt.try(:[], :entry).try(:[], :entry_date) }.compact.present?
 
                   # 36 months
-                  variant = ProductNatureVariant.import_from_nomenclature(((op_response[:generation_datetime].to_date - attrs[:initial_born_at]).to_i > 365*3) ? "#{identity[:sex]}_adult_cow" : "#{identity[:sex]}_young_cow")
+                  variant = ProductNatureVariant.import_from_nomenclature(((op_response[:generation_datetime].to_date - attrs[:born_at]).to_i > 365*3) ? "#{identity[:sex]}_adult_cow" : "#{identity[:sex]}_young_cow")
                   attrs.merge!({variant: variant})
 
 
