@@ -1,5 +1,6 @@
 :ruby
   inventory = SynchronizationOperation.operation(:get_inventory).first
+  inventory_in_progress = SynchronizationOperation.operation(:get_inventory, state: :undone).first || SynchronizationOperation.operation(:get_inventory, state: :in_progress).first
   integration = begin
     ActionIntegration::Base.fetch('ednotif')
   rescue
@@ -7,7 +8,7 @@
   end
 
 - if integration
-  = t.new icon: false, label: :import_cattling_inventory.tl, data: { toggle: 'modal' , target: '#import-cattling-inventory-modal', import_btn: true, disable_with: I18n.t(:synchronization_operation_in_progress, operation_name: "enumerize.synchronization_operation.operation_name.#{:get_inventory}".t, scope: [:notifications, :messages])}, href:''
+  = t.new icon: false, label: :import_cattling_inventory.tl, data: { toggle: 'modal' , target: '#import-cattling-inventory-modal', import_btn: true, disable_with: I18n.t(:synchronization_operation_in_progress, operation_name: "enumerize.synchronization_operation.operation_name.#{:get_inventory}".t, scope: [:notifications, :messages]), operation_in_progress: !inventory_in_progress.nil?}, href:''
 
 = modal :import_cattling_inventory_modal, title: :import_cattling_inventory.tl  do
   .modal-body

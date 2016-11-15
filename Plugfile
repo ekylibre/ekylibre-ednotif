@@ -3,6 +3,8 @@ author "Nicolas Procureur <nprocureur@ekylibre.com>, Brice Texier <brice@ekylibr
 name "ednotif"
 version "0.1"
 
+require_javascript 'synchronization_operations'
+
 add_toolbar_addon 'backend/animals/import_cattling_inventory_toolbar', to: 'backend/animals#index'
 #add_cobble_addon 'backend/shared/declaration', to: 'backend/parcels#show'
 
