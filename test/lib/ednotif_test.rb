@@ -2,7 +2,7 @@
 require 'test_helper'
 require 'savon/mock/spec_helper'
 
-class EdnotifTest < ActiveSupport::TestCase
+class Ekylibre::EdnotifTest < ActiveSupport::TestCase
   include Savon::SpecHelper
 
   setup do
@@ -48,13 +48,13 @@ class EdnotifTest < ActiveSupport::TestCase
     }
 
     # call the service
-    client = Savon.client(options.merge(wsdl: Ednotif.import_dir.join('WsAnnuaire.xml')))
+    client = Savon.client(options.merge(wsdl: Ekylibre::Ednotif.import_dir.join('WsAnnuaire.xml')))
     response = client.call :tk_get_url, message: message
 
     assert response.success?
 
     nested = response.body[:tk_get_url_response].reject { |k, _| k =~ /\A@.*\z/ }
-    doc = Ednotif::InTranscoder.convert nested
+    doc = Ekylibre::Ednotif::InTranscoder.convert nested
 
     assert_not_empty doc
 
@@ -92,7 +92,7 @@ class EdnotifTest < ActiveSupport::TestCase
     }
 
     # call the service
-    client = Savon.client(options.merge(wsdl: Ednotif.import_dir.join('WsGuichet.xml')))
+    client = Savon.client(options.merge(wsdl: Ekylibre::Ednotif.import_dir.join('WsGuichet.xml')))
     response = client.call(:tk_create_identification, message: message)
 
     assert response.success?
@@ -130,7 +130,7 @@ class EdnotifTest < ActiveSupport::TestCase
     }
 
     # call the service
-    client = Savon.client(options.merge(wsdl: Ednotif.import_dir.join('WsIpBNotif.xml')))
+    client = Savon.client(options.merge(wsdl: Ekylibre::Ednotif.import_dir.join('WsIpBNotif.xml')))
 
     response = client.call(:ip_b_get_inventaire, message: message)
 
@@ -175,7 +175,7 @@ class EdnotifTest < ActiveSupport::TestCase
     }
 
     # call the service
-    client = Savon.client(options.merge(wsdl: Ednotif.import_dir.join('WsAnnuaire.xml')))
+    client = Savon.client(options.merge(wsdl: Ekylibre::Ednotif.import_dir.join('WsAnnuaire.xml')))
 
     exception = assert_raise(Savon::SOAPFault){ client.call(:tk_get_url, message: message) }
 
@@ -211,7 +211,7 @@ class EdnotifTest < ActiveSupport::TestCase
     }
 
     # call the service
-    client = Savon.client(options.merge(wsdl: Ednotif.import_dir.join('WsGuichet.xml')))
+    client = Savon.client(options.merge(wsdl: Ekylibre::Ednotif.import_dir.join('WsGuichet.xml')))
     response = client.call(:tk_create_identification, message: message)
 
     assert response.success?
@@ -252,7 +252,7 @@ class EdnotifTest < ActiveSupport::TestCase
       }
 
       # call the service
-      client = Savon.client(options.merge(wsdl: Ednotif.import_dir.join('WsIpBNotif.xml')))
+      client = Savon.client(options.merge(wsdl: Ekylibre::Ednotif.import_dir.join('WsIpBNotif.xml')))
 
       exception = assert_raise(Savon::SOAPFault){ client.call(:ip_b_get_inventaire, message: message) }
 

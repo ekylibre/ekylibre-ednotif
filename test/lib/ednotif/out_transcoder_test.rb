@@ -7,7 +7,7 @@ class Ednotif::OutTranscoderTest < ActiveSupport::TestCase
 
   setup do
 
-    files = Dir.glob(Ednotif.out_transcoding_dir.join('*')) - Dir.glob(Ednotif.out_transcoding_dir.join('*.exception.yml'))
+    files = Dir.glob(Ekylibre::Ednotif.out_transcoding_dir.join('*')) - Dir.glob(Ekylibre::Ednotif.out_transcoding_dir.join('*.exception.yml'))
     YamlNomen.load(:outgoing, files)
   end
 
@@ -58,7 +58,7 @@ class Ednotif::OutTranscoderTest < ActiveSupport::TestCase
         :"sch:PereIPG" => {:"sch:Bovin" => {:"sch:CodePays" => "FR", :"sch:NumeroNational" => "7599880110"}, :"sch:TypeRacial" => "34"},
         :"sch:DemandePasseport" => true}
 
-    doc = Ednotif::OutTranscoder.convert ekylibre_request
+    doc = Ekylibre::Ednotif::OutTranscoder.convert ekylibre_request
 
     assert_equal expected_savon_request, doc
 
