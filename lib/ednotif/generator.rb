@@ -23,7 +23,7 @@ module Ekylibre
         #   schema_location: CodeRaceBovin.XSD
         ##
         def generate_routines
-          pathname = ::Ekylibre::Ednotif.import_dir.join( 'IpBNotif_v1.xsd' )
+          pathname = ::Ednotif.import_dir.join( 'IpBNotif_v1.xsd' )
 
           return unless pathname.exist?
 
@@ -48,7 +48,7 @@ module Ekylibre
           schemas = doc.xpath('//xsd:import[@schemaLocation]/@schemaLocation').collect(&:text)
 
           schemas.each do |schema|
-            pathname = ::Ekylibre::Ednotif.import_dir.join( schema )
+            pathname = ::Ednotif.import_dir.join( schema )
 
             next unless pathname.exist?
 
@@ -60,7 +60,7 @@ module Ekylibre
 
           end
 
-          ::Ekylibre::Ednotif.transcoding_routines.write enumerables.flatten.to_yaml
+          ::Ednotif.transcoding_routines.write enumerables.flatten.to_yaml
 
         end
 
@@ -70,14 +70,14 @@ module Ekylibre
         ##
         def build
 
-          nomenclatures = YAML.load_file(::Ekylibre::Ednotif.transcoding_routines)
+          nomenclatures = YAML.load_file(::Ednotif.transcoding_routines)
           nomenclatures.each do |nomenclature|
             ednotif_values = []
             internal_values = []
 
             nomenclature.deep_symbolize_keys!
 
-            pathname = ::Ekylibre::Ednotif.import_dir.join( nomenclature[:schema_location] )
+            pathname = ::Ednotif.import_dir.join( nomenclature[:schema_location] )
 
             next unless pathname.exist? and nomenclature[:nomen_key]
 
@@ -112,15 +112,15 @@ module Ekylibre
             unless internal_values.empty? or ednotif_values.empty?
 
               #OUT: From Nomen to Ednotif
-              dest_file = ::Ekylibre::Ednotif.out_transcoding_dir.join("#{nomenclature[:nomen_key].to_s}.yml")
-              exception_dest_file = ::Ekylibre::Ednotif.out_transcoding_dir.join("#{nomenclature[:nomen_key].to_s}.exception.yml")
+              dest_file = ::Ednotif.out_transcoding_dir.join("#{nomenclature[:nomen_key].to_s}.yml")
+              exception_dest_file = ::Ednotif.out_transcoding_dir.join("#{nomenclature[:nomen_key].to_s}.exception.yml")
 
 
               generate_transcoding_table(nomenclature[:nomen_key], nomenclature[:attribute], internal_values, ednotif_values, dest_file, exception_dest_file, {from_matching_rule: nomenclature[:from_matching_rule], to_matching_rule: nomenclature[:to_matching_rule], log: true})
 
               #IN: From Ednotif to Nomen
-              dest_file = ::Ekylibre::Ednotif.in_transcoding_dir.join("#{nomenclature[:nomen_key].to_s}.yml")
-              exception_dest_file = ::Ekylibre::Ednotif.in_transcoding_dir.join("#{nomenclature[:nomen_key].to_s}.exception.yml")
+              dest_file = ::Ednotif.in_transcoding_dir.join("#{nomenclature[:nomen_key].to_s}.yml")
+              exception_dest_file = ::Ednotif.in_transcoding_dir.join("#{nomenclature[:nomen_key].to_s}.exception.yml")
 
               generate_transcoding_table(nomenclature[:attribute], nomenclature[:nomen_key], ednotif_values, internal_values, dest_file, exception_dest_file, {from_matching_rule: nomenclature[:to_matching_rule], to_matching_rule: nomenclature[:from_matching_rule], log: true})
             end
@@ -207,11 +207,11 @@ module Ekylibre
 
             if !!options[:log]
 
-              unless Ekylibre::Ednotif.transcoding_manifest.exist?
-                FileUtils.mkdir_p Ekylibre::Ednotif.transcoding_manifest.dirname
+              unless Ednotif.transcoding_manifest.exist?
+                FileUtils.mkdir_p Ednotif.transcoding_manifest.dirname
               end
 
-              File.open(Ekylibre::Ednotif.transcoding_manifest, 'a+'){|f| f.write "#{src_key} to #{dest_key} : #{src.size - src_set.size}/#{src.size} \n"}
+              File.open(Ednotif.transcoding_manifest, 'a+'){|f| f.write "#{src_key} to #{dest_key} : #{src.size - src_set.size}/#{src.size} \n"}
             end
 
             dest_file.open('w') { |f| f.write(matching.to_yaml) }

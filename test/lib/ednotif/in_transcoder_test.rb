@@ -5,7 +5,7 @@ require 'yaml_nomen'
 class Ednotif::InTranscoderTest < ActiveSupport::TestCase
 
   setup do
-    files = Dir.glob(Ekylibre::Ednotif.in_transcoding_dir.join('*')) - Dir.glob(Ekylibre::Ednotif.in_transcoding_dir.join('*.exception.yml'))
+    files = Dir.glob(Ednotif.in_transcoding_dir.join('*')) - Dir.glob(Ednotif.in_transcoding_dir.join('*.exception.yml'))
     YamlNomen.load(:incoming, files)
   end
 
@@ -99,7 +99,7 @@ class Ednotif::InTranscoderTest < ActiveSupport::TestCase
                    mouvements: [{:entry => {:entry_date => Date.parse("Tue, 12 Jun 2012"), :entry_reason => "purchase"}}]}],
         buckles: [{:country_code => "fr", :start_date => "1000000000", :quantity => "10"}]}
 
-    doc = Ekylibre::Ednotif::InTranscoder.convert savon_hashed_response
+    doc = Ednotif::InTranscoder.convert savon_hashed_response
 
     assert_equal expected_ekylibre_response, doc
 

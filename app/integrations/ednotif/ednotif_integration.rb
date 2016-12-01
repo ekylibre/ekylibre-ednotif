@@ -44,7 +44,7 @@ module Ednotif
               namespace: 'http://www.idele.fr/XML/Schema/'
           })
 
-      transcoder = Ekylibre::Ednotif::OutTranscoder.new parameters[:message]
+      transcoder = Ednotif::OutTranscoder.new parameters[:message]
 
       unless transcoder.valid?
         r = ActionIntegration::Response.new(code: '500', body: transcoder.errors)
@@ -61,7 +61,7 @@ module Ednotif
           # reject namespaces definition
           nested.reject! { |k, _| k =~ /\A@.*\z/ }
 
-          doc = Ekylibre::Ednotif::InTranscoder.convert(nested)
+          doc = Ednotif::InTranscoder.convert(nested)
 
           if doc[:standard_response][:result]
             doc
@@ -93,7 +93,7 @@ module Ednotif
               namespace: 'http://www.idele.fr/XML/Schema/'
           })
 
-      transcoder = Ekylibre::Ednotif::OutTranscoder.new parameters[:message]
+      transcoder = Ednotif::OutTranscoder.new parameters[:message]
 
       unless transcoder.valid?
         r = ActionIntegration::Response.new(code: '500', body: transcoder.errors)
@@ -110,7 +110,7 @@ module Ednotif
           # reject namespaces definition
           nested.reject! { |k, _| k =~ /\A@.*\z/ }
 
-          doc = Ekylibre::Ednotif::InTranscoder.convert(nested)
+          doc = Ednotif::InTranscoder.convert(nested)
 
           if doc[:standard_response][:result]
             doc
@@ -141,7 +141,7 @@ module Ednotif
               namespace: 'http://www.idele.fr/XML/Schema/'
           })
 
-      transcoder = Ekylibre::Ednotif::OutTranscoder.new parameters[:message]
+      transcoder = Ednotif::OutTranscoder.new parameters[:message]
 
       unless transcoder.valid?
         r = ActionIntegration::Response.new(code: '500', body: transcoder.errors)
@@ -158,7 +158,7 @@ module Ednotif
           # reject namespaces definition
           nested.reject! { |k, _| k =~ /\A@.*\z/ }
 
-          doc = Ekylibre::Ednotif::InTranscoder.convert(nested)
+          doc = Ednotif::InTranscoder.convert(nested)
 
           if doc[:standard_response][:result]
             doc
@@ -192,7 +192,7 @@ module Ednotif
               namespace: 'http://www.idele.fr/XML/Schema/'
           })
 
-      transcoder = Ekylibre::Ednotif::OutTranscoder.new parameters[:message]
+      transcoder = Ednotif::OutTranscoder.new parameters[:message]
 
       unless transcoder.valid?
         r = ActionIntegration::Response.new(code: '500', body: transcoder.errors)
@@ -210,18 +210,18 @@ module Ednotif
           # reject namespaces definition
           nested.reject! { |k, _| k =~ /\A@.*\z/ }
 
-          doc = Ekylibre::Ednotif::InTranscoder.convert(nested)
+          doc = Ednotif::InTranscoder.convert(nested)
 
           if doc[:standard_response][:result]
             parser = Nori.new strip_namespaces: true, convert_tags_to: lambda { |tag| tag.snakecase.to_sym }, advanced_typecasting: true
             # because \n special chars are escaped by default, but it must be considered during base64 decoding.
-            embedded_xml = Ekylibre::Ednotif.base64_zip_to_xml doc[:particular_response][:embedded_document].gsub(/\\n/, "\n")
+            embedded_xml = Ednotif.base64_zip_to_xml doc[:particular_response][:embedded_document].gsub(/\\n/, "\n")
             hashed = parser.parse(embedded_xml.to_xml)
 
             # :message_ip_b_notif_get_inventaire + reject @namespaces definitions
             nested = hashed[hashed.keys.first].reject { |k, _| k =~ /\A@.*\z/ }
 
-            doc = Ekylibre::Ednotif::InTranscoder.convert(nested)
+            doc = Ednotif::InTranscoder.convert(nested)
             doc
           else
             error_code = YamlNomen[:incoming][:error_codes][doc[:standard_response][:issue][:code]]
@@ -307,7 +307,7 @@ module Ednotif
       call_savon(:tk_create_identification, options, message) do |r|
         r.success do
           nested = r.body[:tk_create_identification_response].reject { |k, _| k =~ /\A@.*\z/ }
-          doc = Ekylibre::Ednotif::InTranscoder.convert(nested)
+          doc = Ednotif::InTranscoder.convert(nested)
 
           if doc[:standard_response][:result]
             doc
@@ -354,7 +354,7 @@ module Ednotif
       call_savon(:tk_get_url, options, message) do |r|
         r.success do
           nested = r.body[:tk_get_url_response].reject { |k, _| k =~ /\A@.*\z/ }
-          doc = Ekylibre::Ednotif::InTranscoder.convert(nested)
+          doc = Ednotif::InTranscoder.convert(nested)
           if doc[:standard_response][:result]
             unless doc.key?(:particular_response) && doc[:particular_response][:business_wsdl] && doc[:particular_response][:authentication_wsdl]
               r.error :missing_wsdl
