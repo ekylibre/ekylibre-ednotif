@@ -1,4 +1,5 @@
 require 'ednotif/engine'
+require 'ekylibre/ednotif'
 
 module Ednotif
   EDNOTIF_VERSION = '1.00'

@@ -1,4 +1,5 @@
-require 'ednotif/engine'
+require 'ekylibre/ednotif/in_transcoder'
+require 'ekylibre/ednotif/out_transcoder'
 
 module Ekylibre
   module Ednotif
@@ -8,7 +9,7 @@ module Ekylibre
 
     class << self
       def root
-        Ednotif::Engine.root
+        ::Ednotif::Engine.root
       end
 
       def transcoding_dir
