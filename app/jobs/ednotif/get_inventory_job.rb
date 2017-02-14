@@ -62,21 +62,35 @@ module Ednotif
                   item = Nomen::Variety[identity[:race_code]]
                   variety = (item ? item.name : :bos_taurus)
 
-                  attrs = {
-                      identification_number: identity[:identification_number],
-                      work_number: identity[:work_number].present? ? identity[:work_number] : identity[:identification_number][-4..-1],
-                      name: identity[:name],
-                      variety: variety,
-                      born_at: (identity[:birth_date] ? identity[:birth_date][:date] : nil),
-                      dead_at: (identity[:end_of_life] ? identity[:end_of_life][:end_of_life_date] : nil),
-                      owner: Entity.of_company,
-                  }
-
                   # fallbacks
                   identity[:birth_date] ||= {}
                   identity[:mother] ||= {}
                   identity[:father] ||= {}
                   identity[:sex] ||= :female
+
+                  attrs = {
+                      identification_number: identity[:identification_number],
+                      work_number: identity[:work_number].present? ? identity[:work_number] : identity[:identification_number][-4..-1],
+                      name: identity[:name] || identity[:identification_number],
+                      variety: variety,
+                      born_at: (identity[:birth_date] ? identity[:birth_date][:date] : nil),
+                      dead_at: (identity[:end_of_life] ? identity[:end_of_life][:end_of_life_date] : nil),
+                      owner: Entity.of_company,
+                      birth_date_completeness: identity[:birth_date][:witness],
+                      filiation_status: identity[:filiation_status].nil? ? :unknown : identity[:filiation_status],
+                      birth_farm_number: identity[:farm_number],
+                      first_calving_on: identity[:first_calving_date],
+                      origin_country: identity[:origin_country_code],
+                      origin_identification_number: identity[:origin_identification_number],
+                      end_of_life_reason: identity[:end_of_life_witness],
+                      country: identity[:country_code],
+                      mother_country: identity[:mother][:country_code],
+                      mother_identification_number: identity[:mother][:identification_number],
+                      mother_variety: identity[:mother][:race_code],
+                      father_country: identity[:father][:country_code],
+                      father_identification_number: identity[:father][:identification_number],
+                      father_variety: identity[:father][:race_code]
+                  }
 
 
                   #TODO enhance
@@ -95,46 +109,13 @@ module Ednotif
                     mvt[:entry] ||= {}
                     mvt[:exit] ||= {}
 
-                    if mvt[:entry].present?
-                      record.movements.create!(product: record, delta: record.initial_population, started_at: mvt[:entry][:entry_date])
-                      record.initial_movement = record.movements.first
-
-                      record.born_at = mvt[:entry][:entry_date] if record.born_at.blank?
-
-                      record.save!
-
-                      record.read!(:entry_date, mvt[:entry][:entry_date], at: record.born_at, force: true) unless mvt[:entry][:entry_date].nil?
-                      record.read!(:entry_reason, mvt[:entry][:entry_reason], at: record.born_at, force: true) unless mvt[:entry][:entry_reason].nil?
-                    end
-
-                    if mvt[:exit].present?
-                      record.movements.create!(product: record, delta: -record.initial_population, started_at: mvt[:entry][:exit_date])
-
-                      record.read!(:exit_date, mvt[:entry][:exit_date], at: record.born_at, force: true) unless mvt[:entry][:exit_date].nil?
-                      record.read!(:exit_reason, mvt[:entry][:exit_reason], at: record.born_at, force: true) unless mvt[:entry][:exit_reason].nil?
-                    end
+                    record.movements.create!(product: record, delta: record.initial_population, started_at: mvt[:entry][:entry_date], description: mvt[:entry][:entry_reason]) if mvt[:entry].present?
+                    record.movements.create!(product: record, delta: -record.initial_population, started_at: mvt[:exit][:exit_date], description: mvt[:exit][:exit_reason]) if mvt[:exit].present?
                   end
 
-                  {
-                      healthy: true,
-                      witness: identity[:birth_date][:witness],
-                      cpb_filiation_status: identity[:cpb_filiation_status],
-                      birth_date: identity[:birth_date][:date],
-                      birth_farm_number: identity[:farm_number],
-                      first_calving_date: identity[:first_calving_date],
-                      origin_country_code: identity[:origin_country_code],
-                      origin_identification_number: identity[:origin_identification_number],
-                      end_of_life_witness: identity[:end_of_life_witness],
-                      country_code: identity[:country_code],
-                      mother_country_code: identity[:mother][:country_code],
-                      mother_identification_number: identity[:mother][:identification_number],
-                      mother_race_code: identity[:mother][:race_code],
-                      father_country_code: identity[:father][:country_code],
-                      father_identification_number: identity[:father][:identification_number],
-                      father_race_code: identity[:father][:race_code]
-                  }.each do |k, v|
-                    record.read!(k, v, at: record.born_at, force: true) unless v.nil?
-                  end
+
+                  record.read!(:healthy, true, at: record.born_at, force: true)
+
                 end
 
                 # when all animals imported, set kinship
