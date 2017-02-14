@@ -257,7 +257,7 @@ module Ekylibre
 
         def statut_filie(fragment)
           {
-              cpb_filiation_status: fragment
+              filiation_status: YamlNomen[:incoming][:filiation_status][fragment]
           }
         end
 
@@ -336,7 +336,7 @@ module Ekylibre
 
         def temoin_fin_de_vie(fragment)
           {
-              end_of_life_witness: YamlNomen[:incoming][:witness][fragment]
+              end_of_life_witness: YamlNomen[:incoming][:end_of_life_witness][fragment]
           }
         end
 
