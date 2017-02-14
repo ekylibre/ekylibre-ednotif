@@ -14,7 +14,6 @@ add_routes do
       collection do
         get :list_calls
         post :import_cattling_inventory
-        get :clean_animals
       end
     end
   end
