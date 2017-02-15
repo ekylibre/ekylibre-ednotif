@@ -89,7 +89,8 @@ module Ednotif
                       mother_variety: identity[:mother][:race_code],
                       father_country: identity[:father][:country_code],
                       father_identification_number: identity[:father][:identification_number],
-                      father_variety: identity[:father][:race_code]
+                      father_variety: identity[:father][:race_code],
+                      originator: logger
                   }
 
 

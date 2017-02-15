@@ -24,6 +24,11 @@ module Backend
       t.column :arguments
     end
 
+    list(:targets, model: :animals,conditions: { originator_id: 'params[:id]'.c }, order: { created_at: :desc }) do |t|
+      t.column :created_at
+      t.column :name, url: true
+    end
+
 
     ### operations
     def import_cattling_inventory(options = {})
