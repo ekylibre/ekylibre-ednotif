@@ -1,7 +1,7 @@
 autoload :Ednotif, 'ednotif'
 
 # Ednotif::EdnotifIntegration.on_check_success do
-  # Ednotif::EdnotifGetListJob.perform_later
+# Ednotif::EdnotifGetListJob.perform_later
 # end
 
 Ekylibre::Hook.subscribe :get_inventory do |data|

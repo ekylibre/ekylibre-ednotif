@@ -17,8 +17,6 @@ module YamlNomen
       set
     end
 
-    def [](name)
-      set[name]
-    end
+    delegate :[], to: :set
   end
 end
