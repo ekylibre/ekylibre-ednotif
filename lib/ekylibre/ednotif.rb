@@ -1,3 +1,4 @@
+require 'ekylibre/ednotif/engine'
 require 'ekylibre/ednotif/in_transcoder'
 require 'ekylibre/ednotif/out_transcoder'
 
@@ -6,10 +7,17 @@ module Ekylibre
     EDNOTIF_VERSION = '1.00'.freeze
     # in/ : from Ednotif to Ekylibre transcoding
     # out/ : from Ekylibre to Ednotif transcoding
+    DIRECTORY_WSDL = 'http://ws-directory.fiea.fr/wsannuaire/WsAnnuaire?wsdl'.freeze
+    TEST_DIRECTORY_WSDL = 'http://wstest-directory.fiea.fr/wsannuaire/WsAnnuaire?wsdl'.freeze
+
+    # 9 is for national webservices
+    CODE_SITE_VERSION = 9
+    SERVICE_NAME = 'IpBNotif'.freeze
+    APPLICATION_LABEL = 'Ekylibre'.freeze
 
     class << self
       def root
-        ::Ednotif::Engine.root
+        Ekylibre::Ednotif::Engine.root
       end
 
       def transcoding_dir
