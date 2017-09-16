@@ -3,9 +3,9 @@ require 'ekylibre/ednotif/out_transcoder'
 
 module Ekylibre
   module Ednotif
-    EDNOTIF_VERSION = '1.00'
-    #in/ : from Ednotif to Ekylibre transcoding
-    #out/ : from Ekylibre to Ednotif transcoding
+    EDNOTIF_VERSION = '1.00'.freeze
+    # in/ : from Ednotif to Ekylibre transcoding
+    # out/ : from Ekylibre to Ednotif transcoding
 
     class << self
       def root

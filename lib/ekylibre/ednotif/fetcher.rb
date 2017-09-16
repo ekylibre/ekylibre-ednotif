@@ -4,14 +4,12 @@ module Ekylibre
   module Ednotif
     class Fetcher
       class << self
-
         def fetch
           agent = Mechanize.new
 
-          links = agent.get(::Ednotif.schema_url).links_with(text: /(.*).(xsd|XSD)$/)
+          links = agent.get(::Ekylibre::Ednotif.schema_url).links_with(text: /(.*).(xsd|XSD)$/)
 
-          links.each { |link| agent.click(link).save! ::Ednotif.import_dir.join(link.text) }
-
+          links.each { |link| agent.click(link).save! ::Ekylibre::Ednotif.import_dir.join(link.text) }
         end
       end
     end

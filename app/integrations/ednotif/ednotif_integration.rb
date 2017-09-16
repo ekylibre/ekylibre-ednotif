@@ -1,19 +1,18 @@
 module Ednotif
   mattr_reader :default_options do
     {
-        globals: {
-            strip_namespaces: true,
-            convert_response_tags_to: lambda { |tag| tag.snakecase.to_sym },
-            raise_errors: false
-        },
-        locals: {
-            advanced_typecasting: true
-        }
+      globals: {
+        strip_namespaces: true,
+        convert_response_tags_to: ->(tag) { tag.snakecase.to_sym },
+        raise_errors: false
+      },
+      locals: {
+        advanced_typecasting: true
+      }
     }
   end
 
   class ServiceError < StandardError; end
-
 
   class EdnotifIntegration < ActionIntegration::Base
     auth :check do
@@ -36,15 +35,15 @@ module Ednotif
       parameters[:options] ||= {}
       parameters[:message] ||= {}
 
-
       # we need to handle namespaces because business wsdl seems a bit buggy
       parameters[:options] = ::Ednotif.default_options.deep_merge(parameters[:options]).deep_merge(
-          globals: {
-              namespace_identifier: 'edn',
-              namespace: 'http://www.idele.fr/XML/Schema/'
-          })
+        globals: {
+          namespace_identifier: 'edn',
+          namespace: 'http://www.idele.fr/XML/Schema/'
+        }
+      )
 
-      transcoder = Ednotif::OutTranscoder.new parameters[:message]
+      transcoder = Ekylibre::Ednotif::OutTranscoder.new parameters[:message]
 
       unless transcoder.valid?
         r = ActionIntegration::Response.new(code: '500', body: transcoder.errors)
@@ -75,7 +74,6 @@ module Ednotif
         r.server_error do
           r.body[:fault][:faultstring] if r.body.key?(:fault) && r.body[:fault].key?(:faultstring)
         end
-
       end
     end
 
@@ -85,15 +83,15 @@ module Ednotif
       parameters[:options] ||= {}
       parameters[:message] ||= {}
 
-
       # we need to handle namespaces because business wsdl seems a bit buggy
       parameters[:options] = ::Ednotif.default_options.deep_merge(parameters[:options]).deep_merge(
-          globals: {
-              namespace_identifier: 'edn',
-              namespace: 'http://www.idele.fr/XML/Schema/'
-          })
+        globals: {
+          namespace_identifier: 'edn',
+          namespace: 'http://www.idele.fr/XML/Schema/'
+        }
+      )
 
-      transcoder = Ednotif::OutTranscoder.new parameters[:message]
+      transcoder = Ekylibre::Ednotif::OutTranscoder.new parameters[:message]
 
       unless transcoder.valid?
         r = ActionIntegration::Response.new(code: '500', body: transcoder.errors)
@@ -124,7 +122,6 @@ module Ednotif
         r.server_error do
           r.body[:fault][:faultstring] if r.body.key?(:fault) && r.body[:fault].key?(:faultstring)
         end
-
       end
     end
 
@@ -136,12 +133,13 @@ module Ednotif
 
       # we need to handle namespaces because business wsdl seems a bit buggy
       parameters[:options] = ::Ednotif.default_options.deep_merge(parameters[:options]).deep_merge(
-          globals: {
-              namespace_identifier: 'edn',
-              namespace: 'http://www.idele.fr/XML/Schema/'
-          })
+        globals: {
+          namespace_identifier: 'edn',
+          namespace: 'http://www.idele.fr/XML/Schema/'
+        }
+      )
 
-      transcoder = Ednotif::OutTranscoder.new parameters[:message]
+      transcoder = Ekylibre::Ednotif::OutTranscoder.new parameters[:message]
 
       unless transcoder.valid?
         r = ActionIntegration::Response.new(code: '500', body: transcoder.errors)
@@ -172,7 +170,6 @@ module Ednotif
         r.server_error do
           r.body[:fault][:faultstring] if r.body.key?(:fault) && r.body[:fault].key?(:faultstring)
         end
-
       end
     end
 
@@ -184,15 +181,15 @@ module Ednotif
       parameters[:options] ||= {}
       parameters[:message] ||= {}
 
-
       # we need to handle namespaces because business wsdl seems a bit buggy
       parameters[:options] = ::Ednotif.default_options.deep_merge(parameters[:options]).deep_merge(
-          globals: {
-              namespace_identifier: 'edn',
-              namespace: 'http://www.idele.fr/XML/Schema/'
-          })
+        globals: {
+          namespace_identifier: 'edn',
+          namespace: 'http://www.idele.fr/XML/Schema/'
+        }
+      )
 
-      transcoder = Ednotif::OutTranscoder.new parameters[:message]
+      transcoder = Ekylibre::Ednotif::OutTranscoder.new parameters[:message]
 
       unless transcoder.valid?
         r = ActionIntegration::Response.new(code: '500', body: transcoder.errors)
@@ -213,9 +210,9 @@ module Ednotif
           doc = Ekylibre::Ednotif::InTranscoder.convert(nested)
 
           if doc[:standard_response][:result]
-            parser = Nori.new strip_namespaces: true, convert_tags_to: lambda { |tag| tag.snakecase.to_sym }, advanced_typecasting: true
+            parser = Nori.new strip_namespaces: true, convert_tags_to: ->(tag) { tag.snakecase.to_sym }, advanced_typecasting: true
             # because \n special chars are escaped by default, but it must be considered during base64 decoding.
-            embedded_xml = Ednotif.base64_zip_to_xml doc[:particular_response][:embedded_document].gsub(/\\n/, "\n")
+            embedded_xml = Ekylibre::Ednotif.base64_zip_to_xml doc[:particular_response][:embedded_document].gsub(/\\n/, "\n")
             hashed = parser.parse(embedded_xml.to_xml)
 
             # :message_ip_b_notif_get_inventaire + reject @namespaces definitions
@@ -233,7 +230,6 @@ module Ednotif
         r.server_error do
           r.body[:fault][:faultstring] if r.body.key?(:fault) && r.body[:fault].key?(:faultstring)
         end
-
       end
     end
 
@@ -246,7 +242,7 @@ module Ednotif
     end
 
     # force: To force authentication process even if a token is already registered
-    def self.authenticate_and_do(logger = nil, force = false, &block)
+    def self.authenticate_and_do(logger = nil, _force = false, &block)
       integration ||= fetch
 
       # TODO: Now, consume the entire process
@@ -269,13 +265,13 @@ module Ednotif
             end
 
             auth_c.error do |response|
-              fail Ednotif::ServiceError, response
+              raise Ednotif::ServiceError, response
             end
           end
         end
 
         c.error do |response|
-          fail Ednotif::ServiceError, response
+          raise Ednotif::ServiceError, response
         end
       end
     end
@@ -284,24 +280,24 @@ module Ednotif
       integration = fetch
 
       options = ::Ednotif.default_options.deep_merge(
-          globals: {
-              namespace_identifier: 'tk',
-              namespaces: {
-                  'xmlns:typ': 'http://www.fiea.org/types/'
-              },
-              wsdl: parameters['wsdl']
-          }
+        globals: {
+          namespace_identifier: 'tk',
+          namespaces: {
+            'xmlns:typ': 'http://www.fiea.org/types/'
+          },
+          wsdl: parameters['wsdl']
+        }
       )
 
       message = {
-          'tk:Identification': {
-              'typ:UserId': integration.parameters['login'],
-              'typ:Password': integration.parameters['password'],
-              'typ:Profil': {
-                  'typ:Entreprise': integration.parameters['enterprise'],
-                  'typ:Application': Ednotif::APPLICATION_LABEL
-              }
+        'tk:Identification': {
+          'typ:UserId': integration.parameters['login'],
+          'typ:Password': integration.parameters['password'],
+          'typ:Profil': {
+            'typ:Entreprise': integration.parameters['enterprise'],
+            'typ:Application': Ednotif::APPLICATION_LABEL
           }
+        }
       }
 
       call_savon(:tk_create_identification, options, message) do |r|
@@ -316,14 +312,12 @@ module Ednotif
             r.client_error error_code
             error_code
           end
-
         end
 
         r.server_error do
           r.body[:fault][:faultstring] if r.body.key?(:fault) && r.body[:fault].key?(:faultstring)
         end
       end
-
     end
 
     def get_urls(integration = nil)
@@ -331,36 +325,37 @@ module Ednotif
       integration ||= fetch
 
       options = ::Ednotif.default_options.deep_merge(
-          globals: {
-              namespace_identifier: 'tk',
-              namespaces: {
-                  'xmlns:typ': 'http://www.fiea.org/types/'
-              },
-              wsdl: %w(dummy test demo demo-elevage).include?(Ekylibre::Tenant.current) ? ::Ednotif::TEST_DIRECTORY_WSDL : ::Ednotif::DIRECTORY_WSDL
-          })
+        globals: {
+          namespace_identifier: 'tk',
+          namespaces: {
+            'xmlns:typ': 'http://www.fiea.org/types/'
+          },
+          wsdl: %w[dummy test demo demo-elevage].include?(Ekylibre::Tenant.current) ? ::Ednotif::TEST_DIRECTORY_WSDL : ::Ednotif::DIRECTORY_WSDL
+        }
+      )
 
       message = {
-          'tk:ProfilDemandeur': {
-              'typ:Entreprise': integration.parameters['enterprise'],
-              'typ:Application': Ednotif::APPLICATION_LABEL
-          },
-          'tk:VersionPK': {
-              'typ:NumeroVersion': Ednotif::EDNOTIF_VERSION,
-              'typ:CodeSiteVersion': Ednotif::CODE_SITE_VERSION,
-              'typ:NomService': Ednotif::SERVICE_NAME,
-              'typ:CodeSiteService': Ednotif::CODE_SITE_VERSION
-          }
+        'tk:ProfilDemandeur': {
+          'typ:Entreprise': integration.parameters['enterprise'],
+          'typ:Application': Ednotif::APPLICATION_LABEL
+        },
+        'tk:VersionPK': {
+          'typ:NumeroVersion': Ednotif::EDNOTIF_VERSION,
+          'typ:CodeSiteVersion': Ednotif::CODE_SITE_VERSION,
+          'typ:NomService': Ednotif::SERVICE_NAME,
+          'typ:CodeSiteService': Ednotif::CODE_SITE_VERSION
+        }
       }
       call_savon(:tk_get_url, options, message) do |r|
         r.success do
           nested = r.body[:tk_get_url_response].reject { |k, _| k =~ /\A@.*\z/ }
           doc = Ekylibre::Ednotif::InTranscoder.convert(nested)
           if doc[:standard_response][:result]
-            unless doc.key?(:particular_response) && doc[:particular_response][:business_wsdl] && doc[:particular_response][:authentication_wsdl]
+            if doc.key?(:particular_response) && doc[:particular_response][:business_wsdl] && doc[:particular_response][:authentication_wsdl]
+              doc
+            else
               r.error :missing_wsdl
               :missing_wsdl
-            else
-              doc
             end
           else
             error_code = YamlNomen[:incoming][:error_codes][doc[:standard_response][:issue][:code]]
