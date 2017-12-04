@@ -21,13 +21,13 @@ add_routes do
   end
 end
 
-extend_navigation do
-  part :production do
-    group :animal_management do
-      item :synchronization_operation do
-        page "backend/synchronization_operations#index"
-        page "backend/synchronization_operations#show"
-      end
-    end
-  end
-end
+# extend_navigation do
+#   part :production do
+#     group :animal_management do
+#       item :synchronization_operation do
+#         page "backend/synchronization_operations#index"
+#         page "backend/synchronization_operations#show"
+#       end
+#     end
+#   end
+# end
