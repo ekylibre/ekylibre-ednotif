@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
-<!-- Version v0.5 29/01/2016 -->
+<!-- Version initiale v0.4 17/07/2013 -->
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="urn:fr:agri:elevage:codelist:LesionPied:1" targetNamespace="urn:fr:agri:elevage:codelist:LesionPied:1" version="1.0" xml:lang="fr">
 	<xs:simpleType name="TypeLesionCode">
 		<xs:restriction base="xs:token">
@@ -101,26 +101,6 @@
 			<xs:enumeration value="PA">
 				<xs:annotation>
 					<xs:documentation>Lesion typique de panaris</xs:documentation>
-				</xs:annotation>
-			</xs:enumeration>
-			<xs:enumeration value="SEE">
-				<xs:annotation>
-					<xs:documentation>Seime longitudinale externe</xs:documentation>
-				</xs:annotation>
-			</xs:enumeration>
-			<xs:enumeration value="SEI">
-				<xs:annotation>
-					<xs:documentation>Seime longitudinale interne</xs:documentation>
-				</xs:annotation>
-			</xs:enumeration>
-			<xs:enumeration value="SC">
-				<xs:annotation>
-					<xs:documentation>Seime cerclée</xs:documentation>
-				</xs:annotation>
-			</xs:enumeration>		
-			<xs:enumeration value="FTO">
-				<xs:annotation>
-					<xs:documentation>Fistule en talon de l'onglon interne</xs:documentation>
 				</xs:annotation>
 			</xs:enumeration>
 		</xs:restriction>
