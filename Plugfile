@@ -2,6 +2,7 @@ author "Nicolas Procureur <nprocureur@ekylibre.com>, Brice Texier <brice@ekylibr
 
 name "ednotif"
 version "0.1"
+app '>= 1.1.0', '< 3.0.0'
 
 require_javascript 'synchronization_operations'
 

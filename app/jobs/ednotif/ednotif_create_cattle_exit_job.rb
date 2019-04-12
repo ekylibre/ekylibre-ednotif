@@ -9,8 +9,8 @@ module Ednotif
       dataset = args.extract_options!
 
       # TODO: re-enable after testing
-      # dataset[:farm_number] = Identifier.where(nature: :cattling_number).first[:value]
-      dataset[:farm_number] = 'FR01999999'
+      dataset[:farm_number] = Identifier.where(nature: :cattling_number).first[:value]
+      # dataset[:farm_number] = 'FR01999999'
 
       Ednotif::EdnotifIntegration.authenticate_and_do logger do
         integration ||= Ednotif::EdnotifIntegration.fetch
