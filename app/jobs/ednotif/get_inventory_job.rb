@@ -51,7 +51,7 @@ module Ednotif
                 op_response.fetch(:animals, []).each do |animal|
                   identity = animal[:identity]
 
-                  item = Nomen::Variety[identity[:race_code]]
+                  item = Onoma::Variety[identity[:race_code]]
                   variety = (item ? item.name : :bos_taurus)
 
                   # fallbacks
