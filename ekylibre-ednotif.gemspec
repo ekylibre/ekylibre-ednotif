@@ -1,17 +1,34 @@
-# coding: utf-8
+# frozen_string_literal: true
 
-$LOAD_PATH.push File.expand_path('../lib', __FILE__)
+require_relative 'lib/ekylibre/ednotif/version'
 
-require 'ekylibre/ednotif/version'
+Gem::Specification.new do |spec|
+  spec.name = 'ekylibre-ednotif'
+  spec.version = Ekylibre::Ednotif::VERSION
+  spec.authors = ['Ekylibre developers']
+  spec.email = ['dev@ekylibre.com']
 
-Gem::Specification.new do |s|
-  s.name        = 'ekylibre-ednotif'
-  s.version     = Ekylibre::Ednotif::VERSION
-  s.authors     = ['Nicolas Procureur', 'Brice Texier', 'Alexandre Lécuelle']
-  s.email       = ['nprocureur@ekylibre.com', 'brice@ekylibre.com', 'alecuelle@ekylibre.com']
-  s.homepage    = 'https://github.com/ekylibre/ekylibre-ednotif'
-  s.summary     = 'EdNotif integration'
-  s.license     = 'MIT'
+  spec.homepage = 'https://www.ekylibre.com'
+  spec.required_ruby_version = '>= 2.6.0'
+  spec.summary = 'EdNotif integration'
+  spec.license = 'AGPL-3.0-only'
 
-  s.files = Dir['{app,config,lib}/**/*', 'Rakefile', 'README.rdoc']
+  # Prevent pushing this gem to RubyGems.org. To allow pushes either set the 'allowed_push_host'
+  # to allow pushing to a single host or delete this section to allow pushing to any host.
+  if spec.respond_to?(:metadata)
+    spec.metadata["allowed_push_host"] = "https://gems.ekylibre.dev"
+
+    spec.metadata["homepage_uri"] = spec.homepage
+    spec.metadata["source_code_uri"] = "https://www.gitlab.com/ekylibre/ekylibre-ednotif"
+  else
+    raise StandardError.new("RubyGems 2.0 or newer is required to protect against public gem pushes.")
+  end
+
+  spec.files = Dir.glob(%w[app/**/* config/**/* lib/**/* bin/**/* *.gemspec Gemfile Rakefile *.rdoc])
+
+  spec.add_dependency 'ekylibre_plugin_system', '~> 0.3.0'
+
+  spec.add_development_dependency "bundler", ">= 1.17"
+  spec.add_development_dependency "minitest", "~> 5.14"
+  spec.add_development_dependency "rake", "~> 13.0"
 end

@@ -1,6 +1,10 @@
-require 'ekylibre/ednotif/engine'
-require 'ekylibre/ednotif/in_transcoder'
-require 'ekylibre/ednotif/out_transcoder'
+# frozen_string_literal: true
+
+require 'ekylibre_plugin_system'
+
+require_relative 'ednotif/in_transcoder'
+require_relative 'ednotif/out_transcoder'
+require_relative 'ednotif/plugin/ednotif_plugin'
 
 module Ekylibre
   module Ednotif
@@ -63,3 +67,5 @@ module Ekylibre
     end
   end
 end
+
+require_relative 'ednotif/engine' if defined?(::Rails)
