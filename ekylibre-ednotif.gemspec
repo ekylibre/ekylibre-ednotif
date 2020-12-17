@@ -24,7 +24,7 @@ Gem::Specification.new do |spec|
     raise StandardError.new("RubyGems 2.0 or newer is required to protect against public gem pushes.")
   end
 
-  spec.files = Dir.glob(%w[app/**/* config/**/* lib/**/* bin/**/* *.gemspec Gemfile Rakefile *.rdoc])
+  spec.files = Dir.glob(%w[{app,bin,config,lib}/**/* *.gemspec Gemfile Rakefile *.rdoc])
 
   spec.add_dependency 'ekylibre_plugin_system', '~> 0.3.0'
 
