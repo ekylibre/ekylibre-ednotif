@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require 'ekylibre_plugin_system'
+require 'ekylibre-plugin_system'
 
 require_relative 'ednotif/in_transcoder'
 require_relative 'ednotif/out_transcoder'
