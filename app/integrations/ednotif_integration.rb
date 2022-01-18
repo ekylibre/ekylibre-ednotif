@@ -333,20 +333,20 @@ class EdnotifIntegration < ActionIntegration::Base
         namespaces: {
           'xmlns:typ': 'http://www.fiea.org/types/'
         },
-        wsdl: %w[dummy test demo demo-elevage].include?(Ekylibre::Tenant.current) ? ::Ednotif::TEST_DIRECTORY_WSDL : ::Ednotif::DIRECTORY_WSDL
+        wsdl: %w[dummy test demo demo-elevage].include?(Ekylibre::Tenant.current) ? Ekylibre::Ednotif::TEST_DIRECTORY_WSDL : Ekylibre::Ednotif::DIRECTORY_WSDL
       }
     )
 
     message = {
       'tk:ProfilDemandeur': {
         'typ:Entreprise': integration.parameters['enterprise'],
-        'typ:Application': Ednotif::APPLICATION_LABEL
+        'typ:Application': Ekylibre::Ednotif::APPLICATION_LABEL
       },
       'tk:VersionPK': {
-        'typ:NumeroVersion': Ednotif::EDNOTIF_VERSION,
-        'typ:CodeSiteVersion': Ednotif::CODE_SITE_VERSION,
-        'typ:NomService': Ednotif::SERVICE_NAME,
-        'typ:CodeSiteService': Ednotif::CODE_SITE_VERSION
+        'typ:NumeroVersion': Ekylibre::Ednotif::EDNOTIF_VERSION,
+        'typ:CodeSiteVersion': Ekylibre::Ednotif::CODE_SITE_VERSION,
+        'typ:NomService': Ekylibre::Ednotif::SERVICE_NAME,
+        'typ:CodeSiteService': Ekylibre::Ednotif::CODE_SITE_VERSION
       }
     }
     call_savon(:tk_get_url, options, message) do |r|

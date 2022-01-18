@@ -19,14 +19,12 @@ Gem::Specification.new do |spec|
     spec.metadata["allowed_push_host"] = "https://gems.ekylibre.dev"
 
     spec.metadata["homepage_uri"] = spec.homepage
-    spec.metadata["source_code_uri"] = "https://www.gitlab.com/ekylibre/ekylibre-ednotif"
+    spec.metadata['source_code_uri'] = 'https://www.gitlab.com/ekylibre/ekylibre_plugin_system'
   else
     raise StandardError.new("RubyGems 2.0 or newer is required to protect against public gem pushes.")
   end
 
   spec.files = Dir.glob(%w[{app,bin,config,lib}/**/* *.gemspec Gemfile Rakefile *.rdoc])
-
-  spec.add_dependency 'ekylibre-plugin_system', '~> 0.4.0'
 
   spec.add_development_dependency "bundler", ">= 1.17"
   spec.add_development_dependency "minitest", "~> 5.14"

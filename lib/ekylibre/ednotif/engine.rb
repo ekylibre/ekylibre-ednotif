@@ -3,9 +3,9 @@
 module Ekylibre
   module Ednotif
     class Engine < ::Rails::Engine
-      extend Ekylibre::PluginSystem::PluginRegistration
-
-      register_plugin(Ekylibre::Ednotif::Plugin::EdnotifPlugin)
+      initializer 'ekylibre_ednotif.assets.precompile' do |app|
+        app.config.assets.precompile += %w[integrations/ednotif.png]
+      end
 
       initializer :i18n do |app|
         app.config.i18n.load_path += Dir[Ekylibre::Ednotif::Engine.root.join('config', 'locales', '**', '*.yml')]
