@@ -10,6 +10,8 @@ rake cipher:aes
 
 Code entreprise : 'E170'
 
-# Documentation
+# Specification
 
 https://idele.fr/detail-article/ipg-bovine-cahier-des-charges-des-evolutions-des-logiciels-des-detenteurs-eleveurs
+
+# Documentation

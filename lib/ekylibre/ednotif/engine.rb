@@ -11,6 +11,10 @@ module Ekylibre
         app.config.i18n.load_path += Dir[Ekylibre::Ednotif::Engine.root.join('config', 'locales', '**', '*.yml')]
       end
 
+      initializer :ekylibre_ednotif_extend_navigation do |_app|
+        Ekylibre::Ednotif::ExtNavigation.add_navigation_xml_to_existing_tree
+      end
+
       initializer :extend_toolbar do |_app|
         Ekylibre::View::Addon.add(:main_toolbar, 'backend/animals/import_cattling_inventory_toolbar', to: 'backend/animals#index')
       end

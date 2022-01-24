@@ -66,3 +66,4 @@ module Ekylibre
 end
 
 require_relative 'ednotif/engine' if defined?(::Rails)
+require_relative 'ednotif/ext_navigation' if defined?(::Rails)

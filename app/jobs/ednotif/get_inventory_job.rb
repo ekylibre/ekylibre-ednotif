@@ -75,7 +75,7 @@ module Ednotif
                   identity[:birth_date] ||= {}
                   identity[:mother] ||= {}
                   identity[:father] ||= {}
-                  identity[:sex] ||= :female
+                  identity[:sex] ||= 'female'
 
                   attrs = {
                     identification_number: identity[:identification_number],
@@ -109,7 +109,13 @@ module Ednotif
                   variant = ProductNatureVariant.import_from_nomenclature((op_response[:generation_datetime].to_date - attrs[:born_at]).to_i > 365 * 3 ? "#{identity[:sex]}_adult_cow" : "#{identity[:sex]}_young_cow")
                   attrs[:variant] = variant
 
-                  record = Animal.where(identification_number: identity[:identification_number]).first_or_create!(attrs)
+                  # find and update or create animal
+                  record = Animal.find_by(identification_number: identity[:identification_number])
+                  if record.present?
+                    record.update(name: attrs[:name])
+                  else
+                    record = Animal.create!(attrs)
+                  end
 
                   animal.fetch(:mouvements, []).each do |mvt|
                     mvt[:entry] ||= {}
@@ -130,11 +136,11 @@ module Ednotif
                   identity[:mother] ||= {}
                   identity[:father] ||= {}
 
-                  if animal && identity[:mother][:identification_number] && (mother = Animal.find_by(identification_number: identity[:mother][:identification_number]))
+                  if animal && identity[:mother][:identification_number] && (mother = Animal.find_by(identification_number: identity[:mother][:identification_number])) && !animal.mother.present?
                     animal.links.create!(nature: :mother, linked: mother)
                   end
 
-                  if animal && identity[:father][:identification_number] && (father = Animal.find_by(identification_number: identity[:father][:identification_number]))
+                  if animal && identity[:father][:identification_number] && (father = Animal.find_by(identification_number: identity[:father][:identification_number])) && !animal.father.present?
                     animal.links.create!(nature: :father, linked: father)
                   end
                 end
