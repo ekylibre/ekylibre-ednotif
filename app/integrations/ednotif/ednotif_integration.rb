@@ -176,6 +176,63 @@ module Ednotif
       end
     end
 
+    def get_genetic(parameters = {})
+      parameters = parameters.deep_symbolize_keys!
+
+      parameters[:options] ||= {}
+      parameters[:message] ||= {}
+
+      # we need to handle namespaces because business wsdl seems a bit buggy
+      parameters[:options] = Ednotif::EdnotifIntegration.default_options.deep_merge(parameters[:options]).deep_merge(
+        globals: {
+          namespace_identifier: 'edn',
+          namespace: 'http://www.idele.fr/XML/Schema/'
+        }
+      )
+
+      transcoder = Ekylibre::Ednotif::OutTranscoder.new parameters[:message]
+
+      unless transcoder.valid?
+        r = ActionIntegration::Response.new(code: '500', body: transcoder.errors)
+        r.error do
+          r.error :transcoding_error
+          transcoder.errors
+        end
+        return r
+      end
+
+      call_savon(:ip_b_get_inventaire, parameters[:options], transcoder.message) do |r|
+        r.success do
+          nested = r.body[r.body.keys.first]
+
+          # reject namespaces definition
+          nested.reject! { |k, _| k =~ /\A@.*\z/ }
+
+          doc = Ekylibre::Ednotif::InTranscoder.convert(nested)
+
+          if doc[:standard_response][:result]
+            parser = Nori.new strip_namespaces: true, convert_tags_to: ->(tag) { tag.snakecase.to_sym }, advanced_typecasting: true
+            # because \n special chars are escaped by default, but it must be considered during base64 decoding.
+            embedded_xml = Ekylibre::Ednotif.base64_zip_to_xml doc[:particular_response][:embedded_document].gsub(/\\n/, "\n")
+            hashed = parser.parse(embedded_xml.to_xml)
+            # :message_ip_b_notif_get_inventaire + reject @namespaces definitions
+            nested = hashed[hashed.keys.first].reject { |k, _| k =~ /\A@.*\z/ }
+            doc = Ekylibre::Ednotif::InTranscoder.convert(nested)
+            doc
+          else
+            error_code = YamlNomen[:incoming][:error_codes][doc[:standard_response][:issue][:code]]
+            r.client_error error_code
+            error_code
+          end
+        end
+
+        r.server_error do
+          r.body[:fault][:faultstring] if r.body.key?(:fault) && r.body[:fault].key?(:faultstring)
+        end
+      end
+
+    end
+
     ##
     # get_inventory: fournir l’inventaire des bovins d’une exploitation entre deux dates. L’inventaire peut être complété par la liste des boucles disponibles.
     def get_inventory(parameters = {})
@@ -192,13 +249,7 @@ module Ednotif
         }
       )
 
-      puts "parameters[:options] : #{parameters[:options].inspect}".red
-
-      puts "parameters[:message] : #{parameters[:message].inspect}".red
-
       transcoder = Ekylibre::Ednotif::OutTranscoder.new parameters[:message]
-
-      puts "transcoder : #{transcoder.inspect}".yellow
 
       unless transcoder.valid?
         r = ActionIntegration::Response.new(code: '500', body: transcoder.errors)
