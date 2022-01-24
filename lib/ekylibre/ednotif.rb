@@ -22,7 +22,7 @@ module Ekylibre
       end
 
       def transcoding_dir
-        root.join('transcoding')
+        root.join('lib', 'ekylibre', 'ednotif', 'transcoding')
       end
 
       def in_transcoding_dir
@@ -34,7 +34,7 @@ module Ekylibre
       end
 
       def import_dir
-        root.join('resources')
+        root.join('lib', 'ekylibre', 'ednotif', 'resources')
       end
 
       def schema_definition

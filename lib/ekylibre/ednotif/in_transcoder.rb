@@ -1,3 +1,5 @@
+require 'yaml_nomen'
+
 module Ekylibre
   module Ednotif
     class InTranscoder

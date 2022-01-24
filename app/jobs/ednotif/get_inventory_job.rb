@@ -49,6 +49,23 @@ module Ednotif
             op_c.success do |op_response|
               ActiveRecord::Base.transaction do
                 op_response.fetch(:animals, []).each do |animal|
+                  # example for animal dataset
+                  # {
+                  #  :identity=>{:country_code=>"fr",
+                                # :identification_number=>"0332390505",
+                                # :sex=>"female",
+                                # :race_code=>"bos_taurus_limousine",
+                                # :birth_date=>{:date=>Wed, 09 Oct 2019, :witness=>"full_date"},
+                                # :work_number=>"0505",
+                                # :name=>"PICHOLINE",
+                                # :filiation_status=>"certified",
+                                # :mother=>{:country_code=>"fr", :identification_number=>"0314723683", :race_code=>"bos_taurus_limousine"},
+                                # :father=>{:country_code=>"fr", :identification_number=>"8160026685", :race_code=>"bos_taurus_limousine"},
+                                # :farm_number=>"03281101",
+                                # :origin_country_code=>"fr",
+                                # :origin_identification_number=>"0332390505"},
+                  # :mouvements=>[{:entry=>{:entry_date=>Fri, 24 Jul 2020, :entry_reason=>"purchase"}}]
+                  # }
                   identity = animal[:identity]
 
                   item = Onoma::Variety[identity[:race_code]]
