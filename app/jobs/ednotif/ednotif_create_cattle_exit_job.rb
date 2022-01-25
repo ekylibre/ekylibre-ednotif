@@ -44,7 +44,7 @@ module Ednotif
 
         p = proc do |_, v|
           v.delete_if(&p) if v.respond_to? :delete_if
-          v.nil? || v.respond_to?(:'empty?') && v.empty?
+          v.nil? || v.respond_to?(:empty?) && v.empty?
         end
         message.delete_if(&p)
 
@@ -58,8 +58,14 @@ module Ednotif
                 record = Animal.find_by(identification_number: identity[:identification_number])
 
                 if record && animal[:exit_mouvement] && animal[:exit_mouvement].key?(:exit_date)
-                  record.read!(:exit_date, animal[:exit_mouvement][:exit_date], at: animal[:exit_mouvement][:exit_date], force: true) unless animal[:exit_mouvement][:exit_date].nil?
-                  record.read!(:exit_reason, animal[:exit_mouvement][:exit_reason], at: animal[:exit_mouvement][:exit_date], force: true) unless animal[:exit_mouvement][:exit_reason].nil?
+                  unless animal[:exit_mouvement][:exit_date].nil?
+                    record.read!(:exit_date, animal[:exit_mouvement][:exit_date], at: animal[:exit_mouvement][:exit_date],
+force: true)
+                  end
+                  unless animal[:exit_mouvement][:exit_reason].nil?
+                    record.read!(:exit_reason, animal[:exit_mouvement][:exit_reason], at: animal[:exit_mouvement][:exit_date],
+force: true)
+                  end
 
                   # fallbacks
                   identity[:birth_date] ||= {}

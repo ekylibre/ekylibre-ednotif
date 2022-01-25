@@ -41,7 +41,7 @@ module Ednotif
 
           p = proc do |_, v|
             v.delete_if(&p) if v.respond_to? :delete_if
-            v.nil? || v.respond_to?(:'empty?') && v.empty?
+            v.nil? || v.respond_to?(:empty?) && v.empty?
           end
           message.delete_if(&p)
 
@@ -52,18 +52,18 @@ module Ednotif
                   # example for animal dataset
                   # {
                   #  :identity=>{:country_code=>"fr",
-                                # :identification_number=>"0332390505",
-                                # :sex=>"female",
-                                # :race_code=>"bos_taurus_limousine",
-                                # :birth_date=>{:date=>Wed, 09 Oct 2019, :witness=>"full_date"},
-                                # :work_number=>"0505",
-                                # :name=>"PICHOLINE",
-                                # :filiation_status=>"certified",
-                                # :mother=>{:country_code=>"fr", :identification_number=>"0314723683", :race_code=>"bos_taurus_limousine"},
-                                # :father=>{:country_code=>"fr", :identification_number=>"8160026685", :race_code=>"bos_taurus_limousine"},
-                                # :farm_number=>"03281101",
-                                # :origin_country_code=>"fr",
-                                # :origin_identification_number=>"0332390505"},
+                  #  :identification_number=>"0332390505",
+                  # :sex=>"female",
+                  # :race_code=>"bos_taurus_limousine",
+                  # :birth_date=>{:date=>Wed, 09 Oct 2019, :witness=>"full_date"},
+                  # :work_number=>"0505",
+                  # :name=>"PICHOLINE",
+                  # :filiation_status=>"certified",
+                  # :mother=>{:country_code=>"fr", :identification_number=>"0314723683", :race_code=>"bos_taurus_limousine"},
+                  # :father=>{:country_code=>"fr", :identification_number=>"8160026685", :race_code=>"bos_taurus_limousine"},
+                  # :farm_number=>"03281101",
+                  # :origin_country_code=>"fr",
+                  # :origin_identification_number=>"0332390505"},
                   # :mouvements=>[{:entry=>{:entry_date=>Fri, 24 Jul 2020, :entry_reason=>"purchase"}}]
                   # }
                   identity = animal[:identity]
@@ -103,10 +103,20 @@ module Ednotif
                   }
 
                   # TODO: enhance
-                  attrs[:born_at] = animal[:mouvements].collect { |mvt| mvt[:entry][:entry_date] }.first if attrs[:born_at].blank? && animal.try(:[], :mouvements).collect { |mvt| mvt.try(:[], :entry).try(:[], :entry_date) }.compact.present?
+                  if attrs[:born_at].blank? && animal.try(:[], :mouvements).collect { |mvt|
+ mvt.try(:[], :entry).try(:[], :entry_date) }.compact.present?
+                    attrs[:born_at] = animal[:mouvements].collect { |mvt| mvt[:entry][:entry_date] }.first
+                  end
 
-                  # 36 months
-                  variant = ProductNatureVariant.import_from_nomenclature((op_response[:generation_datetime].to_date - attrs[:born_at]).to_i > 365 * 3 ? "#{identity[:sex]}_adult_cow" : "#{identity[:sex]}_young_cow")
+                  # 36 months for adut cow
+                  age_in_days = (op_response[:generation_datetime].to_date - attrs[:born_at]).to_i
+                  if age_in_days > (365 * 3)
+                    pnv_to_import = "#{identity[:sex]}_adult_cow"
+                  else
+                    pnv_to_import = "#{identity[:sex]}_young_cow"
+                  end
+
+                  variant = ProductNatureVariant.import_from_nomenclature(pnv_to_import)
                   attrs[:variant] = variant
 
                   # find and update or create animal
@@ -121,8 +131,14 @@ module Ednotif
                     mvt[:entry] ||= {}
                     mvt[:exit] ||= {}
 
-                    record.movements.create!(product: record, delta: record.initial_population, started_at: mvt[:entry][:entry_date], description: mvt[:entry][:entry_reason]) if mvt[:entry].present?
-                    record.movements.create!(product: record, delta: -record.initial_population, started_at: mvt[:exit][:exit_date], description: mvt[:exit][:exit_reason]) if mvt[:exit].present?
+                    if mvt[:entry].present?
+                      record.movements.create!(product: record, delta: record.initial_population, started_at: mvt[:entry][:entry_date],
+description: mvt[:entry][:entry_reason])
+                    end
+                    if mvt[:exit].present?
+                      record.movements.create!(product: record, delta: -record.initial_population, started_at: mvt[:exit][:exit_date],
+description: mvt[:exit][:exit_reason])
+                    end
                   end
 
                   record.read!(:healthy, true, at: record.born_at, force: true)
@@ -131,17 +147,23 @@ module Ednotif
                 # when all animals imported, set kinship
                 op_response.fetch(:animals, []).each do |animal|
                   identity = animal[:identity]
-                  animal = Animal.find_by(identification_number: identity[:identification_number])
+                  record = Animal.find_by(identification_number: identity[:identification_number])
 
                   identity[:mother] ||= {}
                   identity[:father] ||= {}
 
-                  if animal && identity[:mother][:identification_number] && (mother = Animal.find_by(identification_number: identity[:mother][:identification_number])) && !animal.mother.present?
-                    animal.links.create!(nature: :mother, linked: mother)
+                  m_id_number = identity[:mother][:identification_number] || nil
+                  f_id_number = identity[:father][:identification_number] || nil
+
+                  mother = Animal.find_by(identification_number: m_id_number) if m_id_number
+                  father = Animal.find_by(identification_number: f_id_number ) if f_id_number
+
+                  if record && mother.present? && !record.mother.present?
+                    record.links.create!(nature: :mother, linked: mother)
                   end
 
-                  if animal && identity[:father][:identification_number] && (father = Animal.find_by(identification_number: identity[:father][:identification_number])) && !animal.father.present?
-                    animal.links.create!(nature: :father, linked: father)
+                  if record && father.present? && !record.father.present?
+                    record.links.create!(nature: :father, linked: father)
                   end
                 end
 
@@ -160,7 +182,7 @@ module Ednotif
             end
 
             op_c.error do |response|
-              raise Ednotif::ServiceError, response
+              raise Ednotif::ServiceError.new(response)
             end
           end
         end
@@ -170,7 +192,8 @@ module Ednotif
           interpolations = { message: :this_service_is_not_activated.t(scope: 'notifications.messages'), target: nil }
         else
           logger.update_columns(state: :errored)
-          interpolations = { message: e.message.t(scope: 'notifications.messages', default: e.message), target: e.respond_to?(:record) && e.record.identification_number ? e.record.identification_number : nil }
+          interpolations = { message: e.message.t(scope: 'notifications.messages', default: e.message),
+target: e.respond_to?(:record) && e.record.identification_number ? e.record.identification_number : nil }
         end
         error_message = logger.notify(:synchronization_operation_failed, interpolations, level: :error)
         logger.update_columns(notification_id: error_message)

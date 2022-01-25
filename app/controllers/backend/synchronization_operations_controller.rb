@@ -30,7 +30,7 @@ module Backend
     ### operations
     def import_cattling_inventory(options = {})
       so_id = SynchronizationOperation.run(:get_inventory, options)
-      Ednotif::GetInventoryJob.perform_now({synchronization_operation_id: so_id})
+      Ednotif::GetInventoryJob.perform_now({ synchronization_operation_id: so_id })
     end
   end
 end

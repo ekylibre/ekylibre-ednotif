@@ -39,21 +39,21 @@ module Ednotif
 
           p = proc do |_, v|
             v.delete_if(&p) if v.respond_to? :delete_if
-            v.nil? || v.respond_to?(:'empty?') && v.empty?
+            v.nil? || v.respond_to?(:empty?) && v.empty?
           end
           message.delete_if(&p)
 
           Ednotif::EdnotifIntegration.get_genetic(options: options, message: message).execute(logger) do |op_c|
             op_c.success do |op_response|
               ActiveRecord::Base.transaction do
-                 puts op_response.inspect.red
+                puts op_response.inspect.red
                 logger.notify(:synchronization_operation_finished_successfully)
                 logger.update_columns(state: :finished, finished_at: Time.zone.now)
               end
             end
 
             op_c.error do |response|
-              raise Ednotif::ServiceError, response
+              raise Ednotif::ServiceError.new(response)
             end
           end
         end
@@ -63,7 +63,8 @@ module Ednotif
           interpolations = { message: :this_service_is_not_activated.t(scope: 'notifications.messages'), target: nil }
         else
           logger.update_columns(state: :errored)
-          interpolations = { message: e.message.t(scope: 'notifications.messages', default: e.message), target: e.respond_to?(:record) && e.record.identification_number ? e.record.identification_number : nil }
+          interpolations = { message: e.message.t(scope: 'notifications.messages', default: e.message),
+target: e.respond_to?(:record) && e.record.identification_number ? e.record.identification_number : nil }
         end
         error_message = logger.notify(:synchronization_operation_failed, interpolations, level: :error)
         logger.update_columns(notification_id: error_message)

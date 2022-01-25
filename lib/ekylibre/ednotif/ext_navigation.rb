@@ -39,12 +39,11 @@ module Ekylibre
         @new_navigation_tree
       end
 
-
       private
 
-      def ednotif_navigation_file_path
-        Ekylibre::Ednotif::Engine.root.join('config', 'navigation.xml')
-      end
+        def ednotif_navigation_file_path
+          Ekylibre::Ednotif::Engine.root.join('config', 'navigation.xml')
+        end
     end
   end
 end
