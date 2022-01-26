@@ -103,8 +103,7 @@ module Ednotif
                   }
 
                   # TODO: enhance
-                  if attrs[:born_at].blank? && animal.try(:[], :mouvements).collect { |mvt|
- mvt.try(:[], :entry).try(:[], :entry_date) }.compact.present?
+                  if attrs[:born_at].blank? && animal.try(:[], :mouvements).collect { |mvt| mvt.try(:[], :entry).try(:[], :entry_date) }.compact.present?
                     attrs[:born_at] = animal[:mouvements].collect { |mvt| mvt[:entry][:entry_date] }.first
                   end
 
@@ -121,9 +120,7 @@ module Ednotif
 
                   # find and update or create animal
                   record = Animal.find_by(identification_number: identity[:identification_number])
-                  if record.present?
-                    record.update(name: attrs[:name])
-                  else
+                  unless record.present?
                     record = Animal.create!(attrs)
                   end
 
