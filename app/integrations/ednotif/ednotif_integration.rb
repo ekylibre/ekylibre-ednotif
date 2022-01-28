@@ -1,21 +1,21 @@
 module Ednotif
-  mattr_reader :default_options do
-    {
-      globals: {
-        strip_namespaces: true,
-        convert_response_tags_to: ->(tag) { tag.snakecase.to_sym },
-        raise_errors: false
-      },
-      locals: {
-        advanced_typecasting: true
-      }
-    }
-  end
-
-  class ServiceError < StandardError; end
-
   class EdnotifIntegration < ActionIntegration::Base
-    auth :check do
+    mattr_reader :default_options do
+      {
+        globals: {
+          strip_namespaces: true,
+          convert_response_tags_to: ->(tag) { tag.snakecase.to_sym },
+          raise_errors: false
+        },
+        locals: {
+          advanced_typecasting: true
+        }
+      }
+    end
+
+    class ServiceError < StandardError; end
+
+    authenticate_with :check do
       parameter :cattling_number
       parameter :enterprise
       parameter :login
@@ -36,12 +36,14 @@ module Ednotif
       parameters[:message] ||= {}
 
       # we need to handle namespaces because business wsdl seems a bit buggy
-      parameters[:options] = ::Ednotif.default_options.deep_merge(parameters[:options]).deep_merge(
-        globals: {
-          namespace_identifier: 'edn',
-          namespace: 'http://www.idele.fr/XML/Schema/'
-        }
-      )
+      parameters[:options] = Ednotif::EdnotifIntegration.default_options
+                                                 .deep_merge(parameters[:options])
+                                                 .deep_merge(
+                                                   globals: {
+                                                     namespace_identifier: 'edn',
+                                                     namespace: 'http://www.idele.fr/XML/Schema/'
+                                                   }
+                                                 )
 
       transcoder = Ekylibre::Ednotif::OutTranscoder.new parameters[:message]
 
@@ -84,7 +86,7 @@ module Ednotif
       parameters[:message] ||= {}
 
       # we need to handle namespaces because business wsdl seems a bit buggy
-      parameters[:options] = ::Ednotif.default_options.deep_merge(parameters[:options]).deep_merge(
+      parameters[:options] = Ednotif::EdnotifIntegration.default_options.deep_merge(parameters[:options]).deep_merge(
         globals: {
           namespace_identifier: 'edn',
           namespace: 'http://www.idele.fr/XML/Schema/'
@@ -132,7 +134,7 @@ module Ednotif
       parameters[:message] ||= {}
 
       # we need to handle namespaces because business wsdl seems a bit buggy
-      parameters[:options] = ::Ednotif.default_options.deep_merge(parameters[:options]).deep_merge(
+      parameters[:options] = Ednotif::EdnotifIntegration.default_options.deep_merge(parameters[:options]).deep_merge(
         globals: {
           namespace_identifier: 'edn',
           namespace: 'http://www.idele.fr/XML/Schema/'
@@ -174,7 +176,8 @@ module Ednotif
     end
 
     ##
-    # get_inventory: fournir l’inventaire des bovins d’une exploitation entre deux dates. L’inventaire peut être complété par la liste des boucles disponibles.
+    # get_inventory: fournir l’inventaire des bovins d’une exploitation entre deux dates.
+    # L’inventaire peut être complété par la liste des boucles disponibles.
     def get_inventory(parameters = {})
       parameters = parameters.deep_symbolize_keys!
 
@@ -182,7 +185,7 @@ module Ednotif
       parameters[:message] ||= {}
 
       # we need to handle namespaces because business wsdl seems a bit buggy
-      parameters[:options] = ::Ednotif.default_options.deep_merge(parameters[:options]).deep_merge(
+      parameters[:options] = Ednotif::EdnotifIntegration.default_options.deep_merge(parameters[:options]).deep_merge(
         globals: {
           namespace_identifier: 'edn',
           namespace: 'http://www.idele.fr/XML/Schema/'
@@ -214,10 +217,8 @@ module Ednotif
             # because \n special chars are escaped by default, but it must be considered during base64 decoding.
             embedded_xml = Ekylibre::Ednotif.base64_zip_to_xml doc[:particular_response][:embedded_document].gsub(/\\n/, "\n")
             hashed = parser.parse(embedded_xml.to_xml)
-
             # :message_ip_b_notif_get_inventaire + reject @namespaces definitions
             nested = hashed[hashed.keys.first].reject { |k, _| k =~ /\A@.*\z/ }
-
             doc = Ekylibre::Ednotif::InTranscoder.convert(nested)
             doc
           else
@@ -233,7 +234,8 @@ module Ednotif
       end
     end
 
-    # Current callers mechanism can't support nested callers so we consider pinging directory as a success connection.
+    # Current callers mechanism can't support nested callers
+    # so we consider pinging directory as a success connection.
     # Real user authentication has to be managed later.
     def check(integration = nil)
       integration = fetch integration
@@ -246,7 +248,8 @@ module Ednotif
       integration ||= fetch
 
       # TODO: Now, consume the entire process
-      # we can optimize this by reusing saved wsdl but we always need to fallback to directory because we can rely on auth and business wsdls
+      # we can optimize this by reusing saved wsdl but we always need to fallback to directory
+      # because we can rely on auth and business wsdls
       get_urls.execute(logger) do |c|
         c.success do |response|
           integration ||= fetch
@@ -265,13 +268,13 @@ module Ednotif
             end
 
             auth_c.error do |response|
-              raise Ednotif::ServiceError, response
+              raise ServiceError.new(response)
             end
           end
         end
 
         c.error do |response|
-          raise Ednotif::ServiceError, response
+          raise ServiceError.new(response)
         end
       end
     end
@@ -279,7 +282,7 @@ module Ednotif
     def authenticate(parameters = {})
       integration = fetch
 
-      options = ::Ednotif.default_options.deep_merge(
+      options = Ednotif::EdnotifIntegration.default_options.deep_merge(
         globals: {
           namespace_identifier: 'tk',
           namespaces: {
@@ -295,7 +298,7 @@ module Ednotif
           'typ:Password': integration.parameters['password'],
           'typ:Profil': {
             'typ:Entreprise': integration.parameters['enterprise'],
-            'typ:Application': Ednotif::APPLICATION_LABEL
+            'typ:Application': Ekylibre::Ednotif::APPLICATION_LABEL
           }
         }
       }
@@ -324,26 +327,31 @@ module Ednotif
       # retrieve integration unless it is already supplied (on check_connection step)
       integration ||= fetch
 
-      options = ::Ednotif.default_options.deep_merge(
+      options = Ednotif::EdnotifIntegration.default_options.deep_merge(
         globals: {
           namespace_identifier: 'tk',
           namespaces: {
             'xmlns:typ': 'http://www.fiea.org/types/'
           },
-          wsdl: %w[dummy test demo demo-elevage].include?(Ekylibre::Tenant.current) ? ::Ednotif::TEST_DIRECTORY_WSDL : ::Ednotif::DIRECTORY_WSDL
+          wsdl: if %w[dummy test demo
+                      demo-elevage].include?(Ekylibre::Tenant.current)
+                  Ekylibre::Ednotif::TEST_DIRECTORY_WSDL
+                else
+                  Ekylibre::Ednotif::DIRECTORY_WSDL
+                end
         }
       )
 
       message = {
         'tk:ProfilDemandeur': {
           'typ:Entreprise': integration.parameters['enterprise'],
-          'typ:Application': Ednotif::APPLICATION_LABEL
+          'typ:Application': Ekylibre::Ednotif::APPLICATION_LABEL
         },
         'tk:VersionPK': {
-          'typ:NumeroVersion': Ednotif::EDNOTIF_VERSION,
-          'typ:CodeSiteVersion': Ednotif::CODE_SITE_VERSION,
-          'typ:NomService': Ednotif::SERVICE_NAME,
-          'typ:CodeSiteService': Ednotif::CODE_SITE_VERSION
+          'typ:NumeroVersion': Ekylibre::Ednotif::EDNOTIF_VERSION,
+          'typ:CodeSiteVersion': Ekylibre::Ednotif::CODE_SITE_VERSION,
+          'typ:NomService': Ekylibre::Ednotif::SERVICE_NAME,
+          'typ:CodeSiteService': Ekylibre::Ednotif::CODE_SITE_VERSION
         }
       }
       call_savon(:tk_get_url, options, message) do |r|
@@ -351,7 +359,9 @@ module Ednotif
           nested = r.body[:tk_get_url_response].reject { |k, _| k =~ /\A@.*\z/ }
           doc = Ekylibre::Ednotif::InTranscoder.convert(nested)
           if doc[:standard_response][:result]
-            if doc.key?(:particular_response) && doc[:particular_response][:business_wsdl] && doc[:particular_response][:authentication_wsdl]
+            b_wsdl = doc[:particular_response][:business_wsdl]
+            a_wsdl = doc[:particular_response][:authentication_wsdl]
+            if doc.key?(:particular_response) && b_wsdl && a_wsdl
               doc
             else
               r.error :missing_wsdl

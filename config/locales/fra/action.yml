@@ -3,21 +3,17 @@ fra:
     backend/synchronization_operations:
       index: "Synchronisations"
       show: "Synchronisation"
-  integrations:
-    ednotif:
-      parameters:
-        cattling_number: 'Numéro de cheptel'
-        enterprise: 'Numéro de votre EDE'
-        login: 'Identifiant'
-        password: 'Mot de passe'
   notifications:
     messages:
       missing_wsdl: 'Les WSDL sont manquants'
       failed_connection: "La connexion avec L'Idele a échouée. Les identifiants sont invalides."
   labels:
+    cattling_number: 'Numéro de cheptel'
+    enterprise: 'Numéro de votre EDE'
     are_you_sure_you_want_to_import_cattling_inventory: "Êtes-vous sûr de vouloir importer l'inventaire du cheptel ?"
     ednotif_short_description: "Le service de notification bovins"
     ednotif_long_description: "Connectez-vous au service web fourni par l'Idele et télédéclarez vos mouvements bovins (notifications)"
+    enterprise: 'Numéro de votre EDE'
     import_cattling_inventory: "Importer l'inventaire du cheptel"
     invalid_farm_number: "Le numéro d'exploitation est invalide"
     invalid_origin_farm_number: "Le numéro d'exploitation de provenance est invalide"
@@ -50,3 +46,4 @@ fra:
     invalid_entry_date: "Le date d'entrée est invalide"
     invalid_entry_reason: "La raison de l'entrée est invalide"
     last_import: 'Dernier import'
+    login: 'Identifiant'

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<navigation>
+  <part name="tools">
+    <group name="exchanges">
+      <item name="synchronization_operations">
+      	<page to="backend/synchronization_operations#index"/>
+        <page to="backend/synchronization_operations#show"/>
+        <page to="backend/synchronization_operations#list_calls"/>
+        <page to="backend/synchronization_operations#list_targets"/>
+      </item>
+    </group>
+  </part>
+</navigation>

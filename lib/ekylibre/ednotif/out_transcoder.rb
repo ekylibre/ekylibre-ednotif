@@ -1,3 +1,5 @@
+require 'yaml_nomen'
+
 module Ekylibre
   module Ednotif
     class OutTranscoder
@@ -91,6 +93,7 @@ module Ekylibre
 
         def prod_code(fragment)
           return :invalid_prod_code if fragment.blank?
+
           {
             'edn:CodeAtelier': fragment
           }
@@ -98,6 +101,7 @@ module Ekylibre
 
         def cattle_categ_code(fragment)
           return :invalid_cattle_categ_code if fragment.blank?
+
           {
             'edn:CodeCategorieBovin': fragment
           }
@@ -105,6 +109,7 @@ module Ekylibre
 
         def birth_weight(fragment)
           return :invalid_birth_weight unless fragment.to_s.to_i <= 99
+
           {
             'edn:PoidsNaissance': fragment
           }
@@ -118,6 +123,7 @@ module Ekylibre
 
         def chest_size(fragment)
           return :invalid_chest_size unless fragment.to_s.to_i <= 999
+
           {
             'edn:TourPoitrine': fragment
           }
@@ -137,6 +143,7 @@ module Ekylibre
 
         def birth_condition(fragment)
           return :invalid_birth_condition if YamlNomen[:outgoing][:mammalia_birth_conditions][fragment].nil?
+
           {
             'edn:ConditionNaissance': YamlNomen[:outgoing][:mammalia_birth_conditions][fragment]
           }
@@ -150,6 +157,7 @@ module Ekylibre
 
         def token(fragment)
           return :invalid_token if fragment.blank?
+
           {
             'edn:JetonAuthentification': fragment
           }
@@ -157,6 +165,7 @@ module Ekylibre
 
         def login(fragment)
           return :invalid_login if fragment.blank?
+
           {
             'typ:UserId': fragment
           }
@@ -164,6 +173,7 @@ module Ekylibre
 
         def password(fragment)
           return :invalid_password if fragment.blank?
+
           {
             'typ:Password': fragment
           }
@@ -171,6 +181,7 @@ module Ekylibre
 
         def enterprise(fragment)
           return :invalid_enterprise if fragment.blank?
+
           {
             'typ:Entreprise': fragment
           }
@@ -178,6 +189,7 @@ module Ekylibre
 
         def application(fragment)
           return :invalid_application_name if fragment.blank?
+
           {
             'typ:Application': fragment
           }
@@ -185,6 +197,7 @@ module Ekylibre
 
         def version_number(fragment)
           return :invalid_version_number if fragment.blank?
+
           {
             'typ:NumeroVersion': fragment
           }
@@ -192,6 +205,7 @@ module Ekylibre
 
         def site_code_version(fragment)
           return :invalid_site_code_version if fragment.blank?
+
           {
             'typ:CodeSiteVersion': fragment
           }
@@ -199,6 +213,7 @@ module Ekylibre
 
         def service_name(fragment)
           return :invalid_service_name if fragment.blank?
+
           {
             'typ:NomService': fragment
           }
@@ -206,6 +221,7 @@ module Ekylibre
 
         def site_code_service(fragment)
           return :invalid_site_code_service if fragment.blank?
+
           {
             'typ:CodeSiteService': fragment
           }
@@ -213,6 +229,7 @@ module Ekylibre
 
         def country_code(fragment)
           return :invalid_country_code unless fragment =~ /[a-z]{2}/
+
           {
             'edn:CodePays': YamlNomen[:outgoing][:countries][fragment]
           }
@@ -235,6 +252,7 @@ module Ekylibre
 
         def sex(fragment)
           return :invalid_sex if YamlNomen[:outgoing][:sexes][fragment].nil?
+
           {
             'edn:Sexe': YamlNomen[:outgoing][:sexes][fragment]
           }
@@ -242,6 +260,7 @@ module Ekylibre
 
         def race_code(fragment)
           return :invalid_race_code if YamlNomen[:outgoing]['varieties-bos_taurus'][fragment].nil?
+
           {
             'edn:TypeRacial': YamlNomen[:outgoing]['varieties-bos_taurus'][fragment]
           }
@@ -258,6 +277,7 @@ module Ekylibre
 
         def work_number(fragment)
           return :invalid_work_number if fragment.blank?
+
           {
             'edn:NumeroTravail': fragment
           }
@@ -265,6 +285,7 @@ module Ekylibre
 
         def name(fragment)
           return :invalid_name if fragment.blank?
+
           {
             'edn:NomBovin': fragment
           }
@@ -272,6 +293,7 @@ module Ekylibre
 
         def farm_number(fragment)
           return :invalid_farm_number unless fragment =~ /[A-Za-z]{2}[0-9]{8}/
+
           {
             'edn:NumeroExploitation': fragment[2..10]
           }.reverse_merge(country_code(fragment[0..1].downcase))
@@ -279,6 +301,7 @@ module Ekylibre
 
         def origin_owner_name(fragment)
           return :invalid_origin_owner_name if fragment.blank?
+
           {
             'edn:NomExploitation': fragment
           }
@@ -286,6 +309,7 @@ module Ekylibre
 
         def owner_name(fragment)
           return :invalid_owner_name if fragment.blank?
+
           {
             'edn:NomExploitation': fragment
           }
@@ -323,6 +347,7 @@ module Ekylibre
 
         def entry_reason(fragment)
           return :invalid_entry_reason if YamlNomen[:outgoing][:entry_reason][fragment].nil?
+
           {
             'edn:CauseEntree': YamlNomen[:outgoing][:entry_reason][fragment]
           }
@@ -338,6 +363,7 @@ module Ekylibre
 
         def exit_reason(fragment)
           return :invalid_exit_reason if YamlNomen[:outgoing][:exit_reason][fragment].nil?
+
           {
             'edn:CauseSortie': YamlNomen[:outgoing][:exit_reason][fragment]
           }

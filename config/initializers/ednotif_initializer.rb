@@ -1,7 +1,9 @@
-autoload :Ednotif, 'ednotif'
+require 'yaml_nomen'
+
+# FIXME: Why not this in .../keyfield/engine.rb?
 
 # Ednotif::EdnotifIntegration.on_check_success do
-# Ednotif::EdnotifGetListJob.perform_later
+#   Ednotif::EdnotifGetListJob.perform_later
 # end
 
 Ekylibre::Hook.subscribe :get_inventory do |data|
@@ -9,8 +11,10 @@ Ekylibre::Hook.subscribe :get_inventory do |data|
 end
 
 # Loads transcoding tables
-files = Dir.glob(Ekylibre::Ednotif.in_transcoding_dir.join('*')) - Dir.glob(Ekylibre::Ednotif.in_transcoding_dir.join('*.exception.yml'))
+files = Dir.glob(Ekylibre::Ednotif.in_transcoding_dir.join('*')) -
+        Dir.glob(Ekylibre::Ednotif.in_transcoding_dir.join('*.exception.yml'))
 YamlNomen.load(:incoming, files)
 
-files = Dir.glob(Ekylibre::Ednotif.out_transcoding_dir.join('*')) - Dir.glob(Ekylibre::Ednotif.out_transcoding_dir.join('*.exception.yml'))
+files = Dir.glob(Ekylibre::Ednotif.out_transcoding_dir.join('*')) -
+        Dir.glob(Ekylibre::Ednotif.out_transcoding_dir.join('*.exception.yml'))
 YamlNomen.load(:outgoing, files)
