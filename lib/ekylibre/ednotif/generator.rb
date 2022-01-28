@@ -33,7 +33,10 @@ module Ekylibre
           doc = Nokogiri::XML(file)
 
           l = lambda do |node|
-            { nomen_key: nil, attribute: node.attributes['name'].text, node_path: node.path, schema_location: pathname.basename.to_s }.stringify_keys
+            { nomen_key: nil,
+              attribute: node.attributes['name'].text,
+              node_path: node.path,
+              schema_location: pathname.basename.to_s }.stringify_keys
           end
 
           # dump global enumeration
@@ -61,7 +64,9 @@ module Ekylibre
         end
 
         ##
-        # Load the routines file, and for each routine, get Onoma values and Ednotif values (with "nomen_key" and "attribute" parameters). Writes transcoding tables.
+        # Load the routines file, and for each routine,
+        # get Onoma values and Ednotif values (with "nomen_key" and "attribute" parameters).
+        # Writes transcoding tables.
         ##
         def build
           nomenclatures = YAML.load_file(::Ekylibre::Ednotif.transcoding_routines)
@@ -84,8 +89,8 @@ module Ekylibre
             # if values to match isn't values to trancode. See doc
             if nomenclature[:matching_set]
               ednotif_matching_set = doc.xpath(nomenclature[:node_path]).xpath(nomenclature[:matching_set]).collect(&:text)
-
-              raise 'EDNotif nomenclature cannot be build as matching set and values set length are different' unless ednotif_values.count == ednotif_matching_set.count
+              e_message = 'EDNotif nomenclature cannot be build as matching set and values set length are different'
+              raise e_message unless ednotif_values.count == ednotif_matching_set.count
 
               ednotif_values.collect!.with_index do |v, i|
                 [ednotif_matching_set[i], v]
@@ -104,17 +109,36 @@ module Ekylibre
 
             next if internal_values.empty? || ednotif_values.empty?
 
-            # OUT: From Onoma to Ednotif
-            dest_file = ::Ekylibre::Ednotif.out_transcoding_dir.join("#{nomenclature[:nomen_key]}.yml")
-            exception_dest_file = ::Ekylibre::Ednotif.out_transcoding_dir.join("#{nomenclature[:nomen_key]}.exception.yml")
+            ref_yml_file = "#{nomenclature[:nomen_key]}.yml"
+            exception_yml_file = "#{nomenclature[:nomen_key]}.exception.yml"
 
-            generate_transcoding_table(nomenclature[:nomen_key], nomenclature[:attribute], internal_values, ednotif_values, dest_file, exception_dest_file, from_matching_rule: nomenclature[:from_matching_rule], to_matching_rule: nomenclature[:to_matching_rule], log: true)
+            # OUT: From Onoma to Ednotif
+            dest_file = ::Ekylibre::Ednotif.out_transcoding_dir.join(ref_yml_file)
+            exception_dest_file = ::Ekylibre::Ednotif.out_transcoding_dir.join(exception_yml_file)
+
+            generate_transcoding_table(src_key: nomenclature[:nomen_key],
+                                       dest_key: nomenclature[:attribute],
+                                       src: internal_values,
+                                       dest: ednotif_values,
+                                       dest_file: dest_file,
+                                       exception_dest_file: exception_dest_file,
+                                       from_matching_rule: nomenclature[:from_matching_rule],
+                                       to_matching_rule: nomenclature[:to_matching_rule],
+                                       log: true)
 
             # IN: From Ednotif to Onoma
-            dest_file = ::Ekylibre::Ednotif.in_transcoding_dir.join("#{nomenclature[:nomen_key]}.yml")
-            exception_dest_file = ::Ekylibre::Ednotif.in_transcoding_dir.join("#{nomenclature[:nomen_key]}.exception.yml")
+            dest_file = ::Ekylibre::Ednotif.in_transcoding_dir.join(ref_yml_file)
+            exception_dest_file = ::Ekylibre::Ednotif.in_transcoding_dir.join(exception_yml_file)
 
-            generate_transcoding_table(nomenclature[:attribute], nomenclature[:nomen_key], ednotif_values, internal_values, dest_file, exception_dest_file, from_matching_rule: nomenclature[:to_matching_rule], to_matching_rule: nomenclature[:from_matching_rule], log: true)
+            generate_transcoding_table(src_key: nomenclature[:attribute],
+                                       dest_key: nomenclature[:nomen_key],
+                                       src: ednotif_values,
+                                       dest: internal_values,
+                                       dest_file: dest_file,
+                                       exception_dest_file: exception_dest_file,
+                                       from_matching_rule: nomenclature[:to_matching_rule],
+                                       to_matching_rule: nomenclature[:from_matching_rule],
+                                       log: true)
           end
         end
 
@@ -128,12 +152,13 @@ module Ekylibre
           # @param [String] src_key: Source identifier
           # @param [String] dest_key: Destination identifier
           # @param [Array] src: Source set of values
-          # @param [Array] dest: Destination set of values. As a flatten array or a tupple array, as [value_to_match, value_to_transcode] pair
+          # @param [Array] dest: Destination set of values.
+          ## As a flatten array or a tupple array, as [value_to_match, value_to_transcode] pair
           # @param [File] dest_file: Destination file to write.
           # @param [File] exception_dest_file: Exception file to write
           # @param [Hash] options: log: Log written tables. from_matching_rule & to_matching_rule: regex comparison.
           ##
-          def generate_transcoding_table(src_key, dest_key, src = [], dest = [], dest_file, exception_dest_file, options)
+          def generate_transcoding_table(src_key:, dest_key:, src: [], dest: [], dest_file:, exception_dest_file:, options: {})
             options[:from_matching_rule] ||= '\\A(.*)\\z'
             options[:to_matching_rule] ||= '\\A(.*)\\z'
 
@@ -195,7 +220,8 @@ module Ekylibre
                 FileUtils.mkdir_p Ekylibre::Ednotif.transcoding_manifest.dirname
               end
 
-              File.open(Ekylibre::Ednotif.transcoding_manifest, 'a+') { |f| f.write "#{src_key} to #{dest_key} : #{src.size - src_set.size}/#{src.size} \n" }
+              File.open(Ekylibre::Ednotif.transcoding_manifest, 'a+') { |f|
+ f.write "#{src_key} to #{dest_key} : #{src.size - src_set.size}/#{src.size} \n" }
             end
 
             dest_file.open('w') { |f| f.write(matching.to_yaml) }
