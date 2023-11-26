@@ -41,7 +41,7 @@ module Ednotif
                                                  .deep_merge(
                                                    globals: {
                                                      namespace_identifier: 'edn',
-                                                     namespace: 'http://www.idele.fr/XML/Schema/'
+                                                     namespace: Ekylibre::Ednotif.schema_url
                                                    }
                                                  )
 
@@ -89,7 +89,7 @@ module Ednotif
       parameters[:options] = Ednotif::EdnotifIntegration.default_options.deep_merge(parameters[:options]).deep_merge(
         globals: {
           namespace_identifier: 'edn',
-          namespace: 'http://www.idele.fr/XML/Schema/'
+          namespace: Ekylibre::Ednotif.schema_url
         }
       )
 
@@ -137,7 +137,7 @@ module Ednotif
       parameters[:options] = Ednotif::EdnotifIntegration.default_options.deep_merge(parameters[:options]).deep_merge(
         globals: {
           namespace_identifier: 'edn',
-          namespace: 'http://www.idele.fr/XML/Schema/'
+          namespace: Ekylibre::Ednotif.schema_url
         }
       )
 
@@ -188,7 +188,7 @@ module Ednotif
       parameters[:options] = Ednotif::EdnotifIntegration.default_options.deep_merge(parameters[:options]).deep_merge(
         globals: {
           namespace_identifier: 'edn',
-          namespace: 'http://www.idele.fr/XML/Schema/'
+          namespace: Ekylibre::Ednotif.schema_url
         }
       )
 

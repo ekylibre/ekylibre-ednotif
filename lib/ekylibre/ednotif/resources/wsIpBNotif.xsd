@@ -1,30 +1,12 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!-- edited with XMLSpy v2008 rel. 2 (http://www.altova.com) by USER USER (CMRE LOGICIEL SA) -->
-<xsd:schema 
-xmlns:xsd="http://www.w3.org/2001/XMLSchema" 
-xmlns:tns="http://www.idele.fr/XML/Schema/"
-xmlns:tnsfiea="http://www.fiea.org/types/"
-xmlns:ns1="urn:fr:agri:elevage:codelist:CodePays:1"
-xmlns:ns2="urn:fr:agri:elevage:codelist:CodeRaceBovin:1"
-xmlns:ns3="urn:fr:agri:elevage:codelist:CodeCauseEntree:1"
-xmlns:ns4="urn:fr:agri:elevage:codelist:CodeCauseSortie:1"
-xmlns:ns5="urn:fr:agri:elevage:codelist:CodeCategorieBovinIPG:1"
-xmlns:ns6="urn:fr:agri:elevage:codelist:CodeAtelierBovinIPG:1"
-xmlns:ns7="urn:fr:agri:elevage:codelist:AtelierBovinIPG:1"
-xmlns:ns8="urn:fr:agri:elevage:codelist:CategorieBovinIPG:1"
-xmlns:ns9="urn:fr:agri:elevage:codelist:CauseEntree:1"
-xmlns:ns10="urn:fr:agri:elevage:codelist:CauseSortie:1"
-xmlns:ns11="urn:fr:agri:elevage:codelist:CodePaysAnimal:1"
-targetNamespace="http://www.idele.fr/XML/Schema/"
-elementFormDefault="qualified">
-	<xsd:import namespace="urn:fr:agri:elevage:codelist:CodePaysAnimal:1" schemaLocation="CodePaysAnimal.XSD"/>
-	<xsd:import namespace="urn:fr:agri:elevage:codelist:CodePays:1" schemaLocation="CodePays.XSD"/>
-	<xsd:import namespace="urn:fr:agri:elevage:codelist:CauseSortie:1" schemaLocation="CauseSortie.XSD"/>
-	<xsd:import namespace="urn:fr:agri:elevage:codelist:CauseEntree:1" schemaLocation="CauseEntree.XSD"/>
-	<xsd:import namespace="urn:fr:agri:elevage:codelist:CategorieBovinIPG:1" schemaLocation="CategorieBovinIPG.XSD"/>
-	<xsd:import namespace="urn:fr:agri:elevage:codelist:AtelierBovinIPG:1" schemaLocation="AtelierBovinIPG.XSD"/>
-	<xsd:import namespace="urn:fr:agri:elevage:codelist:CodeRaceBovin:1" schemaLocation="CodeRaceBovin.XSD"/>
-	<xsd:import namespace="http://www.fiea.org/types/" schemaLocation="fiea_types.xsd"/>
+<?xml version='1.0' encoding='UTF-8'?><!-- Published by JAX-WS RI at http://jax-ws.dev.java.net. RI's version is JAX-WS RI 2.2.7-b01  svn-revision#13316. --><!-- edited with XMLSpy v2008 rel. 2 (http://www.altova.com) by USER USER (CMRE LOGICIEL SA) --><xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://www.idele.fr/XML/Schema/" xmlns:tnsfiea="http://www.fiea.org/types/" xmlns:ns1="urn:fr:agri:elevage:codelist:CodePays:1" xmlns:ns2="urn:fr:agri:elevage:codelist:CodeRaceBovin:1" xmlns:ns3="urn:fr:agri:elevage:codelist:CodeCauseEntree:1" xmlns:ns4="urn:fr:agri:elevage:codelist:CodeCauseSortie:1" xmlns:ns5="urn:fr:agri:elevage:codelist:CodeCategorieBovinIPG:1" xmlns:ns6="urn:fr:agri:elevage:codelist:CodeAtelierBovinIPG:1" xmlns:ns7="urn:fr:agri:elevage:codelist:AtelierBovinIPG:1" xmlns:ns8="urn:fr:agri:elevage:codelist:CategorieBovinIPG:1" xmlns:ns9="urn:fr:agri:elevage:codelist:CauseEntree:1" xmlns:ns10="urn:fr:agri:elevage:codelist:CauseSortie:1" xmlns:ns11="urn:fr:agri:elevage:codelist:CodePaysAnimal:1" targetNamespace="http://www.idele.fr/XML/Schema/" elementFormDefault="qualified">
+	<xsd:import namespace="urn:fr:agri:elevage:codelist:CodePaysAnimal:1" schemaLocation="http://ws-ednotif.equade.fr:80/wsIpBNotif/wsIpBNotif?xsd=6"/>
+	<xsd:import namespace="urn:fr:agri:elevage:codelist:CodePays:1" schemaLocation="http://ws-ednotif.equade.fr:80/wsIpBNotif/wsIpBNotif?xsd=5"/>
+	<xsd:import namespace="urn:fr:agri:elevage:codelist:CauseSortie:1" schemaLocation="http://ws-ednotif.equade.fr:80/wsIpBNotif/wsIpBNotif?xsd=4"/>
+	<xsd:import namespace="urn:fr:agri:elevage:codelist:CauseEntree:1" schemaLocation="http://ws-ednotif.equade.fr:80/wsIpBNotif/wsIpBNotif?xsd=3"/>
+	<xsd:import namespace="urn:fr:agri:elevage:codelist:CategorieBovinIPG:1" schemaLocation="http://ws-ednotif.equade.fr:80/wsIpBNotif/wsIpBNotif?xsd=2"/>
+	<xsd:import namespace="urn:fr:agri:elevage:codelist:AtelierBovinIPG:1" schemaLocation="http://ws-ednotif.equade.fr:80/wsIpBNotif/wsIpBNotif?xsd=1"/>
+	<xsd:import namespace="urn:fr:agri:elevage:codelist:CodeRaceBovin:1" schemaLocation="http://ws-ednotif.equade.fr:80/wsIpBNotif/wsIpBNotif?xsd=7"/>
+	<xsd:import namespace="http://www.fiea.org/types/" schemaLocation="http://ws-ednotif.equade.fr:80/wsIpBNotif/wsIpBNotif?xsd=9"/>
 	<!--
 ######  Opération IpBCreateEntree  ######-->
 	<xsd:element name="IpBCreateEntreeRequest">

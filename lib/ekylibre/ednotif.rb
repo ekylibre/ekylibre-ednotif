@@ -42,7 +42,7 @@ module Ekylibre
       end
 
       def schema_url
-        'http://idele.fr/XML/Schema/'
+        'http://www.idele.fr/XML/Schema/'
       end
 
       def transcoding_manifest

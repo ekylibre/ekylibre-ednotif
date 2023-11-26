@@ -24,7 +24,7 @@ module Ednotif
           }
 
           dataset[:farm_number] ||= integration.parameters['cattling_number']
-          if dataset[:farm_number] =~ /[0-9]{8}/ && dataset[:country_code]
+          if dataset[:farm_number].length == 8 && dataset[:country_code]
             dataset[:farm_number] = [dataset[:country_code], dataset[:farm_number]].join
           end
 
@@ -179,7 +179,9 @@ description: mvt[:exit][:exit_reason])
             end
 
             op_c.error do |response|
-              raise Ednotif::ServiceError.new(response)
+              interpolations = { message: response, target: nil }
+              error_message = logger.notify(:synchronization_operation_failed, interpolations, level: :error)
+              logger.update_columns(notification_id: error_message)
             end
           end
         end
@@ -189,8 +191,7 @@ description: mvt[:exit][:exit_reason])
           interpolations = { message: :this_service_is_not_activated.t(scope: 'notifications.messages'), target: nil }
         else
           logger.update_columns(state: :errored)
-          interpolations = { message: e.message.t(scope: 'notifications.messages', default: e.message),
-target: e.respond_to?(:record) && e.record.identification_number ? e.record.identification_number : nil }
+          interpolations = { message: e.message.t(scope: 'notifications.messages', default: e.message), target: e.respond_to?(:record) && e.record.name.present? ? e.record.name : nil }
         end
         error_message = logger.notify(:synchronization_operation_failed, interpolations, level: :error)
         logger.update_columns(notification_id: error_message)
